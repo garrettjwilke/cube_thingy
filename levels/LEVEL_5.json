@@ -1,0 +1,35 @@
+{
+	"LEVEL_NAME" : "spawn puzzle test",
+	"GAME_MODE" : "Puzzle",
+	"LEVEL_MATRIX" : [
+		["83","83","83","81","83","83","83"],
+		["83","43","50","74","20","43","83"],
+		["83","30","00","32","00","30","83"],
+		["81","74","52","49","22","74","81"],
+		["83","60","00","62","00","60","83"],
+		["83","43","50","74","20","43","83"],
+		["83","83","83","81","83","83","83"],
+	],
+	"comment": [
+		"WARNING: any of the YELLOW text below does not actually affect the game
+		this is just so you can easily recognize what kind of tile you are making
+
+		the first number defines the color. set a 0 to make a blank space
+		0x: empty space    5x: yellow
+		1x: gray           6x: purple
+		2x: red            7x: orange
+		3x: green          8x: black
+		4x: blue           9x: RNG tile
+
+		the second number is the attribute of the tile being placed
+		x0: sets a regular tile
+		x1: sets a bomb
+		x2: sets a detonator
+		x3: sets a box
+		x4: sets a key
+
+		x7: sets the unspawnable attribute. unspawnable tiles wont randomly place  color on that tile
+		x8: sets the dynamic camera on/off
+		x9: sets the player spawn point. (if there are multiple spawn points in a livel, the last one will be used.)"
+		],
+}

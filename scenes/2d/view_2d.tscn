@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3 uid="uid://d0kb0m1cengho"]
+
+[ext_resource type="Script" path="res://scripts/view_2d.gd" id="1_0p01i"]
+
+[node name="view_2d" type="Node2D"]
+script = ExtResource("1_0p01i")
+
+[node name="menu" type="Control" parent="."]
+custom_minimum_size = Vector2(1280, 720)
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 720.0
+
+[node name="CenterContainer" type="CenterContainer" parent="menu"]
+custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="ColorRect" type="ColorRect" parent="menu/CenterContainer"]
+layout_mode = 2
+
+[node name="keybinds_label" type="Label" parent="menu/CenterContainer"]
+custom_minimum_size = Vector2(75, 75)
+layout_mode = 2
+
+[node name="top_bar" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 64.0
+
+[node name="CenterContainer" type="CenterContainer" parent="top_bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="bottom_bar" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 1280.0
+offset_bottom = 64.0
+
+[node name="CenterContainer" type="CenterContainer" parent="bottom_bar"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 656.0
+offset_bottom = 656.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="left_box" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_left = 5.0
+offset_top = 295.0
+offset_right = 227.0
+offset_bottom = 421.0
+size_flags_horizontal = 0
+
+[node name="CenterContainer" type="CenterContainer" parent="left_box"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 35.0
+offset_right = 35.0
+grow_horizontal = 2
+grow_vertical = 2

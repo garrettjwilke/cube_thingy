@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://bce1djrfdjxui"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_lp32q"]
+
+[sub_resource type="CylinderMesh" id="CylinderMesh_w4hc1"]
+material = SubResource("StandardMaterial3D_lp32q")
+top_radius = 0.35
+bottom_radius = 0.4
+height = 0.1
+
+[node name="DETONATOR_MESH" type="MeshInstance3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1, 2.08165e-12, 1)
+mesh = SubResource("CylinderMesh_w4hc1")
