@@ -520,16 +520,9 @@ func attribute_stuffs(CELL):
 			tile_spawn(CELL.x,CELL.y,"10")
 			emit_signal("signal_detonator", COLOR)
 			var node = get_node(str("/root/hmls/VIEW_3D/",CELL.x,"x",CELL.y,"_detonator"))
-			var original_scale = node.scale
 			var tween = create_tween()
 			tween.tween_property(node,"scale",Vector3(0,0,0),0.4)
 			await tween.finished
-			#node.queue_free()
-			#var material = StandardMaterial3D.new()
-			#material.albedo_color = get_default("COLOR_GRAY")
-			#node.mesh.surface_set_material(0, material)
-			#var tween2 = create_tween()
-			#tween2.tween_property(node,"scale",original_scale,0.4)
 		"bomb":
 			print("bomb detected: ", COLOR)
 
@@ -586,17 +579,17 @@ func _on_signal_detonator(COLOR):
 							CURRENT_LEVEL[i.y][i.x] = "10"
 							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_box")):
 								var node = get_node(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_box"))
-								#if ENABLE_JANK == "true":
-								var tween = create_tween()
-								tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
-								await tween.finished
+								if ENABLE_JANK == "true":
+									var tween = create_tween()
+									tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
+									await tween.finished
 								node.queue_free()
 							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator")):
 								var node = get_node(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator"))
-								#if ENABLE_JANK == "true":
-								var tween = create_tween()
-								tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
-								await tween.finished
+								if ENABLE_JANK == "true":
+									var tween = create_tween()
+									tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
+									await tween.finished
 								node.queue_free()
 			temp_x += 1
 		temp_x = 0
