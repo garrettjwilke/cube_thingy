@@ -414,6 +414,7 @@ func update_tiles(MODE):
 		remove_child(get_node("/root/hmls/VIEW_3D"))
 		CURRENT_LEVEL = []
 		LEVEL_RESOLUTION = Vector2(0,0)
+		KEY_COUNT = 0
 		return
 	load_level()
 	# spawn all tiles in LEVEL_MATRIX
@@ -503,7 +504,7 @@ func attribute_stuffs(CELL):
 					var tween2 = create_tween()
 					tween2.tween_property(get_node(NODE_NAME),"scale",Vector3(0,0,0), 0.2)
 					await tween2.finished
-					#get_node(NODE_NAME).queue_free()
+					get_node(NODE_NAME).queue_free()
 				else:
 					get_node(NODE_NAME).queue_free()
 			match GAME_MODE:
@@ -585,17 +586,17 @@ func _on_signal_detonator(COLOR):
 							CURRENT_LEVEL[i.y][i.x] = "10"
 							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_box")):
 								var node = get_node(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_box"))
-								if ENABLE_JANK == "true":
-									var tween = create_tween()
-									tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
-									await tween.finished
+								#if ENABLE_JANK == "true":
+								var tween = create_tween()
+								tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
+								await tween.finished
 								node.queue_free()
 							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator")):
 								var node = get_node(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator"))
-								if ENABLE_JANK == "true":
-									var tween = create_tween()
-									tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
-									await tween.finished
+								#if ENABLE_JANK == "true":
+								var tween = create_tween()
+								tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
+								await tween.finished
 								node.queue_free()
 			temp_x += 1
 		temp_x = 0
