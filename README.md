@@ -2,13 +2,17 @@
 
 TODO:
 
-* add 2d menu items
+* add total tile count for levels
+
+* if level tiles are less than total tile count, spawn rng tiles on board
+
+* create tutorial section
+
+* add options menu
 
 * add level ending rules
 
 * create animations for cube entering/exiting level
-
-* add bombs
 
 * add teleports
 
