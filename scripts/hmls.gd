@@ -254,18 +254,23 @@ func get_cell_data(cell):
 	return [COLOR, NAME, NEW_CELL, ATTRIBUTE]
 
 func spawn_box(x, y, COLOR):
+	var NAME = str(x,"x",y,"_box")
 	var NEW_BOX = BOX_MESH.instantiate()
-	NEW_BOX.name = str(x,"x",y,"_box")
+	NEW_BOX.name = NAME
 	NEW_BOX.scale = NEW_BOX.scale * 0.5
 	NEW_BOX.position = Vector3(x,0.3,y)
-	var material = load("res://assets/textures/block_3d_texture.tres")
+	var material
+	if COLOR == get_default("COLOR_BLACK"):
+		material = load("res://assets/textures/block_3d_blank_texture.tres")
+	else:
+		material = load("res://assets/textures/block_3d_texture.tres")
 	var new_material = material.duplicate()
 	if OS_CHECK == "mobile":
 		material.set_shading_mode(1)
 	material.albedo_texture_force_srgb = true
 	new_material.albedo_color = COLOR
-	get_node("/root/hmls/VIEW_3D/").add_child(NEW_BOX)
-	get_node(str("/root/hmls/VIEW_3D/",NEW_BOX.name,"/MeshInstance3D")).mesh.surface_set_material(0, new_material)
+	get_node(str("/root/hmls/VIEW_3D/")).add_child(NEW_BOX)
+	get_node(str("/root/hmls/VIEW_3D/",NAME,"/MeshInstance3D")).mesh.surface_set_material(0, new_material)
 	if ENABLE_JANK == "true":
 		scale_thingy(NEW_BOX,0.3)
 
@@ -357,8 +362,9 @@ func tile_spawn(x, y, cell):
 	CURRENT_TILE.name = str(x,"x",y)
 	CURRENT_TILE.scale = Vector3(TILE_SCALE, TILE_HEIGHT, TILE_SCALE)
 	CURRENT_TILE.position = Vector3(x, -(TILE_HEIGHT / 2 + 0.03), y)
-	scale_thingy(CURRENT_TILE,0.4)
 	match ATTRIBUTE:
+		"start_position":
+			pass
 		"box":
 			spawn_box(x,y,COLOR)
 		"key":
@@ -367,6 +373,7 @@ func tile_spawn(x, y, cell):
 			spawn_bomb(COLOR, CURRENT_TILE.name)
 		"detonator":
 			spawn_detonator(x,y,COLOR)
+	scale_thingy(CURRENT_TILE,0.4)
 
 signal signal_detonator(COLOR)
 
@@ -440,9 +447,10 @@ func update_tiles(MODE):
 				if ATTRIBUTE_CHECK != "default":
 					if ATTRIBUTE_CHECK != "start_position":
 						AMOUNT_LEFT += 1
-			elif CURRENT_COLOR != "gray" and CURRENT_COLOR != "null":
-				if CURRENT_COLOR != "black":
-					AMOUNT_LEFT += 1
+			elif CURRENT_COLOR != "gray":
+				if CURRENT_COLOR != "null":
+					if CURRENT_COLOR != "black":
+						AMOUNT_LEFT += 1
 			# increment x so the next cell will be read correctly
 			x += 1
 			if x > LEVEL_RESOLUTION.x:
@@ -466,6 +474,7 @@ func attribute_stuffs(CELL):
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 					tile_spawn(CELL.x,CELL.y,"10")
+					AMOUNT_LEFT -= 1
 			if GAME_MODE == "Puzzle":
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
@@ -504,7 +513,7 @@ func attribute_stuffs(CELL):
 					var tween2 = create_tween()
 					tween2.tween_property(get_node(NODE_NAME),"scale",Vector3(0,0,0), 0.2)
 					await tween2.finished
-					get_node(NODE_NAME).queue_free()
+					#get_node(NODE_NAME).queue_free()
 				else:
 					get_node(NODE_NAME).queue_free()
 			match GAME_MODE:
@@ -552,7 +561,6 @@ func _on_signal_detonator(COLOR):
 					print("black bomb")
 					tile_spawn(temp_x,temp_y,10)
 					CURRENT_LEVEL[temp_y][temp_x] = 10
-					#AMOUNT_LEFT -= 1
 			if COLOR_MATCH == COLOR:
 				if ATTRIBUTE_MATCH == "bomb":
 					print(str("bomb identified: ",temp_x,"x",temp_y))
@@ -569,12 +577,18 @@ func _on_signal_detonator(COLOR):
 							var potential_color = tile_data[1]
 							var potential_attribute = tile_data[3]
 							print(i, " - ", potential_color, " - ", potential_attribute)
-							if potential_color == "gray" and potential_attribute == "default":
-								AMOUNT_LEFT += 1
+							if potential_color == "gray":
+								if potential_attribute == "default":
+									pass
+								elif potential_attribute == "start_position":
+									pass
+								else:
+									AMOUNT_LEFT -= 1
 							elif potential_color == "black":
-								AMOUNT_LEFT += 1
-							print(potential_color," - ",potential_attribute)
-							AMOUNT_LEFT -= 1
+								pass
+							else:
+								AMOUNT_LEFT -= 1
+							#print(potential_color," - ",potential_attribute)
 							tile_spawn(i.x,i.y,10)
 							CURRENT_LEVEL[i.y][i.x] = "10"
 							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_box")):
@@ -583,14 +597,18 @@ func _on_signal_detonator(COLOR):
 									var tween = create_tween()
 									tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
 									await tween.finished
-								node.queue_free()
+									node.queue_free()
+								else:
+									node.queue_free()
 							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator")):
 								var node = get_node(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator"))
 								if ENABLE_JANK == "true":
 									var tween = create_tween()
 									tween.tween_property(node,"scale",Vector3(0,0,0),0.3)
 									await tween.finished
-								node.queue_free()
+									node.queue_free()
+								else:
+									node.queue_free()
 			temp_x += 1
 		temp_x = 0
 		temp_y += 1
