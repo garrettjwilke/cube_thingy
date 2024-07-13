@@ -5,7 +5,7 @@
 shader_type canvas_item;
 
 uniform vec2 R = vec2(.4, .6);
-uniform float scale = 0.4;
+uniform float scale = 0.2;
 uniform float speed = 0.05;
 uniform vec3 direction = vec3(1,1,0);
 uniform float distortion = 0.5;
@@ -13,7 +13,7 @@ uniform float layers = 2.;
 uniform float shades = 2;
 uniform int steps = 4;
 
-uniform vec3 tint = vec3(0.2,0.2,1.);
+uniform vec3 tint = vec3(0.1,0.1,1.);
 
 float gyroid (vec3 seed) { return dot(sin(seed),cos(seed.yzx)); }
 

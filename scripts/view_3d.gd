@@ -32,13 +32,14 @@ func rotate_view(input):
 func _ready():
 	if hmls.OS_CHECK == "mobile":
 		hmls.ENABLE_SHADERS = false
-	#hmls.PAUSE = false
 	rotate_view(0)
 	hmls.update_tiles("3d")
 	# after updating the level tiles, set the cube position
 	var CUBE = get_node("Cube")
 	CUBE.position = Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y)
 	hmls.update_cube_position(Vector2(CUBE.position.x, CUBE.position.z))
+	hmls.emit_signal("signal_level_start")
+	#hmls.spawn_final_orb(Vector3(5,1,8),hmls.get_default("COLOR_YELLOW"))
 
 var COLOR_CYCLE = 0
 func _process(delta):

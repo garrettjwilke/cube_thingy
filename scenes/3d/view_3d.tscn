@@ -1,4 +1,4 @@
-[gd_scene load_steps=22 format=3 uid="uid://d0qkbl33uofmb"]
+[gd_scene load_steps=17 format=3 uid="uid://d0qkbl33uofmb"]
 
 [ext_resource type="Script" path="res://scripts/view_3d.gd" id="1_wpaoh"]
 [ext_resource type="PackedScene" uid="uid://c5a2v6m2bufp0" path="res://scenes/3d/cube_3d.tscn" id="2_x1n4d"]
@@ -6,7 +6,6 @@
 [ext_resource type="Shader" path="res://scripts/mobius.gdshader" id="5_hvqdt"]
 [ext_resource type="ArrayMesh" uid="uid://khps4w87p745" path="res://assets/meshes/shop_01.obj" id="5_kw8ap"]
 [ext_resource type="ArrayMesh" uid="uid://c5s26t4lib4sm" path="res://assets/meshes/building_01.obj" id="6_l0u5q"]
-[ext_resource type="Shader" path="res://scripts/planet.gdshader" id="8_xttnd"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m7yul"]
 sky_top_color = Color(0.290196, 0.447059, 0.701961, 1)
@@ -70,32 +69,6 @@ material = SubResource("StandardMaterial3D_gc3uf")
 [sub_resource type="PlaneMesh" id="PlaneMesh_l0mnd"]
 size = Vector2(1, 1)
 
-[sub_resource type="ViewportTexture" id="ViewportTexture_6ej75"]
-viewport_path = NodePath("finish_orb/SubViewport")
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_eo5qt"]
-resource_local_to_scene = true
-albedo_color = Color(0.545098, 0.34902, 0.988235, 1)
-albedo_texture = SubResource("ViewportTexture_6ej75")
-clearcoat = 0.15
-clearcoat_roughness = 0.9
-
-[sub_resource type="SphereMesh" id="SphereMesh_5o4ws"]
-resource_local_to_scene = true
-material = SubResource("StandardMaterial3D_eo5qt")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_4k1ew"]
-shader = ExtResource("8_xttnd")
-shader_parameter/R = Vector2(0.8, 0.6)
-shader_parameter/scale = 0.2
-shader_parameter/speed = 0.2
-shader_parameter/direction = Vector3(1, 1, 0)
-shader_parameter/distortion = 0.5
-shader_parameter/layers = 2.0
-shader_parameter/shades = 2.0
-shader_parameter/steps = 4
-shader_parameter/tint = Vector3(0.2, 0.2, 1)
-
 [node name="view_3d" type="Node3D"]
 rotation_order = 0
 script = ExtResource("1_wpaoh")
@@ -154,22 +127,3 @@ mesh = ExtResource("5_kw8ap")
 [node name="Building01" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.48819, 0, 3.44765)
 mesh = ExtResource("6_l0u5q")
-
-[node name="finish_orb" type="MeshInstance3D" parent="."]
-transform = Transform3D(0.8, 0, 3.0571e-15, 3.0571e-15, 3.49691e-08, -0.8, 0, 0.8, 3.49691e-08, 3, 1.5, 3)
-mesh = SubResource("SphereMesh_5o4ws")
-
-[node name="SubViewport" type="SubViewport" parent="finish_orb"]
-disable_3d = true
-size = Vector2i(128, 128)
-
-[node name="Node2D" type="Node2D" parent="finish_orb/SubViewport"]
-
-[node name="ColorRect" type="ColorRect" parent="finish_orb/SubViewport/Node2D"]
-material = SubResource("ShaderMaterial_4k1ew")
-custom_minimum_size = Vector2(256, 256)
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2

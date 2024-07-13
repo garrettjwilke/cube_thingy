@@ -210,12 +210,14 @@ func _physics_process(_delta):
 			hmls.debug_message("cube_3d.gd", "reset button pressed", 1)
 			hmls.update_tiles("reset")
 			hmls.update_tiles("3d")
+			hmls.emit_signal("signal_level_start")
 			reset_pos()
 	if Input.is_action_just_pressed("level_next"):
 		if hmls.PAUSE == false:
 			hmls.update_level(1)
 			hmls.update_tiles("reset")
 			hmls.update_tiles("3d")
+			hmls.emit_signal("signal_level_start")
 			# set the position and then pass position to hmls.update_cube_position
 			# if we don't do this, the cube can end up on a bad tile
 			reset_pos()
@@ -224,6 +226,7 @@ func _physics_process(_delta):
 			hmls.update_level(-1)
 			hmls.update_tiles("reset")
 			hmls.update_tiles("3d")
+			hmls.emit_signal("signal_level_start")
 			reset_pos()
 	if hmls.PAUSE:
 		return

@@ -320,6 +320,22 @@ func spawn_detonator(x,y,COLOR):
 	floor_material.albedo_color = get_default("COLOR_BLACK")
 	get_node(str("/root/hmls/VIEW_3D/",x,"x",y)).mesh.surface_set_material(0, floor_material)
 
+func spawn_final_orb(position,COLOR):
+	var finish_orb_mesh = MeshInstance3D.new()
+	finish_orb_mesh.name = "finish_orb_mesh"
+	finish_orb_mesh.mesh = SphereMesh.new()
+	finish_orb_mesh.mesh.radius = 0.5
+	finish_orb_mesh.mesh.resource_local_to_scene = true
+	finish_orb_mesh.scale = Vector3(0.8,0.8,0.8)
+	finish_orb_mesh.position = position
+	get_node("/root/hmls/VIEW_3D").add_child(finish_orb_mesh)
+	var subviewport = load("res://assets/textures/marble_subviewport.tscn").instantiate()
+	finish_orb_mesh.add_child(subviewport)
+	var new_mat = StandardMaterial3D.new()
+	new_mat.albedo_color = COLOR
+	new_mat.albedo_texture = subviewport.get_texture()
+	finish_orb_mesh.mesh.material = new_mat
+	finish_orb_mesh.rotation.z = 90
 
 # this will spawn after the update_tiles() is ran
 func tile_spawn(x, y, cell):
@@ -458,6 +474,8 @@ func update_tiles(MODE):
 		y += 1
 		if y > LEVEL_RESOLUTION.y:
 			LEVEL_RESOLUTION.y += 1
+	var rng_spawn = Vector2(rng(0,LEVEL_RESOLUTION.x),rng(0,LEVEL_RESOLUTION.y))
+	spawn_final_orb(Vector3(rng_spawn.x,0.5,rng_spawn.y),get_cell_data(str(rng(2,7),0))[0])
 
 var temp_counter = 0
 var LAST_CELL = ""
@@ -470,7 +488,6 @@ func attribute_stuffs(CELL):
 	var CHECK_TILE = hmls.get_cell_data(hmls.CURRENT_LEVEL[CELL.y][CELL.x])
 	var COLOR = CHECK_TILE[1]
 	var ATTRIBUTE = CHECK_TILE[3]
-	print("wtf? ",temp_counter)
 	match ATTRIBUTE:
 		"start_position":
 			if GAME_MODE == "Classic":
