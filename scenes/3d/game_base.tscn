@@ -1,10 +1,18 @@
-[gd_scene load_steps=3 format=3 uid="uid://bskuaccs80wcn"]
+[gd_scene load_steps=5 format=3 uid="uid://bskuaccs80wcn"]
 
 [ext_resource type="PackedScene" uid="uid://d0qkbl33uofmb" path="res://scenes/3d/view_3d.tscn" id="1_msgmu"]
 [ext_resource type="PackedScene" uid="uid://d0kb0m1cengho" path="res://scenes/2d/view_2d.tscn" id="2_1nvwm"]
+[ext_resource type="Script" path="res://scripts/music.gd" id="3_m1ci8"]
+[ext_resource type="AudioStream" uid="uid://djng6rwis4rqp" path="res://assets/music/trash_loop_01.mp3" id="4_vaata"]
 
 [node name="GAME_BASE" type="Node3D"]
 
 [node name="view_2d" parent="." instance=ExtResource("2_1nvwm")]
 
 [node name="view_3d" parent="." instance=ExtResource("1_msgmu")]
+
+[node name="music" type="Node" parent="."]
+script = ExtResource("3_m1ci8")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="music"]
+stream = ExtResource("4_vaata")
