@@ -32,7 +32,7 @@ func rotate_view(input):
 func _ready():
 	if hmls.OS_CHECK == "mobile":
 		hmls.ENABLE_SHADERS = false
-	hmls.PAUSE = false
+	#hmls.PAUSE = false
 	rotate_view(0)
 	hmls.update_tiles("3d")
 	# after updating the level tiles, set the cube position

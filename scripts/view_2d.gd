@@ -120,15 +120,19 @@ func spawn_menu_items():
 
 var TIMER_HUD = 0
 func top_bar(MODE):
+	if MODE == "reset":
+		spawn_menu_items()
+		return
 	if MODE == "update":
-		TIMER_HUD = int(TIMER)
-		var TEMP_TIMER = TIMER_HUD
-		if TIMER_HUD < 100:
-			TEMP_TIMER = str("0", TIMER_HUD)
-		if TIMER_HUD < 10:
-			TEMP_TIMER = str("00", TIMER_HUD)
-		get_node(str(BOTTOM_CONTAINER,"/TIMER_BOX/TIMER_LABEL")).text = str("Timer: ", TEMP_TIMER)
-		get_node(str(BOTTOM_CONTAINER,"/KEY_COUNT_BOX/KEY_COUNT_LABEL")).text = str("Keys: " ,hmls.KEY_COUNT)
+		if hmls.PAUSE == false:
+			TIMER_HUD = int(TIMER)
+			var TEMP_TIMER = TIMER_HUD
+			if TIMER_HUD < 100:
+				TEMP_TIMER = str("0", TIMER_HUD)
+			if TIMER_HUD < 10:
+				TEMP_TIMER = str("00", TIMER_HUD)
+			get_node(str(BOTTOM_CONTAINER,"/TIMER_BOX/TIMER_LABEL")).text = str("Timer: ", TEMP_TIMER)
+			get_node(str(BOTTOM_CONTAINER,"/KEY_COUNT_BOX/KEY_COUNT_LABEL")).text = str("Keys: " ,hmls.KEY_COUNT)
 		
 		match hmls.GAME_MODE:
 			"Classic":
@@ -139,11 +143,13 @@ func top_bar(MODE):
 				if get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).is_visible():
 					get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).hide()
 		return
-	if MODE == "reset":
-		spawn_menu_items()
-		return
+
+func _on_signal_level_start():
+	TIMER = 0
+	top_bar("reset")
 
 func _ready():
+	hmls.signal_level_start.connect(_on_signal_level_start)
 	set_font()
 	hmls.PAUSE = false
 	MENU_NODE.hide()
@@ -156,22 +162,14 @@ var LABEL_OFFSET = Vector2(10,10)
 
 var TIMER = 0
 func _process(delta):
-	
 	if Input.is_action_just_pressed("game_mode_key"):
 		if hmls.GAME_DIFFICULTY == "normal":
 			hmls.GAME_DIFFICULTY = "hard"
 		else:
 			hmls.GAME_DIFFICULTY = "normal"
-	if Input.is_action_just_pressed("reset") || Input.is_action_just_pressed("level_next") || Input.is_action_just_pressed("level_previous"):
-		TIMER = 0
-		top_bar("reset")
 	if hmls.PAUSE == false:
-		if hmls.NOT_READY:
-			return
 		TIMER += delta
-		if TIMER < 0.16:
-			top_bar("reset")
-		top_bar("update")
+	top_bar("update")
 	if Input.is_action_just_pressed("menu_button"):
 		if MENU_NODE.is_visible_in_tree():
 			MENU_NODE.hide()
