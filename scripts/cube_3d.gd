@@ -155,14 +155,32 @@ func roll(dir):
 	hmls.update_cube_position(Vector2(int(position.x), int(position.z)))
 
 func reset_pos():
-	mesh.hide()
-	position = Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y)
-	hmls.update_cube_position(Vector2(position.x,position.z))
+	hmls.update_cube_position(Vector2(hmls.START_POSITION.x,hmls.START_POSITION.y))
 	mesh.rotation_degrees = Vector3(0,0,0)
-	mesh.scale = Vector3(0,0,0)
-	var tween = create_tween()
-	tween.tween_property(mesh,"scale",Vector3(1,1,1),0.5)
-	mesh.show()
+	hmls.PAUSE = true
+	position = Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y)
+	scale = Vector3(0.01,0.01,0.01)
+	hmls.PAUSE = true
+	var tween2 = create_tween()
+	tween2.tween_property(self,"scale",Vector3(1,1,1),1.2)
+	await tween2.finished
+	hmls.PAUSE = false
+	#var tween2 = create_tween()
+	#tween2.tween_property(self,"position",Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y),0.7)
+	#await tween2.finished
+	
+	hmls.PAUSE = false
+	#hmls.update_cube_position(Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y))
+	
+	#mesh.hide()
+	#position = Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y)
+	#mesh.scale = Vector3(0,0,0)
+	#hmls.PAUSE = true
+	#var tween = create_tween()
+	#tween.tween_property(mesh,"scale",Vector3(1,1,1),0.5)
+	#mesh.show()
+	#await tween.finished
+	#hmls.PAUSE = false
 
 func _ready():
 	set_cube_material()
@@ -185,6 +203,28 @@ func _physics_process(_delta):
 		else:
 			hmls.INVERTED_MODE = "false"
 		set_cube_material()
+	if Input.is_action_just_pressed("reset"):
+		if hmls.PAUSE == false:
+			# uncomment the line below to force the RNG to be the same each reset
+			#hmls.update_rng_seed(hmls.get_default("RNG_SEED"))
+			hmls.debug_message("cube_3d.gd", "reset button pressed", 1)
+			hmls.update_tiles("reset")
+			hmls.update_tiles("3d")
+			reset_pos()
+	if Input.is_action_just_pressed("level_next"):
+		if hmls.PAUSE == false:
+			hmls.update_level(1)
+			hmls.update_tiles("reset")
+			hmls.update_tiles("3d")
+			# set the position and then pass position to hmls.update_cube_position
+			# if we don't do this, the cube can end up on a bad tile
+			reset_pos()
+	if Input.is_action_just_pressed("level_previous"):
+		if hmls.PAUSE == false:
+			hmls.update_level(-1)
+			hmls.update_tiles("reset")
+			hmls.update_tiles("3d")
+			reset_pos()
 	if hmls.PAUSE:
 		return
 	speed = ORIGINAL_SPEED
@@ -232,32 +272,12 @@ func _physics_process(_delta):
 			4:
 				DIR = Vector3.FORWARD
 	if DIR != Vector3.ZERO:
+		var CAN_ROLL = false
 		match str(hmls.floor_check(hmls.CUBE_POSITION.x + DIR.x, hmls.CUBE_POSITION.y + DIR.z)):
 			"stop":
 				return
-		var CAN_ROLL = await fake_roll(DIR)
-		#await fake_roll(DIR)
+		CAN_ROLL = await fake_roll(DIR)
 		if CAN_ROLL == "false":
 			return
 		hmls.attribute_stuffs(Vector2(hmls.CUBE_POSITION.x + DIR.x, hmls.CUBE_POSITION.y + DIR.z))
 		roll(DIR)
-		
-	if Input.is_action_just_pressed("reset"):
-		# uncomment the line below to force the RNG to be the same each reset
-		#hmls.update_rng_seed(hmls.get_default("RNG_SEED"))
-		hmls.debug_message("cube_3d.gd", "reset button pressed", 1)
-		hmls.update_tiles("reset")
-		hmls.update_tiles("3d")
-		reset_pos()
-	if Input.is_action_just_pressed("level_next"):
-		hmls.update_level(1)
-		hmls.update_tiles("reset")
-		hmls.update_tiles("3d")
-		# set the position and then pass position to hmls.update_cube_position
-		# if we don't do this, the cube can end up on a bad tile
-		reset_pos()
-	if Input.is_action_just_pressed("level_previous"):
-		hmls.update_level(-1)
-		hmls.update_tiles("reset")
-		hmls.update_tiles("3d")
-		reset_pos()
