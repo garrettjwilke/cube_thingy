@@ -67,6 +67,39 @@ var LEVEL_MATRIX = []
 var LEVEL_RESOLUTION = Vector2(0,0)
 var LEVEL_NAME = get_default("LEVEL_NAME")
 
+var counter = 0
+var pitch_scale = 1.0
+func sound_effect(SOUND):
+	var PLAYER = AudioStreamPlayer2D.new()
+	PLAYER.pitch_scale = 1.0
+	PLAYER.volume_db = 0.0
+	if SOUND == "cube":
+		if get_node_or_null("/root/hmls/cube_sound"):
+			return
+		PLAYER.name = "cube_sound"
+		PLAYER.stream = load("res://assets/sounds/cube_sound.mp3")
+		PLAYER.pitch_scale = 2.0
+	elif SOUND == "tile":
+		#if get_node_or_null("/root/hmls/tile_sound"):
+		#	return
+		PLAYER = AudioStreamPlayer2D.new()
+		PLAYER.name = str("tile_sound",rng(0,3000))
+		PLAYER.stream = load("res://assets/sounds/tile_clear_sound.mp3")
+	elif SOUND == "bomb":
+		PLAYER.name = str("bomb_sound",rng(0,3000))
+		PLAYER.stream = load("res://assets/sounds/bomb_sound.mp3")
+		PLAYER.volume_db = -8.0
+	elif SOUND == "illegal":
+		if get_node_or_null("/root/hmls/illegal_sound"):
+			return
+		PLAYER.name = "illegal_sound"
+		PLAYER.stream = load("res://assets/sounds/illegal_move.mp3")
+	get_node("/root/hmls").add_child(PLAYER)
+	PLAYER.play()
+	await PLAYER.finished
+	PLAYER.queue_free()
+	
+
 # round number up/down
 func round_to_dec(num):
 	return round(num * pow(10.0, 0)) / pow(10.0, 0)
@@ -374,6 +407,7 @@ func tile_spawn(x, y, cell):
 	CURRENT_TILE.name = str(x,"x",y)
 	CURRENT_TILE.scale = Vector3(TILE_SCALE, TILE_HEIGHT, TILE_SCALE)
 	CURRENT_TILE.position = Vector3(x, -(TILE_HEIGHT / 2 + 0.03), y)
+	await scale_thingy(CURRENT_TILE,0.4)
 	match ATTRIBUTE:
 		"start_position":
 			pass
@@ -385,11 +419,12 @@ func tile_spawn(x, y, cell):
 			spawn_bomb(COLOR, CURRENT_TILE.name)
 		"detonator":
 			spawn_detonator(x,y,COLOR)
-	scale_thingy(CURRENT_TILE,0.4)
 
 signal signal_detonator(COLOR)
 
 signal signal_level_start()
+
+signal signal_sound_effect(SOUND)
 
 func load_level():
 	# if the CURRENT_LEVEL has data, set the LEVEL_MATRIX
@@ -477,17 +512,15 @@ func update_tiles(MODE):
 	var rng_spawn = Vector2(rng(0,LEVEL_RESOLUTION.x),rng(0,LEVEL_RESOLUTION.y))
 	spawn_final_orb(Vector3(rng_spawn.x,0.5,rng_spawn.y),get_cell_data(str(rng(2,7),0))[0])
 
-var temp_counter = 0
 var LAST_CELL = ""
 func attribute_stuffs(CELL):
-	if LAST_CELL == str(CELL.x,"x",CELL.y):
-		return
-	LAST_CELL = str(CELL.x,"x",CELL.y)
-	temp_counter += 1
 	var CELL_DATA = CURRENT_LEVEL[CELL.y][CELL.x]
 	var CHECK_TILE = hmls.get_cell_data(hmls.CURRENT_LEVEL[CELL.y][CELL.x])
 	var COLOR = CHECK_TILE[1]
 	var ATTRIBUTE = CHECK_TILE[3]
+	if LAST_CELL == str(CELL.x,"x",CELL.y):
+		return
+	LAST_CELL = str(CELL.x,"x",CELL.y)
 	match ATTRIBUTE:
 		"start_position":
 			if GAME_MODE == "Classic":
@@ -504,6 +537,8 @@ func attribute_stuffs(CELL):
 			if GAME_MODE == "Classic":
 				# check to see if tile is gray - without doing this, the level lags because it is rebuilt every step
 				if COLOR != "gray":
+					#hmls.emit_signal("signal_sound_effect","tile")
+					hmls.sound_effect("tile")
 					AMOUNT_LEFT -= 1
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 					tile_spawn(CELL.x,CELL.y,"10")
@@ -520,23 +555,30 @@ func attribute_stuffs(CELL):
 				CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
 				tile_spawn(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
 			if GAME_MODE == "Classic":
+				#hmls.emit_signal("signal_sound_effect","tile")
+				hmls.sound_effect("tile")
 				AMOUNT_LEFT -= 1
 				CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 				tile_spawn(CELL.x,CELL.y,"10")
 			debug_message("cube_3d.gd - fake_roll() - KEY_COUNT",KEY_COUNT,1)
 		"box":
 			if KEY_COUNT < 1:
+				KEY_COUNT = 0
+				sound_effect("illegal")
 				return
 			var NODE_NAME = str("/root/hmls/VIEW_3D/",CELL.x,"x",CELL.y,"_box")
-			KEY_COUNT -= 1
 			if is_instance_valid(get_node(NODE_NAME)):
+				hmls.sound_effect("tile")
 				var tween2 = create_tween()
 				tween2.tween_property(get_node(NODE_NAME),"scale",Vector3(0.01,0.01,0.01), 0.2)
 				await tween2.finished
-				#get_node(NODE_NAME).queue_free()
 				get_node(NODE_NAME).queue_free()
+				KEY_COUNT -= 1
+			else:
+				return
 			match GAME_MODE:
 				"Classic":
+					#hmls.emit_signal("signal_sound_effect","tile")
 					AMOUNT_LEFT -= 1
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 					tile_spawn(CELL.x,CELL.y,"10")
@@ -544,6 +586,8 @@ func attribute_stuffs(CELL):
 					CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
 					tile_spawn(CELL.x, CELL.y, str(str(CELL_DATA).left(1),0))
 		"detonator":
+			#hmls.emit_signal("signal_sound_effect","tile")
+			hmls.sound_effect("tile")
 			CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 			tile_spawn(CELL.x,CELL.y,"10")
 			emit_signal("signal_detonator", COLOR)
@@ -551,6 +595,7 @@ func attribute_stuffs(CELL):
 			var tween = create_tween()
 			tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.4)
 			await tween.finished
+			node.queue_free()
 		"bomb":
 			print("bomb detected: ", COLOR)
 
@@ -565,26 +610,27 @@ func os_checker():
 		_:
 			OS_CHECK = "mobile"
 
-
+var FINISHED_CHECK = true
 func _on_signal_detonator(COLOR):
+	var FOUND_NODE = false
 	AMOUNT_LEFT -= 1
 	var temp_x = 0
 	var temp_y = 0
-	for row in LEVEL_MATRIX:
+	for row in CURRENT_LEVEL:
 		for cell in row:
 			var info = get_cell_data(cell)
 			var COLOR_MATCH = info[1]
 			var ATTRIBUTE_MATCH = info[3]
 			if COLOR_MATCH == "black":
 				if ATTRIBUTE_MATCH == "bomb":
-					#print("black bomb")
 					tile_spawn(temp_x,temp_y,10)
 					CURRENT_LEVEL[temp_y][temp_x] = 10
 			if COLOR_MATCH == COLOR:
 				if ATTRIBUTE_MATCH == "bomb":
+					FOUND_NODE = true
 					#print(str("bomb identified: ",temp_x,"x",temp_y))
-					tile_spawn(temp_x,temp_y,10)
 					CURRENT_LEVEL[temp_y][temp_x] = 10
+					tile_spawn(temp_x,temp_y,10)
 					AMOUNT_LEFT -= 1
 					var up = Vector2(temp_x,temp_y - 1)
 					var down = Vector2(temp_x, temp_y + 1)
@@ -595,7 +641,6 @@ func _on_signal_detonator(COLOR):
 							var tile_data = get_cell_data(CURRENT_LEVEL[i.y][i.x])
 							var potential_color = tile_data[1]
 							var potential_attribute = tile_data[3]
-							#print(i, " - ", potential_color, " - ", potential_attribute)
 							if potential_color == "gray":
 								if potential_attribute == "default":
 									pass
@@ -607,28 +652,32 @@ func _on_signal_detonator(COLOR):
 								pass
 							else:
 								AMOUNT_LEFT -= 1
-							tile_spawn(i.x,i.y,10)
-							CURRENT_LEVEL[i.y][i.x] = "10"
+							sound_effect("bomb")
 							PAUSE = true
 							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_box")):
 								var node = get_node(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_box"))
 								var tween = create_tween()
-								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
+								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.2)
 								await tween.finished
 								node.queue_free()
 							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator")):
 								var node = get_node(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator"))
 								var tween = create_tween()
-								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
+								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.2)
 								await tween.finished
-								node.queue_free()
+								#node.queue_free()
+							CURRENT_LEVEL[i.y][i.x] = "10"
+							tile_spawn(i.x,i.y,10)
 							PAUSE = false
+			if FOUND_NODE == true:
+				return
 			temp_x += 1
 		temp_x = 0
 		temp_y += 1
 
 func _ready():
 	signal_detonator.connect(_on_signal_detonator)
+	signal_sound_effect.connect(sound_effect)
 	os_checker()
 	if not DirAccess.dir_exists_absolute("user://"):
 		DirAccess.make_dir_absolute("user://")

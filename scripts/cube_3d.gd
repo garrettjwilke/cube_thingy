@@ -110,6 +110,7 @@ func fake_roll(dir):
 	if FUTURE_ORIENTATION_COLOR == CHECK_TILE[1]:
 		return "true"
 	else:
+		hmls.sound_effect("illegal")
 		hmls.debug_message("cube_3d.gd - fake_roll() - CHECK_COLOR",CHECK_TILE,2)
 		return "false"
 
@@ -134,6 +135,7 @@ func roll(dir):
 			1:
 				hmls.debug_message("cube_3d.gd - roll()","top side collision detected", 2)
 		return
+	hmls.emit_signal("signal_sound_effect","cube")
 	rolling = true
 	# Step 1: Offset the pivot.
 	pivot.translate(dir * cube_size / 2)
@@ -278,6 +280,7 @@ func _physics_process(_delta):
 		var CAN_ROLL = false
 		match str(hmls.floor_check(hmls.CUBE_POSITION.x + DIR.x, hmls.CUBE_POSITION.y + DIR.z)):
 			"stop":
+				hmls.sound_effect("illegal")
 				return
 		CAN_ROLL = await fake_roll(DIR)
 		if CAN_ROLL == "false":
