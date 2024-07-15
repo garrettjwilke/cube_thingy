@@ -6,7 +6,10 @@ var STATS_COLOR = "#9879a3"
 var TOP_CONTAINER = str("top_bar/CenterContainer/", LEVEL_INFO_NAME)
 var BOTTOM_CONTAINER = str("bottom_bar/CenterContainer/", STATS_NODE_NAME)
 var LEFT_BOX = "left_box/CenterContainer"
-@onready var KEYBINDS_LABEL = $menu/CenterContainer/keybinds_label
+@onready var KEYBINDS_LABEL = $menu/CenterContainer/MarginContainer/VBoxContainer/keybinds/keybinds_label
+@onready var KEYBINDS_BOX = $menu/CenterContainer/MarginContainer/VBoxContainer/keybinds/ColorRect
+@onready var TABS_LABEL = $menu/CenterContainer/MarginContainer/VBoxContainer/tabs/Label
+
 
 # set the tile size for the 2d tiles
 var TILE_SIZE_2D = 16
@@ -48,8 +51,9 @@ Camera Toggle:       C
 Rotate Cam Left:     Q
 Rotate Cam Right:    E
 Invert Cube:         I
-Fullscreen Toggle (only works if this menu is showing):   F
-  - for some reason it requires you to press it twice"
+Fullscreen Toggle:   F
+  - (only works if this menu is showing)
+	- for some reason it requires you to press it twice."
 
 func spawn_info_node(NAME, COLOR, LOCATION, STRING):
 	if LOCATION == "top":
@@ -175,7 +179,7 @@ func _process(delta):
 			MENU_NODE.hide()
 			hmls.PAUSE = false
 		else:
-			$menu/CenterContainer/ColorRect.color = STATS_COLOR
-			$menu/CenterContainer/ColorRect.custom_minimum_size = KEYBINDS_LABEL.size + (BOX_OFFSET * 3)
+			KEYBINDS_BOX.color = STATS_COLOR
+			KEYBINDS_BOX.custom_minimum_size = KEYBINDS_LABEL.size + (BOX_OFFSET * 3)
 			MENU_NODE.show()
 			hmls.PAUSE = true

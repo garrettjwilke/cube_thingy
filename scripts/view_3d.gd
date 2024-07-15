@@ -57,9 +57,9 @@ func _process(delta):
 			$Camera3D/shader_mobius.hide()
 			$Camera3D/DirectionalLight3D.light_energy = 0.75
 	if Input.is_action_just_pressed("CAM_ROTATE_LEFT"):
-		rotate_view(-1)
-	if Input.is_action_just_pressed("CAM_ROTATE_RIGHT"):
 		rotate_view(1)
+	if Input.is_action_just_pressed("CAM_ROTATE_RIGHT"):
+		rotate_view(-1)
 	match hmls.ROTATION_COUNT:
 		1:
 			cam_offset = Vector3(3, 8, 5)

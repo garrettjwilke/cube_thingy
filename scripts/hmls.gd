@@ -1,5 +1,7 @@
 extends Node
 
+var IS_READY = false
+
 var DEBUG = false
 # setting DEBUG_SEVERITY can help isolate debug messages
 #   setting to 0 will show all debug messages
@@ -74,31 +76,30 @@ func sound_effect(SOUND):
 	PLAYER.pitch_scale = 1.0
 	PLAYER.volume_db = 0.0
 	if SOUND == "cube":
-		if get_node_or_null("/root/hmls/cube_sound"):
+		if get_node_or_null("cube_sound"):
 			return
 		PLAYER.name = "cube_sound"
 		PLAYER.stream = load("res://assets/sounds/cube_sound.mp3")
 		PLAYER.pitch_scale = 2.0
+		PLAYER.volume_db = -4
 	elif SOUND == "tile":
-		#if get_node_or_null("/root/hmls/tile_sound"):
-		#	return
 		PLAYER = AudioStreamPlayer2D.new()
 		PLAYER.name = str("tile_sound",rng(0,3000))
 		PLAYER.stream = load("res://assets/sounds/tile_clear_sound.mp3")
+		PLAYER.volume_db = -4
 	elif SOUND == "bomb":
 		PLAYER.name = str("bomb_sound",rng(0,3000))
 		PLAYER.stream = load("res://assets/sounds/bomb_sound.mp3")
 		PLAYER.volume_db = -8.0
 	elif SOUND == "illegal":
-		if get_node_or_null("/root/hmls/illegal_sound"):
+		if get_node_or_null("illegal_sound"):
 			return
 		PLAYER.name = "illegal_sound"
 		PLAYER.stream = load("res://assets/sounds/illegal_move.mp3")
-	get_node("/root/hmls").add_child(PLAYER)
+	self.add_child(PLAYER)
 	PLAYER.play()
 	await PLAYER.finished
 	PLAYER.queue_free()
-	
 
 # round number up/down
 func round_to_dec(num):
@@ -119,9 +120,9 @@ func update_cube_position(position):
 func floor_check(pos_x, pos_y):
 	var NODE_NAME = str(pos_x,"x",pos_y)
 	var NEXT_COLOR
-	for node in get_node("/root/hmls/VIEW_3D").get_children():
-		if not get_node_or_null(str("/root/hmls/VIEW_3D/",NODE_NAME)):
-			debug_message("hmls.gd - floor_check() - couldn't find node",str("/root/hmls/VIEW_3D/",NODE_NAME),2)
+	for node in get_node("VIEW_3D").get_children():
+		if not get_node_or_null(str("VIEW_3D/",NODE_NAME)):
+			debug_message("hmls.gd - floor_check() - couldn't find node",str("VIEW_3D/",NODE_NAME),2)
 			return "stop"
 	# if cube passes check, get the color of the next tile it is rolling into
 	NEXT_COLOR = LEVEL_MATRIX[pos_y][pos_x]
@@ -300,15 +301,15 @@ func spawn_box(x, y, COLOR):
 		material.set_shading_mode(1)
 	material.albedo_texture_force_srgb = true
 	new_material.albedo_color = COLOR
-	get_node(str("/root/hmls/VIEW_3D/")).add_child(NEW_BOX)
-	get_node(str("/root/hmls/VIEW_3D/",NAME,"/MeshInstance3D")).mesh.surface_set_material(0, new_material)
+	get_node(str("VIEW_3D/")).add_child(NEW_BOX)
+	get_node(str("VIEW_3D/",NAME,"/MeshInstance3D")).mesh.surface_set_material(0, new_material)
 	scale_thingy(NEW_BOX,0.3)
 
 func spawn_key(COLOR,node_name):
 	var material = load("res://assets/textures/key_texture.tres")
 	var new_material = material.duplicate()
 	new_material.albedo_color = COLOR
-	get_node(str("/root/hmls/VIEW_3D/",node_name)).mesh.surface_set_material(0, new_material)
+	get_node(str("VIEW_3D/",node_name)).mesh.surface_set_material(0, new_material)
 
 func scale_thingy(node, speed):
 	var old_scale = node.scale
@@ -328,10 +329,10 @@ func spawn_floor(pos):
 	var material = StandardMaterial3D.new()
 	material.albedo_color = COLOR
 	new_mesh.mesh.surface_set_material(0, material)
-	get_node("/root/hmls/VIEW_3D").add_child(new_mesh)
+	get_node("VIEW_3D").add_child(new_mesh)
 
 func spawn_bomb(COLOR, node_name):
-	var CURRENT_NODE = get_node(str("/root/hmls/VIEW_3D/",node_name))
+	var CURRENT_NODE = get_node(str("VIEW_3D/",node_name))
 	var material = load("res://assets/textures/bomb_texture.tres")
 	var new_material = material.duplicate()
 	new_material.albedo_color = COLOR
@@ -347,11 +348,11 @@ func spawn_detonator(x,y,COLOR):
 	new_mesh.name = str(x,"x",y,"_detonator")
 	new_mesh.position = Vector3(x,0,y)
 	material.albedo_color = COLOR
-	get_node("/root/hmls/VIEW_3D/").add_child(new_mesh)
-	get_node(str("/root/hmls/VIEW_3D/",new_mesh.name)).mesh.surface_set_material(0, material)
+	get_node("VIEW_3D/").add_child(new_mesh)
+	get_node(str("VIEW_3D/",new_mesh.name)).mesh.surface_set_material(0, material)
 	var floor_material = StandardMaterial3D.new()
 	floor_material.albedo_color = get_default("COLOR_BLACK")
-	get_node(str("/root/hmls/VIEW_3D/",x,"x",y)).mesh.surface_set_material(0, floor_material)
+	get_node(str("VIEW_3D/",x,"x",y)).mesh.surface_set_material(0, floor_material)
 
 func spawn_final_orb(position,COLOR):
 	var finish_orb_mesh = MeshInstance3D.new()
@@ -361,7 +362,7 @@ func spawn_final_orb(position,COLOR):
 	finish_orb_mesh.mesh.resource_local_to_scene = true
 	finish_orb_mesh.scale = Vector3(0.8,0.8,0.8)
 	finish_orb_mesh.position = position
-	get_node("/root/hmls/VIEW_3D").add_child(finish_orb_mesh)
+	get_node("VIEW_3D").add_child(finish_orb_mesh)
 	var subviewport = load("res://assets/textures/marble_subviewport.tscn").instantiate()
 	finish_orb_mesh.add_child(subviewport)
 	var new_mat = StandardMaterial3D.new()
@@ -382,20 +383,21 @@ func tile_spawn(x, y, cell):
 		return
 	var CURRENT_TILE
 	# create a VIEW_3D node to attach all 3d nodes to
-	if not get_node_or_null("/root/hmls/VIEW_3D"):
+	if not get_node_or_null("VIEW_3D"):
 		var NODE_3D = Node3D.new()
 		NODE_3D.name = str("VIEW_3D")
 		get_node("/root/hmls").add_child(NODE_3D)
-	if get_node_or_null(str("/root/hmls/VIEW_3D/",x,"x",y)):
-		CURRENT_TILE = get_node(str("/root/hmls/VIEW_3D/",x,"x",y))
+	if get_node_or_null(str("VIEW_3D/",x,"x",y)):
+		CURRENT_TILE = get_node(str("VIEW_3D/",x,"x",y))
 		var tween2 = create_tween()
 		tween2.tween_property(CURRENT_TILE,"scale",Vector3(0.01,0.01,0.01), 0.3)
 		await tween2.finished
+		#CURRENT_TILE.queue_free()
 	else:
 		CURRENT_TILE = MeshInstance3D.new()
 		CURRENT_TILE.name = str(x,"x",y)
 		CURRENT_TILE.mesh = BoxMesh.new()
-		get_node("/root/hmls/VIEW_3D").add_child(CURRENT_TILE)
+		get_node("VIEW_3D").add_child(CURRENT_TILE)
 	var material = StandardMaterial3D.new()
 	material.albedo_color = COLOR
 	material.albedo_texture_force_srgb = true
@@ -423,8 +425,6 @@ func tile_spawn(x, y, cell):
 signal signal_detonator(COLOR)
 
 signal signal_level_start()
-
-signal signal_sound_effect(SOUND)
 
 func load_level():
 	# if the CURRENT_LEVEL has data, set the LEVEL_MATRIX
@@ -467,7 +467,7 @@ func update_tiles(MODE):
 	# if reset, then delete all nodes and set CURRENT_LEVEL to nothing
 	if MODE == "reset":
 		emit_signal("signal_level_start")
-		remove_child(get_node("/root/hmls/VIEW_3D"))
+		remove_child(get_node("VIEW_3D"))
 		CURRENT_LEVEL = []
 		LEVEL_RESOLUTION = Vector2(0,0)
 		KEY_COUNT = 0
@@ -509,17 +509,23 @@ func update_tiles(MODE):
 		y += 1
 		if y > LEVEL_RESOLUTION.y:
 			LEVEL_RESOLUTION.y += 1
-	var rng_spawn = Vector2(rng(0,LEVEL_RESOLUTION.x),rng(0,LEVEL_RESOLUTION.y))
-	spawn_final_orb(Vector3(rng_spawn.x,0.5,rng_spawn.y),get_cell_data(str(rng(2,7),0))[0])
+	IS_READY = true
 
 var LAST_CELL = ""
+var WAITING = false
 func attribute_stuffs(CELL):
 	var CELL_DATA = CURRENT_LEVEL[CELL.y][CELL.x]
 	var CHECK_TILE = hmls.get_cell_data(hmls.CURRENT_LEVEL[CELL.y][CELL.x])
 	var COLOR = CHECK_TILE[1]
 	var ATTRIBUTE = CHECK_TILE[3]
+	# for some reason, after killing a block, this function runs multiple frames, decreasing the key count by more than 1
+	# janky fix to check if the cell you are moving to is the same as the last time this function was ran
 	if LAST_CELL == str(CELL.x,"x",CELL.y):
+		# if the WAITING var is set to false, the horn sound wont play
+		if WAITING == false:
+			hmls.sound_effect("illegal")
 		return
+	# update the LAST_CELL var if there is a new cell
 	LAST_CELL = str(CELL.x,"x",CELL.y)
 	match ATTRIBUTE:
 		"start_position":
@@ -537,7 +543,6 @@ func attribute_stuffs(CELL):
 			if GAME_MODE == "Classic":
 				# check to see if tile is gray - without doing this, the level lags because it is rebuilt every step
 				if COLOR != "gray":
-					#hmls.emit_signal("signal_sound_effect","tile")
 					hmls.sound_effect("tile")
 					AMOUNT_LEFT -= 1
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
@@ -555,7 +560,6 @@ func attribute_stuffs(CELL):
 				CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
 				tile_spawn(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
 			if GAME_MODE == "Classic":
-				#hmls.emit_signal("signal_sound_effect","tile")
 				hmls.sound_effect("tile")
 				AMOUNT_LEFT -= 1
 				CURRENT_LEVEL[CELL.y][CELL.x] = "10"
@@ -566,19 +570,20 @@ func attribute_stuffs(CELL):
 				KEY_COUNT = 0
 				sound_effect("illegal")
 				return
-			var NODE_NAME = str("/root/hmls/VIEW_3D/",CELL.x,"x",CELL.y,"_box")
+			var NODE_NAME = str("VIEW_3D/",CELL.x,"x",CELL.y,"_box")
 			if is_instance_valid(get_node(NODE_NAME)):
+				WAITING = true
 				hmls.sound_effect("tile")
 				var tween2 = create_tween()
 				tween2.tween_property(get_node(NODE_NAME),"scale",Vector3(0.01,0.01,0.01), 0.2)
 				await tween2.finished
 				get_node(NODE_NAME).queue_free()
 				KEY_COUNT -= 1
+				WAITING = false
 			else:
 				return
 			match GAME_MODE:
 				"Classic":
-					#hmls.emit_signal("signal_sound_effect","tile")
 					AMOUNT_LEFT -= 1
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 					tile_spawn(CELL.x,CELL.y,"10")
@@ -586,12 +591,11 @@ func attribute_stuffs(CELL):
 					CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
 					tile_spawn(CELL.x, CELL.y, str(str(CELL_DATA).left(1),0))
 		"detonator":
-			#hmls.emit_signal("signal_sound_effect","tile")
 			hmls.sound_effect("tile")
 			CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 			tile_spawn(CELL.x,CELL.y,"10")
 			emit_signal("signal_detonator", COLOR)
-			var node = get_node(str("/root/hmls/VIEW_3D/",CELL.x,"x",CELL.y,"_detonator"))
+			var node = get_node(str("VIEW_3D/",CELL.x,"x",CELL.y,"_detonator"))
 			var tween = create_tween()
 			tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.4)
 			await tween.finished
@@ -637,7 +641,7 @@ func _on_signal_detonator(COLOR):
 					var left = Vector2(temp_x - 1, temp_y)
 					var right = Vector2(temp_x + 1, temp_y)
 					for i in [up,right,down,left]:
-						if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y)):
+						if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y)):
 							var tile_data = get_cell_data(CURRENT_LEVEL[i.y][i.x])
 							var potential_color = tile_data[1]
 							var potential_attribute = tile_data[3]
@@ -654,14 +658,14 @@ func _on_signal_detonator(COLOR):
 								AMOUNT_LEFT -= 1
 							sound_effect("bomb")
 							PAUSE = true
-							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_box")):
-								var node = get_node(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_box"))
+							if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_box")):
+								var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_box"))
 								var tween = create_tween()
 								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.2)
 								await tween.finished
 								node.queue_free()
-							if get_node_or_null(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator")):
-								var node = get_node(str("/root/hmls/VIEW_3D/",i.x,"x",i.y,"_detonator"))
+							if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_detonator")):
+								var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_detonator"))
 								var tween = create_tween()
 								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.2)
 								await tween.finished
@@ -677,7 +681,6 @@ func _on_signal_detonator(COLOR):
 
 func _ready():
 	signal_detonator.connect(_on_signal_detonator)
-	signal_sound_effect.connect(sound_effect)
 	os_checker()
 	if not DirAccess.dir_exists_absolute("user://"):
 		DirAccess.make_dir_absolute("user://")
@@ -686,7 +689,14 @@ func _ready():
 	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED) 
 	update_level(1)
 
+var COUNT = 0
 func _process(_delta):
+	if IS_READY == true:
+		if AMOUNT_LEFT == 0:
+			COUNT += 1
+			if COUNT == 1:
+				var rng_spawn = Vector2(rng(0,LEVEL_RESOLUTION.x),rng(0,LEVEL_RESOLUTION.y))
+				spawn_final_orb(Vector3(rng_spawn.x,0.5,rng_spawn.y),get_cell_data(str(rng(2,7),0))[0])
 	if PAUSE:
 		if Input.is_action_just_pressed("fullscreen_toggle"):
 			if DisplayServer.window_get_mode(0) == 3:
