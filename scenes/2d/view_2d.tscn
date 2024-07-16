@@ -110,21 +110,28 @@ offset_right = 1280.0
 offset_bottom = 720.0
 size_flags_horizontal = 4
 
-[node name="VBoxContainer" type="VBoxContainer" parent="side_bar"]
-layout_mode = 2
-offset_left = 1160.0
-offset_top = 238.0
-offset_right = 1280.0
-offset_bottom = 578.0
+[node name="CenterContainer" type="CenterContainer" parent="side_bar"]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -128.0
+offset_top = -356.0
+offset_bottom = 351.0
 grow_horizontal = 0
 grow_vertical = 2
 
-[node name="timer_node" type="ColorRect" parent="side_bar/VBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="side_bar/CenterContainer"]
+layout_mode = 2
+
+[node name="timer_node" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 color = Color(0.360784, 0.396078, 0.627451, 1)
 
-[node name="cent" type="CenterContainer" parent="side_bar/VBoxContainer/timer_node"]
+[node name="cent" type="CenterContainer" parent="side_bar/CenterContainer/VBoxContainer/timer_node"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -132,7 +139,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="marg" type="MarginContainer" parent="side_bar/VBoxContainer/timer_node/cent"]
+[node name="marg" type="MarginContainer" parent="side_bar/CenterContainer/VBoxContainer/timer_node/cent"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 theme_override_constants/margin_left = 5
@@ -140,30 +147,30 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="crect" type="ColorRect" parent="side_bar/VBoxContainer/timer_node/cent/marg"]
+[node name="crect" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/timer_node/cent/marg"]
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 color = Color(0.67451, 0.72549, 0.796078, 1)
 
-[node name="trect" type="TextureRect" parent="side_bar/VBoxContainer/timer_node/cent/marg"]
+[node name="trect" type="TextureRect" parent="side_bar/CenterContainer/VBoxContainer/timer_node/cent/marg"]
 layout_mode = 2
 texture = ExtResource("2_pjly5")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="cent" type="CenterContainer" parent="side_bar/VBoxContainer/timer_node/cent/marg"]
+[node name="cent" type="CenterContainer" parent="side_bar/CenterContainer/VBoxContainer/timer_node/cent/marg"]
 layout_mode = 2
 
-[node name="timer_label" type="Label" parent="side_bar/VBoxContainer/timer_node/cent/marg/cent"]
+[node name="timer_label" type="Label" parent="side_bar/CenterContainer/VBoxContainer/timer_node/cent/marg/cent"]
 layout_mode = 2
 text = "000"
 
-[node name="key_count_node" type="ColorRect" parent="side_bar/VBoxContainer"]
+[node name="key_count_node" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 color = Color(0.360784, 0.396078, 0.627451, 1)
 
-[node name="cent" type="CenterContainer" parent="side_bar/VBoxContainer/key_count_node"]
+[node name="cent" type="CenterContainer" parent="side_bar/CenterContainer/VBoxContainer/key_count_node"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -171,7 +178,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="marg" type="MarginContainer" parent="side_bar/VBoxContainer/key_count_node/cent"]
+[node name="marg" type="MarginContainer" parent="side_bar/CenterContainer/VBoxContainer/key_count_node/cent"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 theme_override_constants/margin_left = 5
@@ -179,17 +186,17 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="crect" type="ColorRect" parent="side_bar/VBoxContainer/key_count_node/cent/marg"]
+[node name="crect" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/key_count_node/cent/marg"]
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 color = Color(0.67451, 0.72549, 0.796078, 1)
 
-[node name="vbox" type="VBoxContainer" parent="side_bar/VBoxContainer/key_count_node/cent/marg/crect"]
+[node name="vbox" type="VBoxContainer" parent="side_bar/CenterContainer/VBoxContainer/key_count_node/cent/marg/crect"]
 layout_mode = 1
 offset_right = 110.0
 offset_bottom = 100.0
 
-[node name="trect" type="TextureRect" parent="side_bar/VBoxContainer/key_count_node/cent/marg/crect/vbox"]
+[node name="trect" type="TextureRect" parent="side_bar/CenterContainer/VBoxContainer/key_count_node/cent/marg/crect/vbox"]
 custom_minimum_size = Vector2(70, 70)
 layout_mode = 2
 size_flags_horizontal = 4
@@ -197,20 +204,20 @@ texture = ExtResource("3_0mwdg")
 expand_mode = 3
 stretch_mode = 4
 
-[node name="cent" type="CenterContainer" parent="side_bar/VBoxContainer/key_count_node/cent/marg/crect/vbox"]
+[node name="cent" type="CenterContainer" parent="side_bar/CenterContainer/VBoxContainer/key_count_node/cent/marg/crect/vbox"]
 custom_minimum_size = Vector2(100, 2.08165e-12)
 layout_mode = 2
 
-[node name="key_count_label" type="Label" parent="side_bar/VBoxContainer/key_count_node/cent/marg/crect/vbox/cent"]
+[node name="key_count_label" type="Label" parent="side_bar/CenterContainer/VBoxContainer/key_count_node/cent/marg/crect/vbox/cent"]
 layout_mode = 2
 text = "0/0"
 
-[node name="amount_left_node" type="ColorRect" parent="side_bar/VBoxContainer"]
+[node name="amount_left_node" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 color = Color(0.360784, 0.396078, 0.627451, 1)
 
-[node name="cent" type="CenterContainer" parent="side_bar/VBoxContainer/amount_left_node"]
+[node name="cent" type="CenterContainer" parent="side_bar/CenterContainer/VBoxContainer/amount_left_node"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -218,7 +225,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="marg" type="MarginContainer" parent="side_bar/VBoxContainer/amount_left_node/cent"]
+[node name="marg" type="MarginContainer" parent="side_bar/CenterContainer/VBoxContainer/amount_left_node/cent"]
 custom_minimum_size = Vector2(120, 120)
 layout_mode = 2
 theme_override_constants/margin_left = 5
@@ -226,12 +233,12 @@ theme_override_constants/margin_top = 5
 theme_override_constants/margin_right = 5
 theme_override_constants/margin_bottom = 5
 
-[node name="crect" type="ColorRect" parent="side_bar/VBoxContainer/amount_left_node/cent/marg"]
+[node name="crect" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/amount_left_node/cent/marg"]
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 color = Color(0.67451, 0.72549, 0.796078, 1)
 
-[node name="cent" type="CenterContainer" parent="side_bar/VBoxContainer/amount_left_node/cent/marg/crect"]
+[node name="cent" type="CenterContainer" parent="side_bar/CenterContainer/VBoxContainer/amount_left_node/cent/marg/crect"]
 custom_minimum_size = Vector2(100, 2.08165e-12)
 layout_mode = 1
 anchors_preset = 15
@@ -240,6 +247,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="amount_left_label" type="Label" parent="side_bar/VBoxContainer/amount_left_node/cent/marg/crect/cent"]
+[node name="amount_left_label" type="Label" parent="side_bar/CenterContainer/VBoxContainer/amount_left_node/cent/marg/crect/cent"]
 layout_mode = 2
 text = "0/0"

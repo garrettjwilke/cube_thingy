@@ -2,7 +2,7 @@
 
 TODO:
 
-* add total tile count for levels
+* add total tile count for levels in level json
 
 * if level tiles are less than total tile count, spawn rng tiles on board
 
@@ -13,8 +13,6 @@ TODO:
 * add level ending rules
 
 * create animations for cube entering/exiting level
-
-* add teleports
 
 * make a level editor
 

@@ -152,23 +152,34 @@ func _on_signal_level_start():
 	TIMER = 0
 	top_bar("reset")
 
+var SIDE_BAR_COLOR_1 = hmls.get_default("COLOR_BLACK")
+var SIDE_BAR_COLOR_2 = "#98bb9c"
 func side_bar(MODE):
-	var TIMER_NODE = $side_bar/VBoxContainer/timer_node
-	var TIMER_LABEL = $side_bar/VBoxContainer/timer_node/cent/marg/cent/timer_label
-	var KEY_COUNT_NODE = $side_bar/VBoxContainer/key_count_node
-	var KEY_COUNT_LABEL = $side_bar/VBoxContainer/key_count_node/cent/marg/crect/vbox/cent/key_count_label
-	var AMOUNT_LEFT_NODE = $side_bar/VBoxContainer/amount_left_node
-	var AMOUNT_LEFT_LABEL = $side_bar/VBoxContainer/amount_left_node/cent/marg/crect/cent/amount_left_label
+	var TIMER_BOX_1 = $side_bar/CenterContainer/VBoxContainer/timer_node
+	var TIMER_BOX_2 = $side_bar/CenterContainer/VBoxContainer/timer_node/cent/marg/crect
+	var TIMER_LABEL = $side_bar/CenterContainer/VBoxContainer/timer_node/cent/marg/cent/timer_label
+	var KEY_COUNT_BOX_1 = $side_bar/CenterContainer/VBoxContainer/key_count_node
+	var KEY_COUNT_BOX_2 = $side_bar/CenterContainer/VBoxContainer/key_count_node/cent/marg/crect
+	var KEY_COUNT_LABEL = $side_bar/CenterContainer/VBoxContainer/key_count_node/cent/marg/crect/vbox/cent/key_count_label
+	var AMOUNT_LEFT_BOX_1 = $side_bar/CenterContainer/VBoxContainer/amount_left_node
+	var AMOUNT_LEFT_BOX_2 = $side_bar/CenterContainer/VBoxContainer/amount_left_node/cent/marg/crect
+	var AMOUNT_LEFT_LABEL = $side_bar/CenterContainer/VBoxContainer/amount_left_node/cent/marg/crect/cent/amount_left_label
 	if MODE == "reset":
 		if hmls.PAUSE == false:
+			TIMER_BOX_1.color = SIDE_BAR_COLOR_1
+			TIMER_BOX_2.color = SIDE_BAR_COLOR_2
 			TIMER_LABEL.text = str("000")
 			TIMER_LABEL.add_theme_font_override("font", FONT_2)
 			TIMER_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
 			TIMER_LABEL.set("theme_override_colors/font_color",hmls.get_default("COLOR_BLACK"))
+			KEY_COUNT_BOX_1.color = SIDE_BAR_COLOR_1
+			KEY_COUNT_BOX_2.color = SIDE_BAR_COLOR_2
 			KEY_COUNT_LABEL.text = str("0/0")
 			KEY_COUNT_LABEL.add_theme_font_override("font", FONT_2)
 			KEY_COUNT_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
 			KEY_COUNT_LABEL.set("theme_override_colors/font_color",hmls.get_default("COLOR_BLACK"))
+			AMOUNT_LEFT_BOX_1.color = SIDE_BAR_COLOR_1
+			AMOUNT_LEFT_BOX_2.color = SIDE_BAR_COLOR_2
 			AMOUNT_LEFT_LABEL.text = str("0")
 			AMOUNT_LEFT_LABEL.add_theme_font_override("font", FONT_2)
 			AMOUNT_LEFT_LABEL.add_theme_font_size_override("font_size", 60)
@@ -187,12 +198,12 @@ func side_bar(MODE):
 		KEY_COUNT_LABEL.text = str(hmls.KEY_COUNT,"/",hmls.KEY_COUNT_TOTAL)
 		match hmls.GAME_MODE:
 			"Classic":
-				if not AMOUNT_LEFT_NODE.is_visible():
-					AMOUNT_LEFT_NODE.show()
+				if not AMOUNT_LEFT_BOX_1.is_visible():
+					AMOUNT_LEFT_BOX_1.show()
 				AMOUNT_LEFT_LABEL.text = str(hmls.AMOUNT_LEFT)
 			_:
-				if AMOUNT_LEFT_NODE.is_visible():
-					AMOUNT_LEFT_NODE.hide()
+				if AMOUNT_LEFT_BOX_1.is_visible():
+					AMOUNT_LEFT_BOX_1.hide()
 
 func _ready():
 	hmls.signal_level_start.connect(_on_signal_level_start)
