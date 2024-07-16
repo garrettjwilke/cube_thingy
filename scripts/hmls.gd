@@ -40,6 +40,7 @@ func reset_keys():
 	KEY_YELLOW = 0
 	KEY_PURPLE = 0
 	KEY_ORANGE = 0
+var KEY_COUNT_TOTAL = 0
 
 # this is set after the level matrix has been loaded
 var CURRENT_LEVEL = []
@@ -201,6 +202,7 @@ func update_level(amount):
 	START_POSITION = Vector2(0,0)
 	KEY_COUNT = 0
 	AMOUNT_LEFT = 0
+	KEY_COUNT_TOTAL = 0
 	debug_message("hmls.update_level()", str("level = ", LEVEL), 1)
 
 # this will return COLOR and NAME
@@ -310,6 +312,7 @@ func spawn_key(COLOR,node_name):
 	var new_material = material.duplicate()
 	new_material.albedo_color = COLOR
 	get_node(str("VIEW_3D/",node_name)).mesh.surface_set_material(0, new_material)
+	KEY_COUNT_TOTAL += 1
 
 func scale_thingy(node, speed):
 	var old_scale = node.scale
@@ -471,6 +474,7 @@ func update_tiles(MODE):
 		CURRENT_LEVEL = []
 		LEVEL_RESOLUTION = Vector2(0,0)
 		KEY_COUNT = 0
+		KEY_COUNT_TOTAL = 0
 		return
 	load_level()
 	# spawn all tiles in LEVEL_MATRIX
@@ -579,6 +583,7 @@ func attribute_stuffs(CELL):
 				await tween2.finished
 				get_node(NODE_NAME).queue_free()
 				KEY_COUNT -= 1
+				hmls.KEY_COUNT_TOTAL -= 1
 				WAITING = false
 			else:
 				return
@@ -645,6 +650,8 @@ func _on_signal_detonator(COLOR):
 							var tile_data = get_cell_data(CURRENT_LEVEL[i.y][i.x])
 							var potential_color = tile_data[1]
 							var potential_attribute = tile_data[3]
+							if potential_attribute == "key":
+								KEY_COUNT_TOTAL -= 1
 							if potential_color == "gray":
 								if potential_attribute == "default":
 									pass
@@ -684,9 +691,9 @@ func _ready():
 	os_checker()
 	if not DirAccess.dir_exists_absolute("user://"):
 		DirAccess.make_dir_absolute("user://")
-	DisplayServer.window_set_title(get_default("WINDOW_TITLE"))
-	DisplayServer.window_set_size(get_default("RESOLUTION"))
-	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED) 
+	#DisplayServer.window_set_title(get_default("WINDOW_TITLE"))
+	#DisplayServer.window_set_size(get_default("RESOLUTION"))
+	#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED) 
 	update_level(1)
 
 var COUNT = 0

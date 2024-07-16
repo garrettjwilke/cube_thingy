@@ -108,19 +108,19 @@ func spawn_menu_items():
 	LOCATION = "top"
 	spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,str("Mode: " ,hmls.GAME_MODE))
 	# add timer container
-	NODE_NAME = "TIMER"
-	LOCATION = "bottom"
-	spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,"Timer: 000")
-	get_node(str(BOTTOM_CONTAINER,"/TIMER_BOX")).position += Vector2(8,8)
-	TIMER_HUD = 0
+	#NODE_NAME = "TIMER"
+	#LOCATION = "bottom"
+	#spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,"Timer: 000")
+	#get_node(str(BOTTOM_CONTAINER,"/TIMER_BOX")).position += Vector2(8,8)
+	#TIMER_HUD = 0
 	# add key count container
-	NODE_NAME = "KEY_COUNT"
-	LOCATION = "bottom"
-	spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,str("Keys: " ,hmls.KEY_COUNT))
+	#NODE_NAME = "KEY_COUNT"
+	#LOCATION = "bottom"
+	#spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,str("Keys: " ,hmls.KEY_COUNT))
 	# add amount left node
-	NODE_NAME = "AMOUNT_LEFT"
-	LOCATION = "bottom"
-	spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,"Amount Left: 00")
+	#NODE_NAME = "AMOUNT_LEFT"
+	#LOCATION = "bottom"
+	#spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,"Amount Left: 00")
 
 var TIMER_HUD = 0
 func top_bar(MODE):
@@ -129,28 +129,70 @@ func top_bar(MODE):
 		return
 	if MODE == "update":
 		if hmls.PAUSE == false:
-			TIMER_HUD = int(TIMER)
-			var TEMP_TIMER = TIMER_HUD
-			if TIMER_HUD < 100:
-				TEMP_TIMER = str("0", TIMER_HUD)
-			if TIMER_HUD < 10:
-				TEMP_TIMER = str("00", TIMER_HUD)
-			get_node(str(BOTTOM_CONTAINER,"/TIMER_BOX/TIMER_LABEL")).text = str("Timer: ", TEMP_TIMER)
-			get_node(str(BOTTOM_CONTAINER,"/KEY_COUNT_BOX/KEY_COUNT_LABEL")).text = str("Keys: " ,hmls.KEY_COUNT)
-		
-		match hmls.GAME_MODE:
-			"Classic":
-				if not get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).is_visible():
-					get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).show()
-				get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX/AMOUNT_LEFT_LABEL")).text = str("Amount Left: ", hmls.AMOUNT_LEFT)
-			_:
-				if get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).is_visible():
-					get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).hide()
+			pass
+			#TIMER_HUD = int(TIMER)
+			#var TEMP_TIMER = TIMER_HUD
+			#if TIMER_HUD < 100:
+			#	TEMP_TIMER = str("0", TIMER_HUD)
+			#if TIMER_HUD < 10:
+			#	TEMP_TIMER = str("00", TIMER_HUD)
+			#get_node(str(BOTTOM_CONTAINER,"/TIMER_BOX/TIMER_LABEL")).text = str("Timer: ", TEMP_TIMER)
+			#get_node(str(BOTTOM_CONTAINER,"/KEY_COUNT_BOX/KEY_COUNT_LABEL")).text = str("Keys: " ,hmls.KEY_COUNT)
+		#match hmls.GAME_MODE:
+		#	"Classic":
+		#		if not get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).is_visible():
+		#			get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).show()
+		#		get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX/AMOUNT_LEFT_LABEL")).text = str("Amount Left: ", hmls.AMOUNT_LEFT)
+		#	_:
+		#		if get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).is_visible():
+		#			get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).hide()
 		return
 
 func _on_signal_level_start():
 	TIMER = 0
 	top_bar("reset")
+
+func side_bar(MODE):
+	var TIMER_NODE = $side_bar/VBoxContainer/timer_node
+	var TIMER_LABEL = $side_bar/VBoxContainer/timer_node/cent/marg/cent/timer_label
+	var KEY_COUNT_NODE = $side_bar/VBoxContainer/key_count_node
+	var KEY_COUNT_LABEL = $side_bar/VBoxContainer/key_count_node/cent/marg/crect/vbox/cent/key_count_label
+	var AMOUNT_LEFT_NODE = $side_bar/VBoxContainer/amount_left_node
+	var AMOUNT_LEFT_LABEL = $side_bar/VBoxContainer/amount_left_node/cent/marg/crect/cent/amount_left_label
+	if MODE == "reset":
+		if hmls.PAUSE == false:
+			TIMER_LABEL.text = str("000")
+			TIMER_LABEL.add_theme_font_override("font", FONT_2)
+			TIMER_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
+			TIMER_LABEL.set("theme_override_colors/font_color",hmls.get_default("COLOR_BLACK"))
+			KEY_COUNT_LABEL.text = str("0/0")
+			KEY_COUNT_LABEL.add_theme_font_override("font", FONT_2)
+			KEY_COUNT_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
+			KEY_COUNT_LABEL.set("theme_override_colors/font_color",hmls.get_default("COLOR_BLACK"))
+			AMOUNT_LEFT_LABEL.text = str("0")
+			AMOUNT_LEFT_LABEL.add_theme_font_override("font", FONT_2)
+			AMOUNT_LEFT_LABEL.add_theme_font_size_override("font_size", 60)
+			AMOUNT_LEFT_LABEL.set("theme_override_colors/font_color",hmls.get_default("COLOR_BLACK"))
+			print("side bar reset")
+	elif MODE == "update":
+		TIMER_HUD = int(TIMER)
+		var TEMP_TIMER = TIMER_HUD
+		if TIMER_HUD < 1000:
+			TEMP_TIMER = str("0", TIMER_HUD)
+		if TIMER_HUD < 100:
+			TEMP_TIMER = str("00", TIMER_HUD)
+		if TIMER_HUD < 10:
+			TEMP_TIMER = str("000", TIMER_HUD)
+		TIMER_LABEL.text = TEMP_TIMER
+		KEY_COUNT_LABEL.text = str(hmls.KEY_COUNT,"/",hmls.KEY_COUNT_TOTAL)
+		match hmls.GAME_MODE:
+			"Classic":
+				if not AMOUNT_LEFT_NODE.is_visible():
+					AMOUNT_LEFT_NODE.show()
+				AMOUNT_LEFT_LABEL.text = str(hmls.AMOUNT_LEFT)
+			_:
+				if AMOUNT_LEFT_NODE.is_visible():
+					AMOUNT_LEFT_NODE.hide()
 
 func _ready():
 	hmls.signal_level_start.connect(_on_signal_level_start)
@@ -161,6 +203,7 @@ func _ready():
 	KEYBINDS_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
 	KEYBINDS_LABEL.text = KEYBINDS_TEXT
 	top_bar("reset")
+	side_bar("reset")
 
 var LABEL_OFFSET = Vector2(10,10)
 
@@ -174,6 +217,7 @@ func _process(delta):
 	if hmls.PAUSE == false:
 		TIMER += delta
 	top_bar("update")
+	side_bar("update")
 	if Input.is_action_just_pressed("menu_button"):
 		if MENU_NODE.is_visible_in_tree():
 			MENU_NODE.hide()
