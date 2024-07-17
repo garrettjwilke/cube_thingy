@@ -41,8 +41,24 @@ func _ready():
 	hmls.emit_signal("signal_level_start")
 	#hmls.spawn_final_orb(Vector3(5,1,8),hmls.get_default("COLOR_YELLOW"))
 
+var rotation_count = 0
+func rotate_skybox():
+	var speed = 0.00015
+	rotation_count += 0.01
+	if rotation_count < 4:
+		$WorldEnvironment.environment.sky_rotation.x += speed
+		$WorldEnvironment.environment.sky_rotation.y -= speed
+		$WorldEnvironment.environment.sky_rotation.z += speed
+	if rotation_count > 4:
+		$WorldEnvironment.environment.sky_rotation.x += speed * 2
+		$WorldEnvironment.environment.sky_rotation.y -= speed * 2
+		$WorldEnvironment.environment.sky_rotation.z += speed * 2
+	if rotation_count > 8:
+		rotation_count = 0
+
 var COLOR_CYCLE = 0
 func _process(delta):
+	rotate_skybox()
 	if Input.is_action_just_pressed("ui_undo"):
 		if hmls.ENABLE_SHADERS:
 			hmls.ENABLE_SHADERS = false
@@ -57,9 +73,9 @@ func _process(delta):
 			$Camera3D/shader_mobius.hide()
 			$Camera3D/DirectionalLight3D.light_energy = 0.75
 	if Input.is_action_just_pressed("CAM_ROTATE_LEFT"):
-		rotate_view(1)
-	if Input.is_action_just_pressed("CAM_ROTATE_RIGHT"):
 		rotate_view(-1)
+	if Input.is_action_just_pressed("CAM_ROTATE_RIGHT"):
+		rotate_view(1)
 	match hmls.ROTATION_COUNT:
 		1:
 			cam_offset = Vector3(3, 8, 5)

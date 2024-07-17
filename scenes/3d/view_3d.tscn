@@ -1,19 +1,31 @@
-[gd_scene load_steps=17 format=3 uid="uid://d0qkbl33uofmb"]
+[gd_scene load_steps=18 format=3 uid="uid://d0qkbl33uofmb"]
 
 [ext_resource type="Script" path="res://scripts/view_3d.gd" id="1_wpaoh"]
+[ext_resource type="Shader" path="res://scripts/sky_stars.gdshader" id="2_3vjy3"]
 [ext_resource type="PackedScene" uid="uid://c5a2v6m2bufp0" path="res://scenes/3d/cube_3d.tscn" id="2_x1n4d"]
 [ext_resource type="Shader" path="res://scripts/grid.gdshader" id="4_eakim"]
 [ext_resource type="Shader" path="res://scripts/mobius.gdshader" id="5_hvqdt"]
 [ext_resource type="ArrayMesh" uid="uid://khps4w87p745" path="res://assets/meshes/shop_01.obj" id="5_kw8ap"]
 [ext_resource type="ArrayMesh" uid="uid://c5s26t4lib4sm" path="res://assets/meshes/building_01.obj" id="6_l0u5q"]
 
-[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_m7yul"]
-sky_top_color = Color(0.290196, 0.447059, 0.701961, 1)
-sky_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
-ground_horizon_color = Color(0.64625, 0.65575, 0.67075, 1)
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o1qub"]
+shader = ExtResource("2_3vjy3")
+shader_parameter/color_1 = Color(0.42, 0.333, 0.612, 1)
+shader_parameter/color_2 = Color(0.518, 0.31, 0.129, 1)
+shader_parameter/exponent_factor_top = 1.0
+shader_parameter/exponent_factor_bottom = 1.0
+shader_parameter/intensity_amp = 1.0
+shader_parameter/star_base_color = Color(0.972549, 0.823529, 0, 1)
+shader_parameter/star_hue_offset = 0.686
+shader_parameter/star_intensity = 0.1
+shader_parameter/star_twinkle_speed = 0.8
+shader_parameter/star_twinkle_intensity = 0.2
+shader_parameter/layer_scale = 20.0
+shader_parameter/layer_scale_step = 10.0
+shader_parameter/layers_count = 3
 
 [sub_resource type="Sky" id="Sky_a60fu"]
-sky_material = SubResource("ProceduralSkyMaterial_m7yul")
+sky_material = SubResource("ShaderMaterial_o1qub")
 
 [sub_resource type="Environment" id="Environment_gyr2i"]
 background_mode = 2
@@ -113,6 +125,7 @@ mesh = SubResource("PlaneMesh_bv4is")
 
 [node name="grass" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.5, 0, 0, 0, 0.5, 0, 0, 0, 0.5, -1, -0.1, -1)
+visible = false
 mesh = SubResource("PlaneMesh_iidm3")
 
 [node name="floor" type="MeshInstance3D" parent="."]
@@ -122,8 +135,10 @@ mesh = SubResource("PlaneMesh_l0mnd")
 
 [node name="Shop01" type="MeshInstance3D" parent="."]
 transform = Transform3D(-0.0992546, 3.03681e-17, -0.0121869, 3.48787e-17, 0.1, -3.48787e-17, 0.0121869, -3.88693e-17, -0.0992546, 3.90509, 2.86102e-06, 0.0951409)
+visible = false
 mesh = ExtResource("5_kw8ap")
 
 [node name="Building01" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.3, 0, 0, 0, 0.3, 0, 0, 0, 0.3, -4.48819, 0, 3.44765)
+visible = false
 mesh = ExtResource("6_l0u5q")

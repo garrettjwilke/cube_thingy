@@ -67,7 +67,7 @@ func match_orientation(input):
 func fake_roll(dir):
 	if rolling:
 		#CAN_ROLL = "false"
-		return "false"
+		return false
 	rolling = true
 	# create a FAKE_PIVOT mesh
 	var FAKE_PIVOT = Node3D.new()
@@ -108,11 +108,11 @@ func fake_roll(dir):
 	rolling = false
 	# if the color of the tile we are trying to move into is the same as what our cube will be
 	if FUTURE_ORIENTATION_COLOR == CHECK_TILE[1]:
-		return "true"
+		return true
 	else:
 		hmls.sound_effect("illegal")
 		hmls.debug_message("cube_3d.gd - fake_roll() - CHECK_COLOR",CHECK_TILE,2)
-		return "false"
+		return false
 
 func roll(dir):
 	# Do nothing if we're currently rolling.
@@ -164,7 +164,7 @@ func reset_pos():
 	scale = Vector3(0.01,0.01,0.01)
 	hmls.PAUSE = true
 	var tween2 = create_tween()
-	tween2.tween_property(self,"scale",Vector3(1,1,1),1.2)
+	tween2.tween_property(self,"scale",Vector3(1,1,1),0.9)
 	await tween2.finished
 	hmls.PAUSE = false
 	#var tween2 = create_tween()
@@ -282,7 +282,7 @@ func _physics_process(_delta):
 				hmls.sound_effect("illegal")
 				return
 		var CAN_ROLL = await fake_roll(DIR)
-		if CAN_ROLL == "false":
+		if CAN_ROLL == false:
 			return
 		hmls.attribute_stuffs(Vector2(hmls.CUBE_POSITION.x + DIR.x, hmls.CUBE_POSITION.y + DIR.z))
 		roll(DIR)

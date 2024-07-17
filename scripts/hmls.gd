@@ -126,7 +126,7 @@ func floor_check(pos_x, pos_y):
 			debug_message("hmls.gd - floor_check() - couldn't find node",str("VIEW_3D/",NODE_NAME),2)
 			return "stop"
 	# if cube passes check, get the color of the next tile it is rolling into
-	NEXT_COLOR = LEVEL_MATRIX[pos_y][pos_x]
+	NEXT_COLOR = CURRENT_LEVEL[pos_y][pos_x]
 	#print(NEXT_COLOR)
 	return NEXT_COLOR
 
@@ -412,7 +412,6 @@ func tile_spawn(x, y, cell):
 	CURRENT_TILE.name = str(x,"x",y)
 	CURRENT_TILE.scale = Vector3(TILE_SCALE, TILE_HEIGHT, TILE_SCALE)
 	CURRENT_TILE.position = Vector3(x, -(TILE_HEIGHT / 2 + 0.03), y)
-	await scale_thingy(CURRENT_TILE,0.4)
 	match ATTRIBUTE:
 		"start_position":
 			pass
@@ -424,6 +423,7 @@ func tile_spawn(x, y, cell):
 			spawn_bomb(COLOR, CURRENT_TILE.name)
 		"detonator":
 			spawn_detonator(x,y,COLOR)
+	await scale_thingy(CURRENT_TILE,0.4)
 
 signal signal_detonator(COLOR)
 
@@ -475,6 +475,8 @@ func update_tiles(MODE):
 		LEVEL_RESOLUTION = Vector2(0,0)
 		KEY_COUNT = 0
 		KEY_COUNT_TOTAL = 0
+		LAST_CELL = ""
+		SPHERE_COUNT = 0
 		return
 	load_level()
 	# spawn all tiles in LEVEL_MATRIX
@@ -696,12 +698,12 @@ func _ready():
 	#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED) 
 	update_level(1)
 
-var COUNT = 0
+var SPHERE_COUNT = 0
 func _process(_delta):
 	if IS_READY == true:
 		if AMOUNT_LEFT == 0:
-			COUNT += 1
-			if COUNT == 1:
+			SPHERE_COUNT += 1
+			if SPHERE_COUNT == 1:
 				var rng_spawn = Vector2(rng(0,LEVEL_RESOLUTION.x),rng(0,LEVEL_RESOLUTION.y))
 				spawn_final_orb(Vector3(rng_spawn.x,0.5,rng_spawn.y),get_cell_data(str(rng(2,7),0))[0])
 	if PAUSE:
