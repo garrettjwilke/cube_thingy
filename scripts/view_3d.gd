@@ -21,15 +21,46 @@ func rotate_view(input):
 	elif input == 0:
 		ROTATION_DEGREES = 0
 	cam_rotation.y += ROTATION_DEGREES
-	#if cam_rotation.y > 270:
-	#	cam_rotation.y = 0
-	#	$Camera3D.rotation_degrees.y = -90
-	#if cam_rotation.y < 0:
-	#	$Camera3D.rotation_degrees.y = 360
-	#	cam_rotation.y = 270
-	#cam_rotation.z = hmls.rng(-2,6)
+
+var rotation_count = 0
+var SKYBOX = 1
+var previous_skybox = SKYBOX
+var SKYBOX_COLOR_1 = Color.from_hsv(0.4,0.5,1.0,1.0)
+var SKYBOX_COLOR_2 = Color.from_hsv(0.4,0.5,1.0,1.0)
+var SKYBOX_COLOR_3 = Color.from_hsv(0.4,0.5,1.0,1.0)
+var SKYBOX_COLOR_4 = SKYBOX_COLOR_1
+func rotate_skybox():
+	if SKYBOX == 2:
+		$WorldEnvironment.environment.sky.sky_material.set_sky_top_color(SKYBOX_COLOR_1)
+		$WorldEnvironment.environment.sky.sky_material.set_sky_horizon_color(SKYBOX_COLOR_2)
+		$WorldEnvironment.environment.sky.sky_material.set_ground_bottom_color(SKYBOX_COLOR_3)
+		$WorldEnvironment.environment.sky.sky_material.set_ground_horizon_color(SKYBOX_COLOR_4)
+	var speed = 0.00015
+	rotation_count += 0.01
+	if rotation_count < 4:
+		$WorldEnvironment.environment.sky_rotation.x += speed
+		$WorldEnvironment.environment.sky_rotation.y -= speed
+		$WorldEnvironment.environment.sky_rotation.z -= speed
+	if rotation_count > 4:
+		$WorldEnvironment.environment.sky_rotation.x += speed * 2
+		$WorldEnvironment.environment.sky_rotation.y -= speed * 2
+		$WorldEnvironment.environment.sky_rotation.z -= speed * 2
+	if rotation_count > 8:
+		rotation_count = 0
+
+func set_skybox(SKYBOX_NUMBER):
+	if SKYBOX_NUMBER == 1:
+		SKYBOX = 1
+		$WorldEnvironment.environment.sky = load("res://assets/textures/skybox.tres")
+	elif SKYBOX_NUMBER == 2:
+		SKYBOX = 2
+		$WorldEnvironment.environment.sky = load("res://assets/textures/skybox_02.tres")
+	else:
+		SKYBOX = 1
+		$WorldEnvironment.environment.sky = load("res://assets/textures/skybox.tres")
 
 func _ready():
+	set_skybox(1)
 	if hmls.OS_CHECK == "mobile":
 		hmls.ENABLE_SHADERS = false
 	rotate_view(0)
@@ -40,21 +71,6 @@ func _ready():
 	hmls.update_cube_position(Vector2(CUBE.position.x, CUBE.position.z))
 	hmls.emit_signal("signal_level_start")
 	#hmls.spawn_final_orb(Vector3(5,1,8),hmls.get_default("COLOR_YELLOW"))
-
-var rotation_count = 0
-func rotate_skybox():
-	var speed = 0.00015
-	rotation_count += 0.01
-	if rotation_count < 4:
-		$WorldEnvironment.environment.sky_rotation.x += speed
-		$WorldEnvironment.environment.sky_rotation.y -= speed
-		$WorldEnvironment.environment.sky_rotation.z += speed
-	if rotation_count > 4:
-		$WorldEnvironment.environment.sky_rotation.x += speed * 2
-		$WorldEnvironment.environment.sky_rotation.y -= speed * 2
-		$WorldEnvironment.environment.sky_rotation.z += speed * 2
-	if rotation_count > 8:
-		rotation_count = 0
 
 var COLOR_CYCLE = 0
 func _process(delta):

@@ -1,0 +1,20 @@
+[gd_resource type="Sky" load_steps=3 format=3 uid="uid://b48cm0xg27jvg"]
+
+[ext_resource type="Shader" path="res://scripts/sky_stars.gdshader" id="1_8ns01"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_o1qub"]
+shader = ExtResource("1_8ns01")
+shader_parameter/color_1 = Color(0.42, 0.333, 0.612, 1)
+shader_parameter/color_2 = Color(0.518, 0.31, 0.129, 1)
+shader_parameter/exponent_factor_top = 1.0
+shader_parameter/exponent_factor_bottom = 1.0
+shader_parameter/intensity_amp = 1.0
+shader_parameter/star_base_color = Color(0.972549, 0.823529, 0, 1)
+shader_parameter/star_hue_offset = 0.23
+shader_parameter/star_intensity = 0.112
+shader_parameter/layer_scale = 20.0
+shader_parameter/layer_scale_step = 10.0
+shader_parameter/layers_count = 3
+
+[resource]
+sky_material = SubResource("ShaderMaterial_o1qub")

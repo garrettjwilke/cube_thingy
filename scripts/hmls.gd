@@ -358,14 +358,27 @@ func spawn_detonator(x,y,COLOR):
 	get_node(str("VIEW_3D/",x,"x",y)).mesh.surface_set_material(0, floor_material)
 
 func spawn_final_orb(position,COLOR):
+	var static_mesh = StaticBody3D.new()
+	get_node("VIEW_3D").add_child(static_mesh)
 	var finish_orb_mesh = MeshInstance3D.new()
 	finish_orb_mesh.name = "finish_orb_mesh"
 	finish_orb_mesh.mesh = SphereMesh.new()
 	finish_orb_mesh.mesh.radius = 0.5
 	finish_orb_mesh.mesh.resource_local_to_scene = true
 	finish_orb_mesh.scale = Vector3(0.8,0.8,0.8)
+	print(position)
 	finish_orb_mesh.position = position
-	get_node("VIEW_3D").add_child(finish_orb_mesh)
+	static_mesh.add_child(finish_orb_mesh)
+	var collision = CollisionShape3D.new()
+	collision.shape = BoxShape3D.new()
+	collision.position = finish_orb_mesh.position
+	finish_orb_mesh.add_child(collision)
+	var fake_mesh = MeshInstance3D.new()
+	fake_mesh.mesh = BoxMesh.new()
+	fake_mesh.position = collision.position
+	fake_mesh.position.y += 2
+	collision.add_child(fake_mesh)
+	print(fake_mesh.position)
 	var subviewport = load("res://assets/textures/marble_subviewport.tscn").instantiate()
 	finish_orb_mesh.add_child(subviewport)
 	var new_mat = StandardMaterial3D.new()

@@ -1,9 +1,10 @@
 shader_type sky;
 render_mode disable_fog;
+render_mode use_quarter_res_pass;
 // Comment this if you don't want to use star twinke. However, if you do want to keep it,
 // I suggest you to set the sky process mode to High-Quality Incremental or Real-Time,
 // as star twinkling may greatly impact performance.
-#define USE_TWINKLE
+//#define USE_TWINKLE
 
 group_uniforms sky;
 
@@ -18,10 +19,10 @@ group_uniforms stars;
 uniform vec3 star_base_color: source_color = vec3(0.8, 1.0, 0.3);
 uniform float star_hue_offset: hint_range(0., 1.) = 0.6;
 uniform float star_intensity: hint_range(0., 0.2) = 0.08;
-#ifdef USE_TWINKLE
-uniform float star_twinkle_speed: hint_range(0.0, 2.0) = 0.8;
-uniform float star_twinkle_intensity: hint_range(0.0, 1.0) = 0.2;
-#endif
+//#ifdef USE_TWINKLE
+//uniform float star_twinkle_speed: hint_range(0.0, 2.0) = 0.8;
+//uniform float star_twinkle_intensity: hint_range(0.0, 1.0) = 0.2;
+//#endif
 
 group_uniforms layers;
 uniform float layer_scale: hint_range(0., 60.) = 20.;
@@ -113,16 +114,15 @@ void sky() {
 		
 		vec3 rand = hash(vec3(layer.y));
 		
-		#ifdef USE_TWINKLE
-			float twinkle = sin(TIME * PI * star_twinkle_speed + rand.x * TAU);
-			twinkle *= star_twinkle_intensity;
-			float star = smoothstep(star_intensity + star_intensity * twinkle, 0., layer.x);
-		#else
-			float star = smoothstep(star_intensity, 0., layer.x);
-		#endif
+		//#ifdef USE_TWINKLE
+		//	float twinkle = sin(TIME * PI * star_twinkle_speed + rand.x * TAU);
+		//	twinkle *= star_twinkle_intensity;
+		//	float star = smoothstep(star_intensity + star_intensity * twinkle, 0., layer.x);
+		//#else
+		float star = smoothstep(star_intensity, 0., layer.x);
+		//#endif
 		
-		vec3 star_color = star * hue((COLOR + star_base_color), rand.y * star_hue_offset, 1);
-		
+		vec3 star_color = star * hue((COLOR + star_base_color), rand.x * star_hue_offset, 1);
 		COLOR += star_color;
 	}
 }
