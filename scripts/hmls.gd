@@ -194,10 +194,28 @@ func rng(MIN, MAX):
 	number = number.randi_range(MIN, MAX)
 	return number
 
+var LEVEL_COUNTER = 0
+func json_counter():
+	LEVEL_COUNTER = 0
+	var dir = DirAccess.open("res://levels")
+	if dir:
+		dir.list_dir_begin()
+		var file_name = dir.get_next()
+		while file_name != "":
+			if not dir.current_is_dir():
+				if file_name.get_extension() == "json":
+					LEVEL_COUNTER += 1
+					#print("Found file: " + file_name)
+			file_name = dir.get_next()
+
 # starting level
 var LEVEL = 0
+var amount_of_levels = 1
 func update_level(amount):
 	LEVEL += amount
+	json_counter()
+	if LEVEL < 1:
+		LEVEL = LEVEL_COUNTER
 	#CURRENT_LEVEL = []
 	START_POSITION = Vector2(0,0)
 	KEY_COUNT = 0
@@ -358,6 +376,9 @@ func spawn_detonator(x,y,COLOR):
 	get_node(str("VIEW_3D/",x,"x",y)).mesh.surface_set_material(0, floor_material)
 
 func spawn_final_orb(position,COLOR):
+	if LEVEL_MATRIX == []:
+		print("wtf")
+		return
 	var static_mesh = StaticBody3D.new()
 	get_node("VIEW_3D").add_child(static_mesh)
 	var finish_orb_mesh = MeshInstance3D.new()
@@ -451,11 +472,13 @@ func load_level():
 	# check if the level exists and load it as LEVEL_MATRIX
 	var LEVEL_STRING = str("res://levels/LEVEL_", LEVEL, ".json")
 	if not FileAccess.file_exists(LEVEL_STRING):
-		LEVEL_NAME = str("Name: ",get_default("LEVEL_NAME"))
-		LEVEL_MATRIX = get_default("LEVEL_MATRIX")
-		GAME_MODE = get_default("GAME_MODE")
-		LEVEL = 0
-		GAME_DIFFICULTY = get_default("GAME_DIFFICULTY")
+		#LEVEL_NAME = str("Name: ",get_default("LEVEL_NAME"))
+		#LEVEL_MATRIX = get_default("LEVEL_MATRIX")
+		#GAME_MODE = get_default("GAME_MODE")
+		LEVEL = 1
+		load_level()
+		return
+		#GAME_DIFFICULTY = get_default("GAME_DIFFICULTY")
 	else:
 		var file = FileAccess.open(LEVEL_STRING, FileAccess.READ)
 		var level_data = JSON.parse_string(file.get_as_text())
@@ -468,9 +491,11 @@ func load_level():
 				if CHARACTER_COUNT > 48:
 					LEVEL_NAME = "name too long"
 		else:
-			LEVEL_NAME = "no name"
+			LEVEL_NAME = str("unnamed_level_",rng(0,9999))
 		if level_data.has("LEVEL_MATRIX"):
 			LEVEL_MATRIX = level_data.LEVEL_MATRIX
+			if LEVEL_MATRIX == []:
+				LEVEL_MATRIX = get_default("LEVEL_MATRIX")
 		else:
 			LEVEL_MATRIX = get_default("LEVEL_MATRIX")
 		if level_data.has("GAME_MODE"):

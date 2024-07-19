@@ -83,11 +83,11 @@ func _process(delta):
 	if hmls.ENABLE_SHADERS:
 		if not $Camera3D/shader_mobius.is_visible():
 			$Camera3D/shader_mobius.show()
-			$Camera3D/DirectionalLight3D.light_energy = 1.0
+			$Camera3D/DirectionalLight3D.light_energy = 2.5
 	else:
 		if $Camera3D/shader_mobius.is_visible():
 			$Camera3D/shader_mobius.hide()
-			$Camera3D/DirectionalLight3D.light_energy = 0.75
+			$Camera3D/DirectionalLight3D.light_energy = 1.5
 	if Input.is_action_just_pressed("CAM_ROTATE_LEFT"):
 		rotate_view(-1)
 	if Input.is_action_just_pressed("CAM_ROTATE_RIGHT"):
@@ -108,16 +108,17 @@ func _process(delta):
 	$Camera3D.position = lerp($Camera3D.position, $Cube.position + cam_offset, cam_speed * delta)
 	$Camera3D.rotation_degrees = lerp($Camera3D.rotation_degrees, cam_rotation, (cam_speed + 1) * delta)
 	if hmls.OS_CHECK == "desktop":
-		if not $OmniLight3D.is_visible:
-			$OmniLight3D.show()
-		$OmniLight3D.position = lerp($OmniLight3D.position, $Cube.position + Vector3(0,2,0), (cam_speed + 6) * delta)
-		$OmniLight3D.omni_range = 8
-		$OmniLight3D.light_energy = 2
-		$OmniLight3D.light_size = 0.5
-		COLOR_CYCLE += 0.001
-		if COLOR_CYCLE > 1.0:
-			COLOR_CYCLE = 0
-		$OmniLight3D.light_color = Color.from_hsv(COLOR_CYCLE,0.8,1.0,1.0)
+		pass
+		#if not $OmniLight3D.is_visible:
+		#	$OmniLight3D.show()
+		#$OmniLight3D.position = lerp($OmniLight3D.position, $Cube.position + Vector3(0,2,0), (cam_speed + 6) * delta)
+		#$OmniLight3D.omni_range = 8
+		#$OmniLight3D.light_energy = 2
+		#$OmniLight3D.light_size = 0.5
+		#COLOR_CYCLE += 0.001
+		#if COLOR_CYCLE > 1.0:
+		#	COLOR_CYCLE = 0
+		#$OmniLight3D.light_color = Color.from_hsv(COLOR_CYCLE,0.8,1.0,1.0)
 	else:
 		hmls.ENABLE_SHADERS = false
 		if $OmniLight3D.is_visible():

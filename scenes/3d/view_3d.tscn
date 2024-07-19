@@ -74,6 +74,7 @@ far = 100.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
 transform = Transform3D(0.511465, -0.601974, 0.613213, 0.681239, 0.719008, 0.137627, -0.523753, 0.347354, 0.777836, 2.56992, 1.65027, -3.63865)
+light_energy = 3.0
 shadow_enabled = true
 directional_shadow_split_1 = 0.2
 directional_shadow_split_2 = 0.3

@@ -14,6 +14,7 @@ config/name="cube_thingy"
 run/main_scene="res://scenes/3d/game_base.tscn"
 config/custom_user_dir_name="cube_thingy"
 config/features=PackedStringArray("4.2", "Forward Plus")
+boot_splash/bg_color=Color(0.513726, 0.513726, 0.513726, 1)
 boot_splash/show_image=false
 config/icon="res://assets/textures/icon.png"
 
@@ -133,3 +134,4 @@ game_mode_key={
 textures/canvas_textures/default_texture_filter=0
 textures/vram_compression/import_etc2_astc=true
 textures/decals/filter=0
+environment/defaults/default_clear_color=Color(0.266667, 0.494118, 0.537255, 1)

@@ -1,0 +1,130 @@
+[gd_scene load_steps=5 format=3 uid="uid://g0rbkm8q06s6"]
+
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_5p3yr"]
+[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_xfdwt"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q85ov"]
+texture = ExtResource("2_xfdwt")
+texture_region_size = Vector2i(128, 128)
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+8:0/0 = 0
+9:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:1/0 = 0
+9:3/0 = 0
+9:4/0 = 0
+1:2/0 = 0
+1:4/0 = 0
+0:0/0 = 0
+1:0/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+4:9/0 = 0
+5:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+8:9/0 = 0
+9:9/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_3cyw7"]
+tile_size = Vector2i(128, 128)
+terrain_set_0/mode = 0
+sources/0 = SubResource("TileSetAtlasSource_q85ov")
+
+[node name="LEVEL_NUM_HERE" type="Node2D"]
+script = ExtResource("1_5p3yr")
+
+[node name="blue_box" type="ColorRect" parent="."]
+offset_left = -368.0
+offset_top = -72.0
+offset_right = -16.0
+offset_bottom = -8.0
+color = Color(0.203922, 0.352941, 0.501961, 1)
+
+[node name="vbox" type="VBoxContainer" parent="blue_box"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="blue_box/vbox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="blue_box/vbox/HBoxContainer"]
+layout_mode = 2
+text = "Level Name:  "
+
+[node name="ColorRect" type="ColorRect" parent="blue_box/vbox"]
+custom_minimum_size = Vector2(2.08165e-12, 5)
+layout_mode = 2
+color = Color(1, 1, 1, 0)
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="blue_box/vbox"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="blue_box/vbox/HBoxContainer2"]
+layout_mode = 2
+text = "Game Mode: "
+
+[node name="level_name" type="Label" parent="."]
+offset_left = -260.0
+offset_top = -72.0
+offset_right = -259.0
+offset_bottom = -49.0
+
+[node name="game_mode" type="Label" parent="."]
+offset_left = -262.0
+offset_top = -36.0
+offset_right = -210.0
+offset_bottom = -13.0
+text = "Classic"
+
+[node name="LEVEL_MATRIX" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_3cyw7")
+format = 2
+
+[node name="out_of_bounds_left" type="ColorRect" parent="."]
+offset_left = -568.0
+offset_top = 6.0
+offset_right = -10.0
+offset_bottom = 4288.0
+color = Color(1, 0.247059, 0.435294, 1)
+
+[node name="out_of_bounds_top" type="ColorRect" parent="."]
+offset_left = 8.0
+offset_top = -512.0
+offset_right = 4920.0
+offset_bottom = -8.0
+color = Color(1, 0.247059, 0.435294, 1)
