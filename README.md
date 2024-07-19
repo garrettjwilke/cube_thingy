@@ -14,8 +14,6 @@ TODO:
 
 * create animations for cube entering/exiting level
 
-* make a level editor
-
 * clean shit up
 	
 ---
