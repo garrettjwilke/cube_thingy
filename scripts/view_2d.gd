@@ -6,10 +6,11 @@ var STATS_COLOR = "#9879a3"
 var TOP_CONTAINER = str("top_bar/CenterContainer/", LEVEL_INFO_NAME)
 var BOTTOM_CONTAINER = str("bottom_bar/CenterContainer/", STATS_NODE_NAME)
 var LEFT_BOX = "left_box/CenterContainer"
-@onready var KEYBINDS_LABEL = $menu/CenterContainer/MarginContainer/VBoxContainer/keybinds/keybinds_label
-@onready var KEYBINDS_BOX = $menu/CenterContainer/MarginContainer/VBoxContainer/keybinds/ColorRect
-@onready var TABS_LABEL = $menu/CenterContainer/MarginContainer/VBoxContainer/tabs/Label
-
+@onready var TAB_GAME = $menu/center/marg/vbox/tabs/hbox/game_options/texture/center/Label
+@onready var TAB_VIDEO = $menu/center/marg/vbox/tabs/hbox/video_options/texture/center/Label
+@onready var TAB_AUDIO = $menu/center/marg/vbox/tabs/hbox/audio_options/texture/center/Label
+@onready var TAB_CONTROLS = $menu/center/marg/vbox/tabs/hbox/controls_options/texture/center/Label
+@onready var KEYBINDS_LABEL = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/controls/Label
 
 # set the tile size for the 2d tiles
 var TILE_SIZE_2D = 16
@@ -38,6 +39,14 @@ func set_font():
 		"6":
 			FONT_1 = load("res://assets/fonts/overpass-mono-bold.otf")
 			FONT_2 = load("res://assets/fonts/overpass-mono-regular.otf")
+	TAB_GAME.add_theme_font_override("font", FONT_2)
+	TAB_GAME.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
+	TAB_VIDEO.add_theme_font_override("font", FONT_2)
+	TAB_VIDEO.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
+	TAB_AUDIO.add_theme_font_override("font", FONT_2)
+	TAB_AUDIO.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
+	TAB_CONTROLS.add_theme_font_override("font", FONT_2)
+	TAB_CONTROLS.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
 var FONT_SIZE_BIG = 28
 var FONT_SIZE_SMALL = 16
 var BOX_OFFSET = Vector2(16,16)
@@ -53,7 +62,33 @@ Rotate Cam Right:    E
 Invert Cube:         I
 Fullscreen Toggle:   F
   - (only works if this menu is showing)
-	- for some reason it requires you to press it twice."
+	- for some reason it requires you to press it twice.
+
+-----------------------
+
+scroll test
+check
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+"
 
 func spawn_info_node(NAME, COLOR, LOCATION, STRING):
 	if LOCATION == "top":
@@ -107,20 +142,6 @@ func spawn_menu_items():
 	NODE_NAME = "MODE"
 	LOCATION = "top"
 	spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,str("Mode: " ,hmls.GAME_MODE))
-	# add timer container
-	#NODE_NAME = "TIMER"
-	#LOCATION = "bottom"
-	#spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,"Timer: 000")
-	#get_node(str(BOTTOM_CONTAINER,"/TIMER_BOX")).position += Vector2(8,8)
-	#TIMER_HUD = 0
-	# add key count container
-	#NODE_NAME = "KEY_COUNT"
-	#LOCATION = "bottom"
-	#spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,str("Keys: " ,hmls.KEY_COUNT))
-	# add amount left node
-	#NODE_NAME = "AMOUNT_LEFT"
-	#LOCATION = "bottom"
-	#spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,"Amount Left: 00")
 
 var TIMER_HUD = 0
 func top_bar(MODE):
@@ -130,22 +151,6 @@ func top_bar(MODE):
 	if MODE == "update":
 		if hmls.PAUSE == false:
 			pass
-			#TIMER_HUD = int(TIMER)
-			#var TEMP_TIMER = TIMER_HUD
-			#if TIMER_HUD < 100:
-			#	TEMP_TIMER = str("0", TIMER_HUD)
-			#if TIMER_HUD < 10:
-			#	TEMP_TIMER = str("00", TIMER_HUD)
-			#get_node(str(BOTTOM_CONTAINER,"/TIMER_BOX/TIMER_LABEL")).text = str("Timer: ", TEMP_TIMER)
-			#get_node(str(BOTTOM_CONTAINER,"/KEY_COUNT_BOX/KEY_COUNT_LABEL")).text = str("Keys: " ,hmls.KEY_COUNT)
-		#match hmls.GAME_MODE:
-		#	"Classic":
-		#		if not get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).is_visible():
-		#			get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).show()
-		#		get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX/AMOUNT_LEFT_LABEL")).text = str("Amount Left: ", hmls.AMOUNT_LEFT)
-		#	_:
-		#		if get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).is_visible():
-		#			get_node(str(BOTTOM_CONTAINER,"/AMOUNT_LEFT_BOX")).hide()
 		return
 
 func _on_signal_level_start():
@@ -206,12 +211,13 @@ func side_bar(MODE):
 					AMOUNT_LEFT_BOX_1.hide()
 
 func _ready():
+	MENU_GAME.show()
 	hmls.signal_level_start.connect(_on_signal_level_start)
 	set_font()
 	hmls.PAUSE = false
 	MENU_NODE.hide()
-	KEYBINDS_LABEL.add_theme_font_override("font", FONT_2)
-	KEYBINDS_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
+	#KEYBINDS_LABEL.add_theme_font_override("font", FONT_2)
+	#KEYBINDS_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_SMALL)
 	KEYBINDS_LABEL.text = KEYBINDS_TEXT
 	top_bar("reset")
 	side_bar("reset")
@@ -220,13 +226,15 @@ var LABEL_OFFSET = Vector2(10,10)
 
 var TIMER = 0
 func _process(delta):
+	if MENU_NODE.is_visible_in_tree():
+		hmls.PAUSE = true
+	if hmls.PAUSE == false:
+		TIMER += delta
 	if Input.is_action_just_pressed("game_mode_key"):
 		if hmls.GAME_DIFFICULTY == "normal":
 			hmls.GAME_DIFFICULTY = "hard"
 		else:
 			hmls.GAME_DIFFICULTY = "normal"
-	if hmls.PAUSE == false:
-		TIMER += delta
 	top_bar("update")
 	side_bar("update")
 	if Input.is_action_just_pressed("menu_button"):
@@ -234,7 +242,31 @@ func _process(delta):
 			MENU_NODE.hide()
 			hmls.PAUSE = false
 		else:
-			KEYBINDS_BOX.color = STATS_COLOR
-			KEYBINDS_BOX.custom_minimum_size = KEYBINDS_LABEL.size + (BOX_OFFSET * 3)
 			MENU_NODE.show()
-			hmls.PAUSE = true
+
+@onready var MENU_GAME = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options
+@onready var MENU_VIDEO = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options
+@onready var MENU_AUDIO = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options
+@onready var MENU_CONTROLS = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/controls
+
+func turn_off_menu():
+	MENU_GAME.hide()
+	MENU_VIDEO.hide()
+	MENU_AUDIO.hide()
+	MENU_CONTROLS.hide()
+
+func _on_game_button_down():
+	turn_off_menu()
+	MENU_GAME.show()
+
+func _on_video_button_down():
+	turn_off_menu()
+	MENU_VIDEO.show()
+
+func _on_audio_button_down():
+	turn_off_menu()
+	MENU_AUDIO.show()
+
+func _on_controls_button_down():
+	turn_off_menu()
+	MENU_CONTROLS.show()

@@ -68,10 +68,8 @@ sources/0 = SubResource("TileSetAtlasSource_q85ov")
 script = ExtResource("1_5p3yr")
 
 [node name="blue_box" type="ColorRect" parent="."]
-offset_left = -368.0
-offset_top = -72.0
-offset_right = -16.0
-offset_bottom = -8.0
+offset_left = -352.0
+offset_top = -64.0
 color = Color(0.203922, 0.352941, 0.501961, 1)
 
 [node name="vbox" type="VBoxContainer" parent="blue_box"]
@@ -99,32 +97,28 @@ layout_mode = 2
 text = "Game Mode: "
 
 [node name="level_name" type="Label" parent="."]
-offset_left = -260.0
-offset_top = -72.0
-offset_right = -259.0
-offset_bottom = -49.0
+offset_left = -244.0
+offset_top = -64.0
+offset_right = -243.0
+offset_bottom = -41.0
 
 [node name="game_mode" type="Label" parent="."]
-offset_left = -262.0
-offset_top = -36.0
-offset_right = -210.0
-offset_bottom = -13.0
+offset_left = -246.0
+offset_top = -28.0
+offset_right = -194.0
+offset_bottom = -5.0
 text = "Classic"
 
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3cyw7")
 format = 2
 
-[node name="out_of_bounds_left" type="ColorRect" parent="."]
-offset_left = -568.0
-offset_top = 6.0
-offset_right = -10.0
-offset_bottom = 4288.0
+[node name="out_of_bounds_top" type="ColorRect" parent="."]
+offset_top = -504.0
+offset_right = 13296.0
 color = Color(1, 0.247059, 0.435294, 1)
 
-[node name="out_of_bounds_top" type="ColorRect" parent="."]
-offset_left = 8.0
-offset_top = -512.0
-offset_right = 4920.0
-offset_bottom = -8.0
+[node name="out_of_bounds_left" type="ColorRect" parent="."]
+offset_left = -558.0
+offset_bottom = 13304.0
 color = Color(1, 0.247059, 0.435294, 1)
