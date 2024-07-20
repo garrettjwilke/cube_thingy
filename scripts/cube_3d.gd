@@ -85,7 +85,7 @@ func fake_roll(dir):
 	#FAKE_PIVOT.translate(dir * cube_size / 2)
 	FAKE_MESH.global_translate(-dir * cube_size / 2)
 	var axis = dir.cross(Vector3.DOWN)
-	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	var tween = create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 	tween.tween_property(FAKE_PIVOT, "transform",FAKE_PIVOT.transform.rotated_local(axis, PI/2), 0)
 	await tween.finished
 	var b = FAKE_MESH.global_transform.basis
@@ -142,7 +142,7 @@ func roll(dir):
 	mesh.global_translate(-dir * cube_size / 2)
 	# Step 2: Animate the rotation.
 	var axis = dir.cross(Vector3.DOWN)
-	var tween = create_tween().set_trans(Tween.TRANS_CUBIC).set_ease(Tween.EASE_IN)
+	var tween = create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
 	tween.tween_property(pivot, "transform",pivot.transform.rotated_local(axis, PI/2), 1 / speed)
 	await tween.finished
 	# Step 3: Finalize the movement and reset the offset.

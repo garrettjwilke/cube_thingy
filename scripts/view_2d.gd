@@ -4,13 +4,17 @@ var LEVEL_INFO_NAME = "LEVEL_INFO"
 var STATS_NODE_NAME = "STATS_CONTAINER"
 var STATS_COLOR = "#9879a3"
 var TOP_CONTAINER = str("top_bar/CenterContainer/", LEVEL_INFO_NAME)
-var BOTTOM_CONTAINER = str("bottom_bar/CenterContainer/", STATS_NODE_NAME)
-var LEFT_BOX = "left_box/CenterContainer"
-@onready var TAB_GAME = $menu/center/marg/vbox/tabs/hbox/game_options/texture/center/Label
-@onready var TAB_VIDEO = $menu/center/marg/vbox/tabs/hbox/video_options/texture/center/Label
-@onready var TAB_AUDIO = $menu/center/marg/vbox/tabs/hbox/audio_options/texture/center/Label
-@onready var TAB_CONTROLS = $menu/center/marg/vbox/tabs/hbox/controls_options/texture/center/Label
-@onready var KEYBINDS_LABEL = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/controls/Label
+var TAB_INACTIVE = preload("res://assets/textures/menu_tab_inactive.tres")
+var TAB_ACTIVE = preload("res://assets/textures/menu_tab_active.tres")
+@onready var TAB_GAME_CONTENT = $menu/center/marg/vbox/box/border/marg/bg/marg/game_options
+@onready var TAB_VIDEO_CONTENT = $menu/center/marg/vbox/box/border/marg/bg/marg/video_options
+@onready var TAB_AUDIO_CONTENT = $menu/center/marg/vbox/box/border/marg/bg/marg/audio_options
+@onready var TAB_CONTROLS_CONTENT = $menu/center/marg/vbox/box/border/marg/bg/marg/controls
+@onready var TAB_GAME_TEXTURE = $menu/center/marg/vbox/tabs/hbox/game_options/texture
+@onready var TAB_VIDEO_TEXTURE = $menu/center/marg/vbox/tabs/hbox/video_options/texture
+@onready var TAB_AUDIO_TEXTURE = $menu/center/marg/vbox/tabs/hbox/audio_options/texture
+@onready var TAB_CONTROLS_TEXTURE = $menu/center/marg/vbox/tabs/hbox/controls_options/texture
+@onready var KEYBINDS_LABEL = $menu/center/marg/vbox/box/border/marg/bg/marg/controls/Label
 
 # set the tile size for the 2d tiles
 var TILE_SIZE_2D = 16
@@ -39,14 +43,6 @@ func set_font():
 		"6":
 			FONT_1 = load("res://assets/fonts/overpass-mono-bold.otf")
 			FONT_2 = load("res://assets/fonts/overpass-mono-regular.otf")
-	TAB_GAME.add_theme_font_override("font", FONT_2)
-	TAB_GAME.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
-	TAB_VIDEO.add_theme_font_override("font", FONT_2)
-	TAB_VIDEO.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
-	TAB_AUDIO.add_theme_font_override("font", FONT_2)
-	TAB_AUDIO.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
-	TAB_CONTROLS.add_theme_font_override("font", FONT_2)
-	TAB_CONTROLS.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
 var FONT_SIZE_BIG = 28
 var FONT_SIZE_SMALL = 16
 var BOX_OFFSET = Vector2(16,16)
@@ -93,10 +89,6 @@ check
 func spawn_info_node(NAME, COLOR, LOCATION, STRING):
 	if LOCATION == "top":
 		LOCATION = TOP_CONTAINER
-	elif LOCATION == "bottom":
-		LOCATION = BOTTOM_CONTAINER
-	elif LOCATION == "left":
-		LOCATION = LEFT_BOX
 	var NEW_ITEM_SLOT = CenterContainer.new()
 	NEW_ITEM_SLOT.name = str(NAME,"_BOX")
 	var NEW_ITEM_BOX = ColorRect.new()
@@ -115,15 +107,11 @@ func spawn_info_node(NAME, COLOR, LOCATION, STRING):
 func spawn_menu_items():
 	if get_node_or_null(TOP_CONTAINER):
 		get_node("top_bar/CenterContainer").remove_child(get_node(TOP_CONTAINER))
-	if get_node_or_null(BOTTOM_CONTAINER):
-		get_node("bottom_bar/CenterContainer").remove_child(get_node(BOTTOM_CONTAINER))
 	# add the top and bottom nodes that everything else will be attached to
 	var new_node = HBoxContainer.new()
 	new_node.name = LEVEL_INFO_NAME
 	get_node("top_bar/CenterContainer").add_child(new_node)
 	new_node = HBoxContainer.new()
-	new_node.name = STATS_NODE_NAME
-	get_node("bottom_bar/CenterContainer").add_child(new_node)
 	# add level name container
 	var NODE_NAME = "LEVEL_NAME"
 	var LOCATION = "top"
@@ -211,13 +199,12 @@ func side_bar(MODE):
 					AMOUNT_LEFT_BOX_1.hide()
 
 func _ready():
-	MENU_GAME.show()
+	TAB_GAME_TEXTURE.texture = TAB_ACTIVE
+	TAB_GAME_CONTENT.show()
 	hmls.signal_level_start.connect(_on_signal_level_start)
 	set_font()
-	hmls.PAUSE = false
+	#hmls.PAUSE = false
 	MENU_NODE.hide()
-	#KEYBINDS_LABEL.add_theme_font_override("font", FONT_2)
-	#KEYBINDS_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_SMALL)
 	KEYBINDS_LABEL.text = KEYBINDS_TEXT
 	top_bar("reset")
 	side_bar("reset")
@@ -244,29 +231,33 @@ func _process(delta):
 		else:
 			MENU_NODE.show()
 
-@onready var MENU_GAME = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options
-@onready var MENU_VIDEO = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options
-@onready var MENU_AUDIO = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options
-@onready var MENU_CONTROLS = $menu/center/marg/vbox/box/border/marg/bg/MarginContainer/controls
-
 func turn_off_menu():
-	MENU_GAME.hide()
-	MENU_VIDEO.hide()
-	MENU_AUDIO.hide()
-	MENU_CONTROLS.hide()
+	TAB_GAME_CONTENT.hide()
+	TAB_GAME_TEXTURE.texture = TAB_INACTIVE
+	TAB_VIDEO_CONTENT.hide()
+	TAB_VIDEO_TEXTURE.texture = TAB_INACTIVE
+	TAB_AUDIO_CONTENT.hide()
+	TAB_AUDIO_TEXTURE.texture = TAB_INACTIVE
+	TAB_CONTROLS_CONTENT.hide()
+	TAB_CONTROLS_TEXTURE.texture = TAB_INACTIVE
 
 func _on_game_button_down():
 	turn_off_menu()
-	MENU_GAME.show()
+	TAB_GAME_CONTENT.show()
+	TAB_GAME_TEXTURE.texture = TAB_ACTIVE
 
 func _on_video_button_down():
 	turn_off_menu()
-	MENU_VIDEO.show()
+	TAB_VIDEO_CONTENT.show()
+	TAB_VIDEO_TEXTURE.texture = TAB_ACTIVE
+	
 
 func _on_audio_button_down():
 	turn_off_menu()
-	MENU_AUDIO.show()
+	TAB_AUDIO_CONTENT.show()
+	TAB_AUDIO_TEXTURE.texture = TAB_ACTIVE
 
 func _on_controls_button_down():
 	turn_off_menu()
-	MENU_CONTROLS.show()
+	TAB_CONTROLS_CONTENT.show()
+	TAB_CONTROLS_TEXTURE.texture = TAB_ACTIVE

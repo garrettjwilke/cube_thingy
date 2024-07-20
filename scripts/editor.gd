@@ -2,11 +2,11 @@ extends Node2D
 
 @onready var LEVEL_MATRIX = $LEVEL_MATRIX
 
-var coords: Array = []
+var LEVEL_JSON: Array = []
 var TEMP_ARRAY: Array = []
 var TEMP_NAME: String
-@onready var LEVEL_NAME = $level_name.text
-@onready var GAME_MODE = $game_mode.text
+@onready var LEVEL_NAME = get_node("DO_NOT_MOVE/LEVEL_NAME").get_child(0).name
+@onready var GAME_MODE = get_node("DO_NOT_MOVE/GAME_MODE").get_child(0).name
 func parse_level():
 	var MAP_SIZE = LEVEL_MATRIX.get_used_rect().size
 	var CURRENT_POSITION = Vector2(0,0)
@@ -20,11 +20,11 @@ func parse_level():
 				TEMP_NAME.right(1) == "9"
 			TEMP_ARRAY.append(TEMP_NAME)
 			CURRENT_POSITION.x += 1
-		coords.append(TEMP_ARRAY)
+		LEVEL_JSON.append(TEMP_ARRAY)
 		TEMP_ARRAY = []
 		CURRENT_POSITION.y += 1
 		CURRENT_POSITION.x = 0
-	#print(coords)
+	#print(LEVEL_JSON)
 
 var COUNTER = 0
 func json_counter():
@@ -41,14 +41,31 @@ func json_counter():
 			file_name = dir.get_next()
 
 func save_json() -> void:
+	if self.name == "level number here":
+		print("ERROR: level number not set")
+		return
 	if LEVEL_NAME == "":
 		print("ERROR: no level name set. exiting")
 		#get_tree().quit()
 		return
-		#LEVEL_NAME = str("unnamed_level_",hmls.rng(0,9999))
-	if coords == []:
-		print("ERROR: no LEVEL_MATRIX_SET")
-	var level_data := {"LEVEL_NAME":LEVEL_NAME,"GAME_MODE":GAME_MODE,"LEVEL_MATRIX":coords}
+	elif LEVEL_NAME == "level name here":
+		print("ERROR: no level name set. exiting")
+		#get_tree().quit()
+		return
+	match GAME_MODE:
+		"Classic":
+			print("game_mode set to Classic")
+		"Puzzle":
+			print("game_mode set to Puzzle")
+		_:
+			print("ERROR: game mode needs to be either Classic or Puzzle.")
+			#get_tree().quit()
+			return
+	if LEVEL_JSON == []:
+		print("ERROR: no LEVEL_MATRIX tiles")
+		#get_tree().quit()
+		return
+	var level_data := {"LEVEL_NAME":LEVEL_NAME,"GAME_MODE":GAME_MODE,"LEVEL_MATRIX":LEVEL_JSON}
 	var level_string := JSON.stringify(level_data)
 	json_counter()
 	var file_name = str("res://levels/",self.name,".json")
@@ -58,6 +75,10 @@ func save_json() -> void:
 		return
 	file_access.store_string(level_string)
 	file_access.close()
+	print("LEVEL_NAME: ", LEVEL_NAME)
+	print("GAME_MODE: ", GAME_MODE)
+	print("level saved to: /levels/",self.name,".json")
+	
 
 func _ready():
 	parse_level()

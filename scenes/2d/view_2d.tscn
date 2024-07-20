@@ -1,9 +1,9 @@
 [gd_scene load_steps=12 format=3 uid="uid://d0kb0m1cengho"]
 
 [ext_resource type="Script" path="res://scripts/view_2d.gd" id="1_0p01i"]
-[ext_resource type="Texture2D" uid="uid://cbxkj58hjlhv0" path="res://assets/textures/menu_tab.png" id="2_8sw4t"]
 [ext_resource type="Texture2D" uid="uid://ikbolnv8ai3v" path="res://assets/textures/hud_timer.png" id="2_pjly5"]
 [ext_resource type="Texture2D" uid="uid://4oi3xuf6gkh5" path="res://assets/textures/hud_key.png" id="3_0mwdg"]
+[ext_resource type="Texture2D" uid="uid://dqptpp18s6m3t" path="res://assets/textures/menu_tab_inactive.tres" id="4_y6pj0"]
 [ext_resource type="FontFile" uid="uid://cxxrj44oufs70" path="res://assets/fonts/lt-saeada-medium.otf" id="5_2fa2u"]
 
 [sub_resource type="ButtonGroup" id="ButtonGroup_3rrsk"]
@@ -32,22 +32,6 @@ layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-
-[node name="bottom_bar" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 1280.0
-offset_bottom = 64.0
-
-[node name="CenterContainer" type="CenterContainer" parent="bottom_bar"]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 656.0
-offset_bottom = 656.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -112,6 +96,8 @@ layout_mode = 2
 
 [node name="timer_label" type="Label" parent="side_bar/CenterContainer/VBoxContainer/timer_node/cent/marg/cent"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_2fa2u")
+theme_override_font_sizes/font_size = 24
 text = "000"
 
 [node name="key_count_node" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer"]
@@ -159,6 +145,8 @@ layout_mode = 2
 
 [node name="key_count_label" type="Label" parent="side_bar/CenterContainer/VBoxContainer/key_count_node/cent/marg/crect/vbox/cent"]
 layout_mode = 2
+theme_override_fonts/font = ExtResource("5_2fa2u")
+theme_override_font_sizes/font_size = 24
 text = "0/0"
 
 [node name="amount_left_node" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer"]
@@ -198,7 +186,9 @@ grow_vertical = 2
 
 [node name="amount_left_label" type="Label" parent="side_bar/CenterContainer/VBoxContainer/amount_left_node/cent/marg/crect/cent"]
 layout_mode = 2
-text = "0/0"
+theme_override_fonts/font = ExtResource("5_2fa2u")
+theme_override_font_sizes/font_size = 45
+text = "00"
 
 [node name="menu" type="Control" parent="."]
 custom_minimum_size = Vector2(1280, 720)
@@ -241,7 +231,7 @@ layout_mode = 2
 
 [node name="texture" type="TextureRect" parent="menu/center/marg/vbox/tabs/hbox/game_options"]
 layout_mode = 2
-texture = ExtResource("2_8sw4t")
+texture = ExtResource("4_y6pj0")
 
 [node name="center" type="CenterContainer" parent="menu/center/marg/vbox/tabs/hbox/game_options/texture"]
 layout_mode = 1
@@ -266,7 +256,7 @@ layout_mode = 2
 
 [node name="texture" type="TextureRect" parent="menu/center/marg/vbox/tabs/hbox/video_options"]
 layout_mode = 2
-texture = ExtResource("2_8sw4t")
+texture = ExtResource("4_y6pj0")
 
 [node name="center" type="CenterContainer" parent="menu/center/marg/vbox/tabs/hbox/video_options/texture"]
 layout_mode = 1
@@ -290,7 +280,7 @@ layout_mode = 2
 
 [node name="texture" type="TextureRect" parent="menu/center/marg/vbox/tabs/hbox/audio_options"]
 layout_mode = 2
-texture = ExtResource("2_8sw4t")
+texture = ExtResource("4_y6pj0")
 
 [node name="center" type="CenterContainer" parent="menu/center/marg/vbox/tabs/hbox/audio_options/texture"]
 layout_mode = 1
@@ -314,7 +304,7 @@ layout_mode = 2
 
 [node name="texture" type="TextureRect" parent="menu/center/marg/vbox/tabs/hbox/controls_options"]
 layout_mode = 2
-texture = ExtResource("2_8sw4t")
+texture = ExtResource("4_y6pj0")
 
 [node name="center" type="CenterContainer" parent="menu/center/marg/vbox/tabs/hbox/controls_options/texture"]
 layout_mode = 1
@@ -362,7 +352,7 @@ theme_override_constants/margin_bottom = 6
 layout_mode = 2
 color = Color(0.533333, 0.54902, 0.690196, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="menu/center/marg/vbox/box/border/marg/bg"]
+[node name="marg" type="MarginContainer" parent="menu/center/marg/vbox/box/border/marg/bg"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -374,34 +364,34 @@ theme_override_constants/margin_top = 25
 theme_override_constants/margin_right = 100
 theme_override_constants/margin_bottom = 25
 
-[node name="game_options" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer"]
+[node name="game_options" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg"]
 visible = false
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 
-[node name="vbox" type="VBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options"]
+[node name="vbox" type="VBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
-[node name="HBoxContainer" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox"]
 layout_mode = 2
 alignment = 1
 
-[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer"]
+[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="Difficulty" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer"]
+[node name="Difficulty" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Difficulty"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -410,12 +400,12 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_3rrsk")
 text = "Normal"
 
-[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer"]
+[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer"]
+[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -423,33 +413,33 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_3rrsk")
 text = "Hard"
 
-[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer"]
+[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox"]
+[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox"]
 custom_minimum_size = Vector2(2.08165e-12, 2)
 layout_mode = 2
 color = Color(0.619608, 0.619608, 0.619608, 1)
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox"]
 layout_mode = 2
 alignment = 1
 
-[node name="separator5" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer2"]
+[node name="separator5" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="inverted_cube" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer2"]
+[node name="inverted_cube" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Inverted Cube"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer2"]
+[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -458,12 +448,12 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_72igb")
 text = "Enabled"
 
-[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer2"]
+[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer2"]
+[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -471,74 +461,74 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_72igb")
 text = "Disabled"
 
-[node name="separator4" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer2"]
+[node name="separator4" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox"]
+[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox"]
 custom_minimum_size = Vector2(2.08165e-12, 2)
 layout_mode = 2
 color = Color(0.619608, 0.619608, 0.619608, 1)
 
-[node name="HBoxContainer3" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox"]
+[node name="HBoxContainer3" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox"]
 layout_mode = 2
 alignment = 1
 
-[node name="separator7" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer3"]
+[node name="separator7" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer3"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="rng_seed" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer3"]
+[node name="rng_seed" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer3"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "RNG Seed"
 
-[node name="LineEdit" type="LineEdit" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer3"]
+[node name="LineEdit" type="LineEdit" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer3"]
 custom_minimum_size = Vector2(300, 2.08165e-12)
 layout_mode = 2
 
-[node name="separator6" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox/HBoxContainer3"]
+[node name="separator6" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer3"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/game_options/vbox"]
+[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox"]
 custom_minimum_size = Vector2(2.08165e-12, 2)
 layout_mode = 2
 color = Color(0.619608, 0.619608, 0.619608, 1)
 
-[node name="video_options" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer"]
+[node name="video_options" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg"]
 visible = false
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 
-[node name="vbox" type="VBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options"]
+[node name="vbox" type="VBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
-[node name="HBoxContainer" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox"]
 layout_mode = 2
 alignment = 1
 
-[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer"]
+[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="Fullscreen" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer"]
+[node name="Fullscreen" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Fullscreen"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -547,12 +537,12 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_kc1ms")
 text = "Disabled"
 
-[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer"]
+[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer"]
+[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -560,33 +550,33 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_kc1ms")
 text = "Enabled"
 
-[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer"]
+[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox"]
+[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox"]
 custom_minimum_size = Vector2(2.08165e-12, 2)
 layout_mode = 2
 color = Color(0.619608, 0.619608, 0.619608, 1)
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox"]
 layout_mode = 2
 alignment = 1
 
-[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer2"]
+[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="Shaders" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer2"]
+[node name="Shaders" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Shaders"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer2"]
+[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -595,12 +585,12 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_6njf0")
 text = "Disabled"
 
-[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer2"]
+[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer2"]
+[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -608,44 +598,44 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_6njf0")
 text = "Enabled"
 
-[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox/HBoxContainer2"]
+[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/video_options/vbox"]
+[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox"]
 custom_minimum_size = Vector2(2.08165e-12, 2)
 layout_mode = 2
 color = Color(0.619608, 0.619608, 0.619608, 1)
 
-[node name="audio_options" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer"]
+[node name="audio_options" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg"]
 visible = false
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 
-[node name="vbox" type="VBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options"]
+[node name="vbox" type="VBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options"]
 layout_mode = 2
 size_flags_horizontal = 3
 size_flags_vertical = 3
 theme_override_constants/separation = 6
 
-[node name="HBoxContainer" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox"]
+[node name="HBoxContainer" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox"]
 layout_mode = 2
 alignment = 1
 
-[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer"]
+[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="Music" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer"]
+[node name="Music" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Music"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer"]
+[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -654,12 +644,12 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_5kmc7")
 text = "Disabled"
 
-[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer"]
+[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer"]
+[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -667,33 +657,33 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_5kmc7")
 text = "Enabled"
 
-[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer"]
+[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox"]
+[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox"]
 custom_minimum_size = Vector2(2.08165e-12, 2)
 layout_mode = 2
 color = Color(0.619608, 0.619608, 0.619608, 1)
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox"]
+[node name="HBoxContainer2" type="HBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox"]
 layout_mode = 2
 alignment = 1
 
-[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer2"]
+[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="Sound Effects" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer2"]
+[node name="Sound Effects" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
 layout_mode = 2
 size_flags_horizontal = 3
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Sound Effects"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer2"]
+[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -702,12 +692,12 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_hvvpb")
 text = "Disabled"
 
-[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer2"]
+[node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer2"]
+[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -715,22 +705,22 @@ action_mode = 0
 button_group = SubResource("ButtonGroup_hvvpb")
 text = "Enabled"
 
-[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox/HBoxContainer2"]
+[node name="separator3" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/audio_options/vbox"]
+[node name="separator2" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox"]
 custom_minimum_size = Vector2(2.08165e-12, 2)
 layout_mode = 2
 color = Color(0.619608, 0.619608, 0.619608, 1)
 
-[node name="controls" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer"]
+[node name="controls" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg"]
 visible = false
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 
-[node name="Label" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/MarginContainer/controls"]
+[node name="Label" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/marg/controls"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
