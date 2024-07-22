@@ -193,17 +193,15 @@ func _ready():
 
 var ORIGINAL_SPEED = speed
 var LAST_MODE = hmls.GAME_DIFFICULTY
+var LAST_INVERTED = str(hmls.INVERTED_MODE)
 var TIMER = 0
 # sloppy input management
 func _physics_process(_delta):
 	if hmls.GAME_DIFFICULTY != LAST_MODE:
 		LAST_MODE = hmls.GAME_DIFFICULTY
 		set_cube_material()
-	if Input.is_action_just_pressed("invert_cube"):
-		if hmls.INVERTED_MODE == "false":
-			hmls.INVERTED_MODE = "true"
-		else:
-			hmls.INVERTED_MODE = "false"
+	if hmls.INVERTED_MODE != LAST_INVERTED:
+		LAST_INVERTED = hmls.INVERTED_MODE
 		set_cube_material()
 	if Input.is_action_just_pressed("reset"):
 		if hmls.PAUSE == false:
@@ -277,12 +275,18 @@ func _physics_process(_delta):
 			4:
 				DIR = Vector3.FORWARD
 	if DIR != Vector3.ZERO:
+		# check if there is even a tile in the LEVEL_MATRIX to move to
 		match str(hmls.floor_check(hmls.CUBE_POSITION.x + DIR.x, hmls.CUBE_POSITION.y + DIR.z)):
 			"stop":
 				hmls.sound_effect("illegal")
 				return
+		# the CAN_ROLL variable is set after the fake cube checks if the orientation matches the tile
 		var CAN_ROLL = await fake_roll(DIR)
 		if CAN_ROLL == false:
 			return
+		# we then check if the tile has an attribute (bombs, keys, etc)
 		hmls.attribute_stuffs(Vector2(hmls.CUBE_POSITION.x + DIR.x, hmls.CUBE_POSITION.y + DIR.z))
+		# finally we roll into the tile
 		roll(DIR)
+		# add some RNG so every spawn is different
+		hmls.RNG_COUNTER += 1

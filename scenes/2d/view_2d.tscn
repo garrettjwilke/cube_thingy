@@ -359,13 +359,12 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 100
+theme_override_constants/margin_left = 25
 theme_override_constants/margin_top = 25
-theme_override_constants/margin_right = 100
+theme_override_constants/margin_right = 225
 theme_override_constants/margin_bottom = 25
 
 [node name="game_options" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg"]
-visible = false
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 
@@ -391,7 +390,7 @@ theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Difficulty"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
+[node name="difficulty_normal" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -405,7 +404,7 @@ custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
+[node name="difficulty_hard" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -439,27 +438,27 @@ theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Inverted Cube"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
+[node name="inverted_cube_disable" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 button_pressed = true
 action_mode = 0
 button_group = SubResource("ButtonGroup_72igb")
-text = "Enabled"
+text = "Disabled"
 
 [node name="separator" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
+[node name="inverted_cube_enable" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 action_mode = 0
 button_group = SubResource("ButtonGroup_72igb")
-text = "Disabled"
+text = "Enabled"
 
 [node name="separator4" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2"]
 custom_minimum_size = Vector2(15, 2.08165e-12)
@@ -487,7 +486,7 @@ theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "RNG Seed"
 
-[node name="LineEdit" type="LineEdit" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer3"]
+[node name="rng_seed_edit" type="LineEdit" parent="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer3"]
 custom_minimum_size = Vector2(300, 2.08165e-12)
 layout_mode = 2
 
@@ -528,7 +527,7 @@ theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Fullscreen"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
+[node name="fullscreen_disabled" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -542,7 +541,7 @@ custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
+[node name="fullscreen_enabled" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -576,7 +575,7 @@ theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Shaders"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
+[node name="disable_shaders" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -590,7 +589,7 @@ custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
+[node name="enable_shaders" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -635,7 +634,7 @@ theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Music"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
+[node name="music_disable" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -649,7 +648,7 @@ custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
+[node name="music_enable" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -683,7 +682,7 @@ theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 text = "Sound Effects"
 
-[node name="CheckBox" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
+[node name="sound_effects_disable" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -697,7 +696,7 @@ custom_minimum_size = Vector2(15, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 1, 1, 0)
 
-[node name="CheckBox2" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
+[node name="sound_effects_enable" type="CheckBox" parent="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
@@ -716,7 +715,6 @@ layout_mode = 2
 color = Color(0.619608, 0.619608, 0.619608, 1)
 
 [node name="controls" type="ScrollContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg"]
-visible = false
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 2
 
@@ -725,7 +723,93 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
 
+[node name="marg_right" type="MarginContainer" parent="menu/center/marg/vbox/box/border/marg/bg"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 696.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="ColorRect" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg_right"]
+layout_mode = 2
+color = Color(1, 1, 1, 0.223529)
+
+[node name="MarginContainer" type="MarginContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 10
+theme_override_constants/margin_top = 10
+theme_override_constants/margin_right = 10
+theme_override_constants/margin_bottom = 10
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect/MarginContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="ColorRect" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(2.08165e-12, 65)
+layout_mode = 2
+color = Color(0.25098, 0.121569, 0.34902, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect/MarginContainer/VBoxContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 6
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_right = 6
+theme_override_constants/margin_bottom = 6
+
+[node name="ColorRect" type="ColorRect" parent="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect/MarginContainer/VBoxContainer/ColorRect/MarginContainer"]
+layout_mode = 2
+color = Color(0.258824, 0.392157, 0.584314, 1)
+
+[node name="CenterContainer" type="CenterContainer" parent="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect/MarginContainer/VBoxContainer/ColorRect/MarginContainer/ColorRect"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Label" type="Label" parent="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect/MarginContainer/VBoxContainer/ColorRect/MarginContainer/ColorRect/CenterContainer"]
+layout_mode = 2
+theme_override_fonts/font = ExtResource("5_2fa2u")
+theme_override_font_sizes/font_size = 30
+text = "Close Menu"
+
+[node name="close_menu" type="Button" parent="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect/MarginContainer/VBoxContainer/ColorRect/MarginContainer"]
+modulate = Color(1, 1, 1, 0)
+layout_mode = 2
+
 [connection signal="button_down" from="menu/center/marg/vbox/tabs/hbox/game_options/texture/center/game_button" to="." method="_on_game_button_down"]
 [connection signal="button_down" from="menu/center/marg/vbox/tabs/hbox/video_options/texture/center/video_button" to="." method="_on_video_button_down"]
 [connection signal="button_down" from="menu/center/marg/vbox/tabs/hbox/audio_options/texture/center/audio_button" to="." method="_on_audio_button_down"]
 [connection signal="button_down" from="menu/center/marg/vbox/tabs/hbox/controls_options/texture/center/controls_button" to="." method="_on_controls_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer/difficulty_normal" to="." method="_on_difficulty_normal_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer/difficulty_hard" to="." method="_on_difficulty_hard_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2/inverted_cube_disable" to="." method="_on_inverted_cube_disable_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer2/inverted_cube_enable" to="." method="_on_inverted_cube_enable_button_down"]
+[connection signal="text_changed" from="menu/center/marg/vbox/box/border/marg/bg/marg/game_options/vbox/HBoxContainer3/rng_seed_edit" to="." method="_on_rng_seed_edit_text_changed"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer/fullscreen_disabled" to="." method="_on_fullscreen_disabled_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer/fullscreen_enabled" to="." method="_on_fullscreen_enabled_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2/disable_shaders" to="." method="_on_disable_shaders_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/HBoxContainer2/enable_shaders" to="." method="_on_enable_shaders_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer/music_disable" to="." method="_on_music_disable_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer/music_enable" to="." method="_on_music_enable_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2/sound_effects_disable" to="." method="_on_sound_effects_disable_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/audio_options/vbox/HBoxContainer2/sound_effects_enable" to="." method="_on_sound_effects_enable_button_down"]
+[connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect/MarginContainer/VBoxContainer/ColorRect/MarginContainer/close_menu" to="." method="_on_close_menu_button_down"]

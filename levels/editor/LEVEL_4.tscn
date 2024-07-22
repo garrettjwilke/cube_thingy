@@ -1,10 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://deecl0gjbujw8"]
+[gd_scene load_steps=5 format=3 uid="uid://bjntiny28ivdp"]
 
-[ext_resource type="Script" path="res://scripts/editor.gd" id="1_rycub"]
-[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_2gel6"]
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_y03dx"]
+[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_ggvpp"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q85ov"]
-texture = ExtResource("2_2gel6")
+texture = ExtResource("2_ggvpp")
 texture_region_size = Vector2i(128, 128)
 2:0/0 = 0
 3:0/0 = 0
@@ -65,7 +65,7 @@ terrain_set_0/mode = 0
 sources/0 = SubResource("TileSetAtlasSource_q85ov")
 
 [node name="editor" type="Node2D"]
-script = ExtResource("1_rycub")
+script = ExtResource("1_y03dx")
 metadata/_edit_lock_ = true
 
 [node name="bounds" type="Node2D" parent="."]
@@ -88,7 +88,7 @@ color = Color(0.490196, 0.411765, 0.184314, 1)
 
 [node name="LEVEL_NUMBER" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="level number here" type="Control" parent="LEVEL_SETTINGS/LEVEL_NUMBER"]
+[node name="4" type="Control" parent="LEVEL_SETTINGS/LEVEL_NUMBER"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -97,7 +97,7 @@ metadata/_edit_lock_ = true
 
 [node name="LEVEL_NAME" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="level name here" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
+[node name="final orb test thingy" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_lock_ = true
@@ -112,5 +112,5 @@ metadata/_edit_lock_ = true
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3cyw7")
 format = 2
-layer_0/tile_data = PackedInt32Array(2097152, 0, 0, 2097153, 0, 0, 2097154, 0, 0, 2097155, 0, 0, 2097156, 0, 0, 2097157, 0, 0, 2097158, 0, 0, 2097159, 0, 0, 2097160, 0, 0, 2097161, 0, 0, 2097162, 0, 0, 2097163, 0, 0, 2097164, 0, 0, 2097165, 0, 0, 2097166, 0, 0, 2097167, 0, 0, 2097168, 0, 0, 2097169, 0, 0, 2097170, 0, 0, 2097171, 0, 0, 2097172, 0, 0, 2097173, 0, 0, 2097174, 0, 0, 2097175, 0, 0, 2097176, 0, 0, 2097177, 0, 0, 2097178, 0, 0, 2097179, 0, 0, 2097180, 0, 0, 2097181, 0, 0, 2097182, 0, 0, 2097183, 0, 0, 2097184, 0, 0, 2031648, 0, 0, 1966112, 0, 0, 1900576, 0, 0, 1835040, 0, 0, 1769504, 0, 0, 1703968, 0, 0, 1638432, 0, 0, 1572896, 0, 0, 1507360, 0, 0, 1441824, 0, 0, 1376288, 0, 0, 1310752, 0, 0, 1245216, 0, 0, 1179680, 0, 0, 1114144, 0, 0, 1048608, 0, 0, 983072, 0, 0, 917536, 0, 0, 852000, 0, 0, 786464, 0, 0, 720928, 0, 0, 655392, 0, 0, 589856, 0, 0, 524320, 0, 0, 458784, 0, 0, 393248, 0, 0, 327712, 0, 0, 262176, 0, 0, 196640, 0, 0, 131104, 0, 0, 65568, 0, 0, 32, 0, 0)
+layer_0/tile_data = PackedInt32Array(2097152, 0, 0, 2097153, 0, 0, 2097154, 0, 0, 2097155, 0, 0, 2097156, 0, 0, 2097157, 0, 0, 2097158, 0, 0, 2097159, 0, 0, 2097160, 0, 0, 2097161, 0, 0, 2097162, 0, 0, 2097163, 0, 0, 2097164, 0, 0, 2097165, 0, 0, 2097166, 0, 0, 2097167, 0, 0, 2097168, 0, 0, 2097169, 0, 0, 2097170, 0, 0, 2097171, 0, 0, 2097172, 0, 0, 2097173, 0, 0, 2097174, 0, 0, 2097175, 0, 0, 2097176, 0, 0, 2097177, 0, 0, 2097178, 0, 0, 2097179, 0, 0, 2097180, 0, 0, 2097181, 0, 0, 2097182, 0, 0, 2097183, 0, 0, 2097184, 0, 0, 2031648, 0, 0, 1966112, 0, 0, 1900576, 0, 0, 1835040, 0, 0, 1769504, 0, 0, 1703968, 0, 0, 1638432, 0, 0, 1572896, 0, 0, 1507360, 0, 0, 1441824, 0, 0, 1376288, 0, 0, 1310752, 0, 0, 1245216, 0, 0, 1179680, 0, 0, 1114144, 0, 0, 1048608, 0, 0, 983072, 0, 0, 917536, 0, 0, 852000, 0, 0, 786464, 0, 0, 720928, 0, 0, 655392, 0, 0, 589856, 0, 0, 524320, 0, 0, 458784, 0, 0, 393248, 0, 0, 327712, 0, 0, 262176, 0, 0, 196640, 0, 0, 131104, 0, 0, 65568, 0, 0, 32, 0, 0, 0, 65536, 0, 65536, 65536, 0, 131072, 65536, 0, 196608, 65536, 0, 262144, 65536, 0, 1, 65536, 0, 65537, 65536, 0, 131073, 327680, 0, 196609, 65536, 0, 262145, 65536, 0, 2, 65536, 0, 65538, 65536, 0, 131074, 65536, 9, 196610, 65536, 0, 262146, 65536, 0, 3, 65536, 0, 65539, 65536, 0, 131075, 65536, 0, 196611, 65536, 0, 262147, 65536, 0, 4, 65536, 0, 65540, 65536, 0, 131076, 65536, 0, 196612, 65536, 0, 262148, 65536, 0)
 metadata/_edit_lock_ = true

@@ -4,11 +4,10 @@ render_mode unshaded;
 // Parameters
 uniform float zNear = 0.05; 
 uniform float zFar = 100;  
-uniform float outlineThickness = 1.0; 
+uniform float outlineThickness = 1.5; 
 uniform vec3 outlineColor : source_color = vec3(0.0);
-//uniform float wiggleFrequency = 0.08;
-uniform float wiggleFrequency = 2; 
-uniform float wiggleAmplitude = 0.0;
+uniform float wiggleFrequency = 0.08; 
+uniform float wiggleAmplitude = 2.0;
 
 uniform sampler2D DEPTH_TEXTURE : hint_depth_texture, filter_linear_mipmap;
 uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
@@ -108,12 +107,11 @@ float hash(vec2 p){
 }
 
 void fragment() {  
-	vec2 offset = outlineThickness / VIEWPORT_SIZE;
+	vec2 offset = outlineThickness/ VIEWPORT_SIZE;
 	vec2 uv = SCREEN_UV;
 	// Displacement to add a little bit of hand-drawn wiggly effect
-	//vec2 displ =  vec2((hash(FRAGCOORD.xy) * sin(FRAGCOORD.y / 4.0)) ,
-	//(hash(FRAGCOORD.xy) * cos(FRAGCOORD.x / 4.0))) * wiggleAmplitude /VIEWPORT_SIZE;
-	vec2 displ = vec2(0,0);
+	vec2 displ =  vec2((hash(FRAGCOORD.xy) * sin(FRAGCOORD.y * wiggleFrequency)) ,
+	(hash(FRAGCOORD.xy) * cos(FRAGCOORD.x * wiggleFrequency))) * wiggleAmplitude /VIEWPORT_SIZE;
 	// Access the depth buffer
 	float depth = depth(DEPTH_TEXTURE, uv, INV_PROJECTION_MATRIX);
 
@@ -124,32 +122,33 @@ void fragment() {
 	}
 	vec3 pixelColor = texture(SCREEN_TEXTURE, uv).rgb; 
 	float pixelLuma = luminance(pixelColor);
-	float modVal = 8.0;
+	float modVal = 11.0;
 	
 	// Apply hatching based on luminance value (from darker to lighter zones
 	// Dark Zones
-	//if(pixelLuma <= 0.04) {
-	//	if (mod((uv.y + displ.y) * VIEWPORT_SIZE.y , modVal)  < outlineThickness) {
-	//		pixelColor = outlineColor;
-	//	}
-	//}
+	if(pixelLuma <= 0.35) {
+		if (mod((uv.y + displ.y) * VIEWPORT_SIZE.y , modVal)  < outlineThickness) {
+			pixelColor = outlineColor;
+		}
+	}
 	// Grey Dark
-	//if (pixelLuma <= 0.03 ) {
-	//	 if (mod((uv.x + displ.x) * VIEWPORT_SIZE.x , modVal)  < outlineThickness) {
-	//		pixelColor = mix(pixelColor, outlineColor, 0.25);
-	//	}
-	//}
+	if (pixelLuma <= 0.45 ) {
+		 if (mod((uv.x + displ.x) * VIEWPORT_SIZE.x , modVal)  < outlineThickness) {
+			pixelColor = mix(pixelColor, outlineColor, 0.25);
+		}
+	}
 	// Light Dark
-	//if (mod((uv.x + displ.x) * VIEWPORT_SIZE.y + (uv.y + displ.y) * VIEWPORT_SIZE.x, 12) <= 3.0) {
-	//	pixelColor = mix(pixelColor, outlineColor, 0.2);
-	//}
-	pixelColor = mix(pixelColor, outlineColor, 0.2);
+	if (pixelLuma <= 0.80) {
+     if (mod((uv.x + displ.x) * VIEWPORT_SIZE.y + (uv.y + displ.y) * VIEWPORT_SIZE.x, modVal) <= outlineThickness) {
+			pixelColor = mix(pixelColor, outlineColor, 0.5);
+		}
+	}
 	// Edge detection using depth buffer
 	float edgeDepth = sobel_depth(uv+displ, offset, INV_PROJECTION_MATRIX);
 	// Edge detection normal buffer
 	float edgeNormal = sobel_normal(uv+displ, offset);
 	// Mix both edge detection
-	float outline = smoothstep(0.0,1.0, 50.0*edgeDepth + edgeNormal);
+	float outline = smoothstep(0.0,1.0, 25.0*edgeDepth + edgeNormal);
 	// Mix color and edges
 	ALBEDO = mix(pixelColor, outlineColor,  outline);
 }

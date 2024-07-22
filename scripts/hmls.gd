@@ -1,28 +1,31 @@
 extends Node
 
 var IS_READY = false
-
 var DEBUG = false
 # setting DEBUG_SEVERITY can help isolate debug messages
 #   setting to 0 will show all debug messages
 var DEBUG_SEVERITY = 0
 
+# this is set after the level matrix has been loaded
+var CURRENT_LEVEL = []
+# this will get set with the level data later
+var LEVEL_MATRIX = []
+# other parts of the game need to know the dimensions of the level. this is added up as we spawn tiles
+var LEVEL_RESOLUTION = Vector2(0,0)
+var LEVEL_NAME = get_default("LEVEL_NAME")
+var GAME_MODE = get_default("GAME_MODE")
+var ENABLE_JANK = get_default("ENABLE_JANK")
 var TILE_SIZE_2D = 16
-
 var START_POSITION = Vector2(0,0)
 var GAME_DIFFICULTY = get_default("GAME_DIFFICULTY")
-
 var CLOSE_UP_CAM = "true"
 var ROTATION_COUNT = 1
+var ENABLE_SHADERS = true
+var OS_CHECK = "null"
+var PAUSE = true
+var INVERTED_MODE = get_default("INVERTED_MODE")
 
 var AMOUNT_LEFT = 0
-
-var OS_CHECK = "null"
-
-var ENABLE_SHADERS = true
-
-var BOX_MESH = preload("res://scenes/3d/block_3d.tscn")
-
 var KEY_COUNT = 0
 var KEY_BLANK = 0
 var KEY_RED = 0
@@ -42,14 +45,50 @@ func reset_keys():
 	KEY_ORANGE = 0
 var KEY_COUNT_TOTAL = 0
 
-# this is set after the level matrix has been loaded
-var CURRENT_LEVEL = []
+var BOX_MESH = preload("res://scenes/3d/block_3d.tscn")
 
-var ENABLE_JANK = get_default("ENABLE_JANK")
+signal signal_detonator(COLOR)
+signal signal_level_start()
 
-var PAUSE = true
+# round number up/down
+func round_to_dec(num):
+	return round(num * pow(10.0, 0)) / pow(10.0, 0)
 
-var INVERTED_MODE = get_default("INVERTED_MODE")
+# round vector3
+func round_vect3(data):
+	data.x = round(data.x * pow(10.0,0))
+	data.y = round(data.y * pow(10.0,0))
+	data.z = round(data.z * pow(10.0,0))
+	return data
+
+# you can control the outcome of the RNG with a seed
+var RNG_SEED = get_default("RNG_SEED")
+var RNG_COUNTER = 0
+func update_rng_seed(new_seed):
+	RNG_SEED = new_seed
+	RNG_COUNTER = 0
+
+func rng(MIN, MAX):
+	RNG_COUNTER += 1
+	var number = RandomNumberGenerator.new()
+	# combine the RNG number with the seed and you get a new_seed unique from the rest
+	# if we skip this, we run into a chance where the RNG produces the same result and the game breaks
+	var new_seed = str(RNG_SEED, str(RNG_COUNTER)).hash()
+	number.randomize()
+	number.set_seed(new_seed)
+	number = number.randi_range(MIN, MAX)
+	return number
+
+func rng_float(MIN, MAX):
+	RNG_COUNTER += 1
+	var number = RandomNumberGenerator.new()
+	# combine the RNG number with the seed and you get a new_seed unique from the rest
+	# if we skip this, we run into a chance where the RNG produces the same result and the game breaks
+	var new_seed = str(RNG_SEED, str(RNG_COUNTER)).hash()
+	number.randomize()
+	number.set_seed(new_seed)
+	number = number.randf_range(MIN, MAX)
+	return number
 
 # when calling debug message, you need to set a severity
 # if the DEBUG_SEVERITY is set to 0, it will display all debug messages
@@ -63,72 +102,6 @@ func debug_message(INFO, MESSAGE, SEVERITY):
 			print("DEBUG_SEVERITY: ", SEVERITY, " | ", INFO)
 			print(MESSAGE)
 		DEBUG_SEVERITY = ORIGINAL_SEVERITY
-
-# this will get set with the level data later
-var LEVEL_MATRIX = []
-# other parts of the game need to know the dimensions of the level. this is added up as we spawn tiles
-var LEVEL_RESOLUTION = Vector2(0,0)
-var LEVEL_NAME = get_default("LEVEL_NAME")
-
-var counter = 0
-var pitch_scale = 1.0
-func sound_effect(SOUND):
-	var PLAYER = AudioStreamPlayer2D.new()
-	PLAYER.pitch_scale = 1.0
-	PLAYER.volume_db = 0.0
-	if SOUND == "cube":
-		if get_node_or_null("cube_sound"):
-			return
-		PLAYER.name = "cube_sound"
-		PLAYER.stream = load("res://assets/sounds/cube_sound.mp3")
-		PLAYER.pitch_scale = 2.0
-		PLAYER.volume_db = -4
-	elif SOUND == "tile":
-		PLAYER = AudioStreamPlayer2D.new()
-		PLAYER.name = str("tile_sound",rng(0,3000))
-		PLAYER.stream = load("res://assets/sounds/tile_clear_sound.mp3")
-		PLAYER.volume_db = -4
-	elif SOUND == "bomb":
-		PLAYER.name = str("bomb_sound",rng(0,3000))
-		PLAYER.stream = load("res://assets/sounds/bomb_sound.mp3")
-		PLAYER.volume_db = -8.0
-	elif SOUND == "illegal":
-		if get_node_or_null("illegal_sound"):
-			return
-		PLAYER.name = "illegal_sound"
-		PLAYER.stream = load("res://assets/sounds/illegal_move.mp3")
-	self.add_child(PLAYER)
-	PLAYER.play()
-	await PLAYER.finished
-	PLAYER.queue_free()
-
-# round number up/down
-func round_to_dec(num):
-	return round(num * pow(10.0, 0)) / pow(10.0, 0)
-
-# round vector3
-func round_vect3(data):
-	data.x = round(data.x * pow(10.0,0))
-	data.y = round(data.y * pow(10.0,0))
-	data.z = round(data.z * pow(10.0,0))
-	return data
-
-# get the position of the cube
-var CUBE_POSITION = Vector2()
-func update_cube_position(position):
-	CUBE_POSITION = position
-
-func floor_check(pos_x, pos_y):
-	var NODE_NAME = str(pos_x,"x",pos_y)
-	var NEXT_COLOR
-	for node in get_node("VIEW_3D").get_children():
-		if not get_node_or_null(str("VIEW_3D/",NODE_NAME)):
-			debug_message("hmls.gd - floor_check() - couldn't find node",str("VIEW_3D/",NODE_NAME),2)
-			return "stop"
-	# if cube passes check, get the color of the next tile it is rolling into
-	NEXT_COLOR = CURRENT_LEVEL[pos_y][pos_x]
-	#print(NEXT_COLOR)
-	return NEXT_COLOR
 
 # pass a string through the get_default() function and get the default from data/defaults.json
 func get_default(setting):
@@ -174,25 +147,70 @@ func get_default(setting):
 		"ENABLE_JANK":
 			return DEFAULTS.ENABLE_JANK
 
-var GAME_MODE = get_default("GAME_MODE")
+var pitch_scale = 1.0
+var pitch_flip = 0
+var previous_rng = 0
+func sound_effect(SOUND):
+	var SOUND_PLAYER = AudioStreamPlayer2D.new()
+	SOUND_PLAYER.pitch_scale = 1.0
+	SOUND_PLAYER.volume_db = 0.0
+	if SOUND == "cube":
+		if get_node_or_null("cube_sound"):
+			return
+		SOUND_PLAYER.name = "cube_sound"
+		SOUND_PLAYER.stream = load("res://assets/sounds/cube_sound.mp3")
+		if pitch_flip == 0:
+			SOUND_PLAYER.pitch_scale = 1.0
+			pitch_flip = 1
+		else:
+			SOUND_PLAYER.pitch_scale = 1.5
+			pitch_flip = 0
+		SOUND_PLAYER.volume_db = -4
+	elif SOUND == "tile":
+		SOUND_PLAYER = AudioStreamPlayer2D.new()
+		SOUND_PLAYER.name = str("tile_sound",rng(0,3000))
+		SOUND_PLAYER.stream = load("res://assets/sounds/tile_clear_sound.mp3")
+		SOUND_PLAYER.volume_db = -4
+	elif SOUND == "bomb":
+		SOUND_PLAYER.name = str("bomb_sound",rng(0,3000))
+		SOUND_PLAYER.stream = load("res://assets/sounds/bomb_sound.mp3")
+		SOUND_PLAYER.volume_db = -8.0
+	elif SOUND == "illegal":
+		if get_node_or_null("illegal_sound"):
+			return
+		SOUND_PLAYER.name = "illegal_sound"
+		SOUND_PLAYER.stream = load("res://assets/sounds/illegal_move.mp3")
+		var NEW_RNG = rng_float(0.4,1.2)
+		if NEW_RNG < 0.6:
+			NEW_RNG = 0.5
+		elif NEW_RNG < 0.8:
+			NEW_RNG = 0.7
+		elif NEW_RNG < 1.0:
+			NEW_RNG = 0.9
+		elif NEW_RNG > 1.0:
+			NEW_RNG = 1.1
+		SOUND_PLAYER.pitch_scale = NEW_RNG
+	self.add_child(SOUND_PLAYER)
+	SOUND_PLAYER.play()
+	await SOUND_PLAYER.finished
+	SOUND_PLAYER.queue_free()
 
-# you can control the outcome of the RNG with a seed
-var RNG_SEED = get_default("RNG_SEED")
-var RNG_COUNTER = 0
-func update_rng_seed(new_seed):
-	RNG_SEED = new_seed
-	RNG_COUNTER = 0
+# get the position of the cube
+var CUBE_POSITION = Vector2()
+func update_cube_position(position):
+	CUBE_POSITION = position
 
-func rng(MIN, MAX):
-	RNG_COUNTER += 1
-	var number = RandomNumberGenerator.new()
-	# combine the RNG number with the seed and you get a new_seed unique from the rest
-	# if we skip this, we run into a chance where the RNG produces the same result and the game breaks
-	var new_seed = str(RNG_SEED, str(RNG_COUNTER)).hash()
-	number.randomize()
-	number.set_seed(new_seed)
-	number = number.randi_range(MIN, MAX)
-	return number
+func floor_check(pos_x, pos_y):
+	var NODE_NAME = str(pos_x,"x",pos_y)
+	var NEXT_COLOR
+	for node in get_node("VIEW_3D").get_children():
+		if not get_node_or_null(str("VIEW_3D/",NODE_NAME)):
+			debug_message("hmls.gd - floor_check() - couldn't find node",str("VIEW_3D/",NODE_NAME),2)
+			return "stop"
+	# if cube passes check, get the color of the next tile it is rolling into
+	NEXT_COLOR = CURRENT_LEVEL[pos_y][pos_x]
+	#print(NEXT_COLOR)
+	return NEXT_COLOR
 
 var LEVEL_COUNTER = 0
 func json_counter():
@@ -222,6 +240,42 @@ func update_level(amount):
 	AMOUNT_LEFT = 0
 	KEY_COUNT_TOTAL = 0
 	debug_message("hmls.update_level()", str("level = ", LEVEL), 1)
+
+func load_level():
+	# if the CURRENT_LEVEL has data, set the LEVEL_MATRIX
+	# this is so that when we redraw the tiles, the RNG is not set to a new value
+	if CURRENT_LEVEL != []:
+		LEVEL_MATRIX = CURRENT_LEVEL
+		return
+	# check if the level exists and load it as LEVEL_MATRIX
+	var LEVEL_STRING = str("res://levels/LEVEL_", LEVEL, ".json")
+	if not FileAccess.file_exists(LEVEL_STRING):
+		LEVEL = 1
+		load_level()
+		return
+	else:
+		var file = FileAccess.open(LEVEL_STRING, FileAccess.READ)
+		var level_data = JSON.parse_string(file.get_as_text())
+		# check if level json even has level data
+		if level_data.has("LEVEL_NAME"):
+			LEVEL_NAME = str("Name: ",level_data.LEVEL_NAME)
+			var CHARACTER_COUNT = 0
+			for character in LEVEL_NAME:
+				CHARACTER_COUNT += 1
+				if CHARACTER_COUNT > 48:
+					LEVEL_NAME = "name too long"
+		else:
+			LEVEL_NAME = str("unnamed_level_",rng(0,9999))
+		if level_data.has("LEVEL_MATRIX"):
+			LEVEL_MATRIX = level_data.LEVEL_MATRIX
+			if LEVEL_MATRIX == []:
+				LEVEL_MATRIX = get_default("LEVEL_MATRIX")
+		else:
+			LEVEL_MATRIX = get_default("LEVEL_MATRIX")
+		if level_data.has("GAME_MODE"):
+			GAME_MODE = level_data.GAME_MODE
+		else:
+			GAME_MODE = get_default("GAME_MODE")
 
 # this will return COLOR and NAME
 func get_cell_data(cell):
@@ -317,8 +371,6 @@ func spawn_box(x, y, COLOR):
 	else:
 		material = load("res://assets/textures/block_3d_texture.tres")
 	var new_material = material.duplicate()
-	if OS_CHECK == "mobile":
-		material.set_shading_mode(1)
 	material.albedo_texture_force_srgb = true
 	new_material.albedo_color = COLOR
 	get_node(str("VIEW_3D/")).add_child(NEW_BOX)
@@ -350,7 +402,10 @@ func spawn_floor(pos):
 	var material = StandardMaterial3D.new()
 	material.albedo_color = COLOR
 	new_mesh.mesh.surface_set_material(0, material)
-	get_node("VIEW_3D").add_child(new_mesh)
+	if get_node_or_null(str("VIEW_3D/", new_mesh.name)):
+		return
+	else:
+		get_node("VIEW_3D").add_child(new_mesh)
 
 func spawn_bomb(COLOR, node_name):
 	var CURRENT_NODE = get_node(str("VIEW_3D/",node_name))
@@ -376,6 +431,13 @@ func spawn_detonator(x,y,COLOR):
 	get_node(str("VIEW_3D/",x,"x",y)).mesh.surface_set_material(0, floor_material)
 
 func spawn_final_orb(position,COLOR):
+	print(position)
+	position.x -= 1
+	position.z -= 1
+	if position.x < 0:
+		position.x = 0
+	if position.z < 0:
+		position.z = 0
 	if LEVEL_MATRIX == []:
 		print("wtf")
 		return
@@ -387,7 +449,6 @@ func spawn_final_orb(position,COLOR):
 	finish_orb_mesh.mesh.radius = 0.5
 	finish_orb_mesh.mesh.resource_local_to_scene = true
 	finish_orb_mesh.scale = Vector3(0.8,0.8,0.8)
-	print(position)
 	finish_orb_mesh.position = position
 	static_mesh.add_child(finish_orb_mesh)
 	var collision = CollisionShape3D.new()
@@ -399,12 +460,14 @@ func spawn_final_orb(position,COLOR):
 	fake_mesh.position = collision.position
 	fake_mesh.position.y += 2
 	collision.add_child(fake_mesh)
-	print(fake_mesh.position)
-	var subviewport = load("res://assets/textures/marble_subviewport.tscn").instantiate()
-	finish_orb_mesh.add_child(subviewport)
 	var new_mat = StandardMaterial3D.new()
-	new_mat.albedo_color = COLOR
-	new_mat.albedo_texture = subviewport.get_texture()
+	if hmls.OS_CHECK == "desktop":
+		var subviewport = load("res://assets/textures/marble_subviewport.tscn").instantiate()
+		finish_orb_mesh.add_child(subviewport)
+		new_mat.albedo_color = COLOR
+		new_mat.albedo_texture = subviewport.get_texture()
+	else:
+		new_mat.albedo_color = COLOR
 	finish_orb_mesh.mesh.material = new_mat
 	finish_orb_mesh.rotation.z = 90
 
@@ -423,7 +486,7 @@ func tile_spawn(x, y, cell):
 	if not get_node_or_null("VIEW_3D"):
 		var NODE_3D = Node3D.new()
 		NODE_3D.name = str("VIEW_3D")
-		get_node("/root/hmls").add_child(NODE_3D)
+		self.add_child(NODE_3D)
 	if get_node_or_null(str("VIEW_3D/",x,"x",y)):
 		CURRENT_TILE = get_node(str("VIEW_3D/",x,"x",y))
 		var tween2 = create_tween()
@@ -459,50 +522,6 @@ func tile_spawn(x, y, cell):
 			spawn_detonator(x,y,COLOR)
 	await scale_thingy(CURRENT_TILE,0.4)
 
-signal signal_detonator(COLOR)
-
-signal signal_level_start()
-
-func load_level():
-	# if the CURRENT_LEVEL has data, set the LEVEL_MATRIX
-	# this is so that when we redraw the tiles, the RNG is not set to a new value
-	if CURRENT_LEVEL != []:
-		LEVEL_MATRIX = CURRENT_LEVEL
-		return
-	# check if the level exists and load it as LEVEL_MATRIX
-	var LEVEL_STRING = str("res://levels/LEVEL_", LEVEL, ".json")
-	if not FileAccess.file_exists(LEVEL_STRING):
-		#LEVEL_NAME = str("Name: ",get_default("LEVEL_NAME"))
-		#LEVEL_MATRIX = get_default("LEVEL_MATRIX")
-		#GAME_MODE = get_default("GAME_MODE")
-		LEVEL = 1
-		load_level()
-		return
-		#GAME_DIFFICULTY = get_default("GAME_DIFFICULTY")
-	else:
-		var file = FileAccess.open(LEVEL_STRING, FileAccess.READ)
-		var level_data = JSON.parse_string(file.get_as_text())
-		# check if level json even has level data
-		if level_data.has("LEVEL_NAME"):
-			LEVEL_NAME = str("Name: ",level_data.LEVEL_NAME)
-			var CHARACTER_COUNT = 0
-			for character in LEVEL_NAME:
-				CHARACTER_COUNT += 1
-				if CHARACTER_COUNT > 48:
-					LEVEL_NAME = "name too long"
-		else:
-			LEVEL_NAME = str("unnamed_level_",rng(0,9999))
-		if level_data.has("LEVEL_MATRIX"):
-			LEVEL_MATRIX = level_data.LEVEL_MATRIX
-			if LEVEL_MATRIX == []:
-				LEVEL_MATRIX = get_default("LEVEL_MATRIX")
-		else:
-			LEVEL_MATRIX = get_default("LEVEL_MATRIX")
-		if level_data.has("GAME_MODE"):
-			GAME_MODE = level_data.GAME_MODE
-		else:
-			GAME_MODE = get_default("GAME_MODE")
-
 # this is the first function to run to spawn tiles
 func update_tiles(MODE):
 	# if reset, then delete all nodes and set CURRENT_LEVEL to nothing
@@ -519,8 +538,7 @@ func update_tiles(MODE):
 	load_level()
 	# spawn all tiles in LEVEL_MATRIX
 	AMOUNT_LEFT = 0
-	var x = 0
-	var y = 0
+	var CURRENT_POS = Vector2(0,0)
 	for row in LEVEL_MATRIX:
 		for cell in row:
 			# check if level has RNG values set
@@ -529,10 +547,10 @@ func update_tiles(MODE):
 				# if level has RNG values set, change the cell to the new RNG value
 				NEW_CELL = str(str(rng(2, 7),str(cell).right(1)))
 				# set the NEW_CELL value to the LEVEL_MATRIX
-				LEVEL_MATRIX[y][x] = NEW_CELL
+				LEVEL_MATRIX[CURRENT_POS.y][CURRENT_POS.x] = NEW_CELL
 			# set CURRENT_LEVEL so that when tiles are updated, we are no longer regenerating RNG
 			CURRENT_LEVEL = LEVEL_MATRIX
-			tile_spawn(x, y, NEW_CELL)
+			tile_spawn(CURRENT_POS.x, CURRENT_POS.y, NEW_CELL)
 			var COLOR_CHECK = get_cell_data(NEW_CELL)
 			var CURRENT_COLOR = COLOR_CHECK[1]
 			var ATTRIBUTE_CHECK = COLOR_CHECK[3]
@@ -545,13 +563,13 @@ func update_tiles(MODE):
 					if CURRENT_COLOR != "black":
 						AMOUNT_LEFT += 1
 			# increment x so the next cell will be read correctly
-			x += 1
-			if x > LEVEL_RESOLUTION.x:
+			CURRENT_POS.x += 1
+			if CURRENT_POS.x > LEVEL_RESOLUTION.x:
 				LEVEL_RESOLUTION.x += 1
 		# set x back to 0 and increment y to read the next row
-		x = 0
-		y += 1
-		if y > LEVEL_RESOLUTION.y:
+		CURRENT_POS.x = 0
+		CURRENT_POS.y += 1
+		if CURRENT_POS.y > LEVEL_RESOLUTION.y:
 			LEVEL_RESOLUTION.y += 1
 	IS_READY = true
 
@@ -574,7 +592,7 @@ func attribute_stuffs(CELL):
 	match ATTRIBUTE:
 		"start_position":
 			if GAME_MODE == "Classic":
-				# check to see if tile is gray - without doing this, the level lags because it is rebuilt every step
+				# check to see if tile is gray - without doing this, the level is rebuilt every step
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 					tile_spawn(CELL.x,CELL.y,"10")
@@ -642,7 +660,7 @@ func attribute_stuffs(CELL):
 			emit_signal("signal_detonator", COLOR)
 			var node = get_node(str("VIEW_3D/",CELL.x,"x",CELL.y,"_detonator"))
 			var tween = create_tween()
-			tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.4)
+			tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
 			await tween.finished
 			node.queue_free()
 		"bomb":
@@ -708,13 +726,13 @@ func _on_signal_detonator(COLOR):
 							if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_box")):
 								var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_box"))
 								var tween = create_tween()
-								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.2)
+								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
 								await tween.finished
 								node.queue_free()
 							if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_detonator")):
 								var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_detonator"))
 								var tween = create_tween()
-								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.2)
+								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
 								await tween.finished
 								#node.queue_free()
 							CURRENT_LEVEL[i.y][i.x] = "10"
@@ -727,8 +745,8 @@ func _on_signal_detonator(COLOR):
 		temp_y += 1
 
 func _ready():
-	signal_detonator.connect(_on_signal_detonator)
 	os_checker()
+	signal_detonator.connect(_on_signal_detonator)
 	if not DirAccess.dir_exists_absolute("user://"):
 		DirAccess.make_dir_absolute("user://")
 	#DisplayServer.window_set_title(get_default("WINDOW_TITLE"))

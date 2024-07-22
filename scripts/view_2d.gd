@@ -48,53 +48,21 @@ var FONT_SIZE_SMALL = 16
 var BOX_OFFSET = Vector2(16,16)
 
 var KEYBINDS_TEXT = "------    Keybinds:    ------
-Normal/Hard Toggle:  M
 Restart Level:       R
 Load Next Level:     N
 Load Previous Level: B
 Camera Toggle:       C
 Rotate Cam Left:     Q
 Rotate Cam Right:    E
-Invert Cube:         I
-Fullscreen Toggle:   F
-  - (only works if this menu is showing)
-	- for some reason it requires you to press it twice.
-
------------------------
-
-scroll test
-check
-1
-2
-3
-4
-5
-6
-7
-8
-9
-10
-11
-12
-13
-14
-15
-16
-17
-18
-19
-20
 "
 
-func spawn_info_node(NAME, COLOR, LOCATION, STRING):
-	if LOCATION == "top":
-		LOCATION = TOP_CONTAINER
+func spawn_info_node(NAME, COLOR, STRING):
 	var NEW_ITEM_SLOT = CenterContainer.new()
 	NEW_ITEM_SLOT.name = str(NAME,"_BOX")
 	var NEW_ITEM_BOX = ColorRect.new()
 	NEW_ITEM_BOX.color = COLOR
 	NEW_ITEM_BOX.name = NAME
-	get_node(LOCATION).add_child(NEW_ITEM_SLOT)
+	get_node(TOP_CONTAINER).add_child(NEW_ITEM_SLOT)
 	NEW_ITEM_SLOT.add_child(NEW_ITEM_BOX)
 	var NEW_ITEM_LABEL = Label.new()
 	NEW_ITEM_LABEL.name = str(NAME,"_LABEL")
@@ -114,8 +82,7 @@ func spawn_menu_items():
 	new_node = HBoxContainer.new()
 	# add level name container
 	var NODE_NAME = "LEVEL_NAME"
-	var LOCATION = "top"
-	spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,hmls.LEVEL_NAME)
+	spawn_info_node(NODE_NAME,STATS_COLOR,hmls.LEVEL_NAME)
 	# add top bar separator
 	var NEW_ITEM_SLOT = CenterContainer.new()
 	NEW_ITEM_SLOT.name = "SEPARATOR_BOX"
@@ -128,8 +95,7 @@ func spawn_menu_items():
 	NEW_ITEM_SLOT.add_child(separator_box)
 	# add mode container
 	NODE_NAME = "MODE"
-	LOCATION = "top"
-	spawn_info_node(NODE_NAME,STATS_COLOR,LOCATION,str("Mode: " ,hmls.GAME_MODE))
+	spawn_info_node(NODE_NAME,STATS_COLOR,str("Mode: " ,hmls.GAME_MODE))
 
 var TIMER_HUD = 0
 func top_bar(MODE):
@@ -199,6 +165,7 @@ func side_bar(MODE):
 					AMOUNT_LEFT_BOX_1.hide()
 
 func _ready():
+	turn_off_menu()
 	TAB_GAME_TEXTURE.texture = TAB_ACTIVE
 	TAB_GAME_CONTENT.show()
 	hmls.signal_level_start.connect(_on_signal_level_start)
@@ -209,19 +176,12 @@ func _ready():
 	top_bar("reset")
 	side_bar("reset")
 
-var LABEL_OFFSET = Vector2(10,10)
-
 var TIMER = 0
 func _process(delta):
 	if MENU_NODE.is_visible_in_tree():
 		hmls.PAUSE = true
 	if hmls.PAUSE == false:
 		TIMER += delta
-	if Input.is_action_just_pressed("game_mode_key"):
-		if hmls.GAME_DIFFICULTY == "normal":
-			hmls.GAME_DIFFICULTY = "hard"
-		else:
-			hmls.GAME_DIFFICULTY = "normal"
 	top_bar("update")
 	side_bar("update")
 	if Input.is_action_just_pressed("menu_button"):
@@ -245,19 +205,60 @@ func _on_game_button_down():
 	turn_off_menu()
 	TAB_GAME_CONTENT.show()
 	TAB_GAME_TEXTURE.texture = TAB_ACTIVE
-
 func _on_video_button_down():
 	turn_off_menu()
 	TAB_VIDEO_CONTENT.show()
 	TAB_VIDEO_TEXTURE.texture = TAB_ACTIVE
-	
-
 func _on_audio_button_down():
 	turn_off_menu()
 	TAB_AUDIO_CONTENT.show()
 	TAB_AUDIO_TEXTURE.texture = TAB_ACTIVE
-
 func _on_controls_button_down():
 	turn_off_menu()
 	TAB_CONTROLS_CONTENT.show()
 	TAB_CONTROLS_TEXTURE.texture = TAB_ACTIVE
+
+func _on_fullscreen_disabled_button_down():
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED)
+	print(DisplayServer.window_get_mode(0))
+
+func _on_fullscreen_enabled_button_down():
+	DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_FULLSCREEN)
+	print(DisplayServer.window_get_mode(0))
+
+func _on_disable_shaders_button_down():
+	hmls.ENABLE_SHADERS = false
+
+func _on_enable_shaders_button_down():
+	hmls.ENABLE_SHADERS = true
+
+
+func _on_close_menu_button_down():
+	if MENU_NODE.is_visible_in_tree():
+		MENU_NODE.hide()
+		hmls.PAUSE = false
+	else:
+		MENU_NODE.show()
+
+
+func _on_difficulty_normal_button_down():
+	hmls.GAME_DIFFICULTY = "normal"
+func _on_difficulty_hard_button_down():
+	hmls.GAME_DIFFICULTY = "hard"
+	
+func _on_inverted_cube_disable_button_down():
+	hmls.INVERTED_MODE = "false"
+func _on_inverted_cube_enable_button_down():
+	hmls.INVERTED_MODE = "true"
+
+func _on_rng_seed_edit_text_changed(new_text):
+	hmls.RNG_SEED = new_text
+
+func _on_music_disable_button_down():
+	print("add music enable/disable in music function")
+func _on_music_enable_button_down():
+	print("add music enable/disable in music function")
+func _on_sound_effects_disable_button_down():
+	print("add sound effects enable/disable")
+func _on_sound_effects_enable_button_down():
+	print("add sound effects enable/disable")
