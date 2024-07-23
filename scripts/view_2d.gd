@@ -8,18 +8,16 @@ var TAB_INACTIVE = preload("res://assets/textures/menu_tab_inactive.tres")
 var TAB_ACTIVE = preload("res://assets/textures/menu_tab_active.tres")
 @onready var TAB_GAME_CONTENT = $menu/center/marg/vbox/box/border/marg/bg/marg/game_options
 @onready var TAB_VIDEO_CONTENT = $menu/center/marg/vbox/box/border/marg/bg/marg/video_options
-@onready var TAB_AUDIO_CONTENT = $menu/center/marg/vbox/box/border/marg/bg/marg/audio_options
 @onready var TAB_CONTROLS_CONTENT = $menu/center/marg/vbox/box/border/marg/bg/marg/controls
 @onready var TAB_GAME_TEXTURE = $menu/center/marg/vbox/tabs/hbox/game_options/texture
 @onready var TAB_VIDEO_TEXTURE = $menu/center/marg/vbox/tabs/hbox/video_options/texture
-@onready var TAB_AUDIO_TEXTURE = $menu/center/marg/vbox/tabs/hbox/audio_options/texture
 @onready var TAB_CONTROLS_TEXTURE = $menu/center/marg/vbox/tabs/hbox/controls_options/texture
 @onready var KEYBINDS_LABEL = $menu/center/marg/vbox/box/border/marg/bg/marg/controls/Label
 
 # set the tile size for the 2d tiles
 var TILE_SIZE_2D = 16
 
-var FONT_THEME = hmls.get_default("FONT_THEME")
+var FONT_THEME = GLOBALS.get_default("FONT_THEME")
 var FONT_1
 var FONT_2
 
@@ -82,7 +80,7 @@ func spawn_menu_items():
 	new_node = HBoxContainer.new()
 	# add level name container
 	var NODE_NAME = "LEVEL_NAME"
-	spawn_info_node(NODE_NAME,STATS_COLOR,hmls.LEVEL_NAME)
+	spawn_info_node(NODE_NAME,STATS_COLOR,GLOBALS.LEVEL_NAME)
 	# add top bar separator
 	var NEW_ITEM_SLOT = CenterContainer.new()
 	NEW_ITEM_SLOT.name = "SEPARATOR_BOX"
@@ -95,7 +93,7 @@ func spawn_menu_items():
 	NEW_ITEM_SLOT.add_child(separator_box)
 	# add mode container
 	NODE_NAME = "MODE"
-	spawn_info_node(NODE_NAME,STATS_COLOR,str("Mode: " ,hmls.GAME_MODE))
+	spawn_info_node(NODE_NAME,STATS_COLOR,str("Mode: " ,GLOBALS.GAME_MODE))
 
 var TIMER_HUD = 0
 func top_bar(MODE):
@@ -103,7 +101,7 @@ func top_bar(MODE):
 		spawn_menu_items()
 		return
 	if MODE == "update":
-		if hmls.PAUSE == false:
+		if GLOBALS.PAUSE == false:
 			pass
 		return
 
@@ -111,7 +109,7 @@ func _on_signal_level_start():
 	TIMER = 0
 	top_bar("reset")
 
-var SIDE_BAR_COLOR_1 = hmls.get_default("COLOR_BLACK")
+var SIDE_BAR_COLOR_1 = GLOBALS.get_default("COLOR_BLACK")
 var SIDE_BAR_COLOR_2 = "#98bb9c"
 func side_bar(MODE):
 	var TIMER_BOX_1 = $side_bar/CenterContainer/VBoxContainer/timer_node
@@ -124,25 +122,25 @@ func side_bar(MODE):
 	var AMOUNT_LEFT_BOX_2 = $side_bar/CenterContainer/VBoxContainer/amount_left_node/cent/marg/crect
 	var AMOUNT_LEFT_LABEL = $side_bar/CenterContainer/VBoxContainer/amount_left_node/cent/marg/crect/cent/amount_left_label
 	if MODE == "reset":
-		if hmls.PAUSE == false:
+		if GLOBALS.PAUSE == false:
 			TIMER_BOX_1.color = SIDE_BAR_COLOR_1
 			TIMER_BOX_2.color = SIDE_BAR_COLOR_2
 			TIMER_LABEL.text = str("000")
 			TIMER_LABEL.add_theme_font_override("font", FONT_2)
 			TIMER_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
-			TIMER_LABEL.set("theme_override_colors/font_color",hmls.get_default("COLOR_BLACK"))
+			TIMER_LABEL.set("theme_override_colors/font_color",GLOBALS.get_default("COLOR_BLACK"))
 			KEY_COUNT_BOX_1.color = SIDE_BAR_COLOR_1
 			KEY_COUNT_BOX_2.color = SIDE_BAR_COLOR_2
 			KEY_COUNT_LABEL.text = str("0/0")
 			KEY_COUNT_LABEL.add_theme_font_override("font", FONT_2)
 			KEY_COUNT_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
-			KEY_COUNT_LABEL.set("theme_override_colors/font_color",hmls.get_default("COLOR_BLACK"))
+			KEY_COUNT_LABEL.set("theme_override_colors/font_color",GLOBALS.get_default("COLOR_BLACK"))
 			AMOUNT_LEFT_BOX_1.color = SIDE_BAR_COLOR_1
 			AMOUNT_LEFT_BOX_2.color = SIDE_BAR_COLOR_2
 			AMOUNT_LEFT_LABEL.text = str("0")
 			AMOUNT_LEFT_LABEL.add_theme_font_override("font", FONT_2)
 			AMOUNT_LEFT_LABEL.add_theme_font_size_override("font_size", 60)
-			AMOUNT_LEFT_LABEL.set("theme_override_colors/font_color",hmls.get_default("COLOR_BLACK"))
+			AMOUNT_LEFT_LABEL.set("theme_override_colors/font_color",GLOBALS.get_default("COLOR_BLACK"))
 			print("side bar reset")
 	elif MODE == "update":
 		TIMER_HUD = int(TIMER)
@@ -154,12 +152,12 @@ func side_bar(MODE):
 		if TIMER_HUD < 10:
 			TEMP_TIMER = str("000", TIMER_HUD)
 		TIMER_LABEL.text = TEMP_TIMER
-		KEY_COUNT_LABEL.text = str(hmls.KEY_COUNT,"/",hmls.KEY_COUNT_TOTAL)
-		match hmls.GAME_MODE:
+		KEY_COUNT_LABEL.text = str(GLOBALS.KEY_COUNT,"/",GLOBALS.KEY_COUNT_TOTAL)
+		match GLOBALS.GAME_MODE:
 			"Classic":
 				if not AMOUNT_LEFT_BOX_1.is_visible():
 					AMOUNT_LEFT_BOX_1.show()
-				AMOUNT_LEFT_LABEL.text = str(hmls.AMOUNT_LEFT)
+				AMOUNT_LEFT_LABEL.text = str(GLOBALS.AMOUNT_LEFT)
 			_:
 				if AMOUNT_LEFT_BOX_1.is_visible():
 					AMOUNT_LEFT_BOX_1.hide()
@@ -168,9 +166,9 @@ func _ready():
 	turn_off_menu()
 	TAB_GAME_TEXTURE.texture = TAB_ACTIVE
 	TAB_GAME_CONTENT.show()
-	hmls.signal_level_start.connect(_on_signal_level_start)
+	GLOBALS.signal_level_start.connect(_on_signal_level_start)
 	set_font()
-	#hmls.PAUSE = false
+	#GLOBALS.PAUSE = false
 	MENU_NODE.hide()
 	KEYBINDS_LABEL.text = KEYBINDS_TEXT
 	top_bar("reset")
@@ -179,15 +177,15 @@ func _ready():
 var TIMER = 0
 func _process(delta):
 	if MENU_NODE.is_visible_in_tree():
-		hmls.PAUSE = true
-	if hmls.PAUSE == false:
+		GLOBALS.PAUSE = true
+	if GLOBALS.PAUSE == false:
 		TIMER += delta
 	top_bar("update")
 	side_bar("update")
 	if Input.is_action_just_pressed("menu_button"):
 		if MENU_NODE.is_visible_in_tree():
 			MENU_NODE.hide()
-			hmls.PAUSE = false
+			GLOBALS.PAUSE = false
 		else:
 			MENU_NODE.show()
 
@@ -196,8 +194,6 @@ func turn_off_menu():
 	TAB_GAME_TEXTURE.texture = TAB_INACTIVE
 	TAB_VIDEO_CONTENT.hide()
 	TAB_VIDEO_TEXTURE.texture = TAB_INACTIVE
-	TAB_AUDIO_CONTENT.hide()
-	TAB_AUDIO_TEXTURE.texture = TAB_INACTIVE
 	TAB_CONTROLS_CONTENT.hide()
 	TAB_CONTROLS_TEXTURE.texture = TAB_INACTIVE
 
@@ -209,10 +205,6 @@ func _on_video_button_down():
 	turn_off_menu()
 	TAB_VIDEO_CONTENT.show()
 	TAB_VIDEO_TEXTURE.texture = TAB_ACTIVE
-func _on_audio_button_down():
-	turn_off_menu()
-	TAB_AUDIO_CONTENT.show()
-	TAB_AUDIO_TEXTURE.texture = TAB_ACTIVE
 func _on_controls_button_down():
 	turn_off_menu()
 	TAB_CONTROLS_CONTENT.show()
@@ -227,32 +219,32 @@ func _on_fullscreen_enabled_button_down():
 	print(DisplayServer.window_get_mode(0))
 
 func _on_disable_shaders_button_down():
-	hmls.ENABLE_SHADERS = false
+	GLOBALS.ENABLE_SHADERS = false
 
 func _on_enable_shaders_button_down():
-	hmls.ENABLE_SHADERS = true
-
+	GLOBALS.ENABLE_SHADERS = true
 
 func _on_close_menu_button_down():
 	if MENU_NODE.is_visible_in_tree():
 		MENU_NODE.hide()
-		hmls.PAUSE = false
+		GLOBALS.PAUSE = false
 	else:
 		MENU_NODE.show()
 
-
 func _on_difficulty_normal_button_down():
-	hmls.GAME_DIFFICULTY = "normal"
+	GLOBALS.GAME_DIFFICULTY = "normal"
 func _on_difficulty_hard_button_down():
-	hmls.GAME_DIFFICULTY = "hard"
-	
+	GLOBALS.GAME_DIFFICULTY = "hard"
+func _on_difficulty_invisible_button_down():
+	GLOBALS.GAME_DIFFICULTY = "invisible"
+
 func _on_inverted_cube_disable_button_down():
-	hmls.INVERTED_MODE = "false"
+	GLOBALS.INVERTED_MODE = "false"
 func _on_inverted_cube_enable_button_down():
-	hmls.INVERTED_MODE = "true"
+	GLOBALS.INVERTED_MODE = "true"
 
 func _on_rng_seed_edit_text_changed(new_text):
-	hmls.RNG_SEED = new_text
+	GLOBALS.RNG_SEED = new_text
 
 func _on_music_disable_button_down():
 	print("add music enable/disable in music function")
@@ -262,3 +254,15 @@ func _on_sound_effects_disable_button_down():
 	print("add sound effects enable/disable")
 func _on_sound_effects_enable_button_down():
 	print("add sound effects enable/disable")
+
+func _on_main_menu_button_button_down():
+	print("go to main menu when it's actually made")
+func _on_restart_level_button_button_down():
+	print("go to restart level hook thingy")
+func _on_next_level_button_button_down():
+	print("make next level button only available if the current level has already been cleared")
+
+func _on_inverted_cam_disable_button_down():
+	GLOBALS.INVERT_CAM = false
+func _on_inverted_cam_enable_button_down():
+	GLOBALS.INVERT_CAM = true

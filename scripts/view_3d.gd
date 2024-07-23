@@ -8,11 +8,11 @@ var cam_speed = 3
 var CAN_ROTATE = true
 
 func rotate_view(input):
-	hmls.ROTATION_COUNT += input
-	if hmls.ROTATION_COUNT > 4:
-		hmls.ROTATION_COUNT = 1
-	if hmls.ROTATION_COUNT < 1:
-		hmls.ROTATION_COUNT = 4
+	GLOBALS.ROTATION_COUNT += input
+	if GLOBALS.ROTATION_COUNT > 4:
+		GLOBALS.ROTATION_COUNT = 1
+	if GLOBALS.ROTATION_COUNT < 1:
+		GLOBALS.ROTATION_COUNT = 4
 	var ROTATION_DEGREES
 	if input == 1:
 		ROTATION_DEGREES = 90
@@ -62,29 +62,29 @@ func set_skybox(SKYBOX_NUMBER):
 func _ready():
 	set_skybox(1)
 	rotate_view(0)
-	hmls.update_tiles("3d")
+	GLOBALS.update_tiles("3d")
 	# after updating the level tiles, set the cube position
 	var CUBE = get_node("Cube")
-	CUBE.position = Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y)
-	hmls.update_cube_position(Vector2(CUBE.position.x, CUBE.position.z))
-	hmls.emit_signal("signal_level_start")
-	if hmls.ENABLE_SHADERS == true:
+	CUBE.position = Vector3(GLOBALS.START_POSITION.x,0,GLOBALS.START_POSITION.y)
+	GLOBALS.update_cube_position(Vector2(CUBE.position.x, CUBE.position.z))
+	GLOBALS.emit_signal("signal_level_start")
+	if GLOBALS.ENABLE_SHADERS == true:
 		$Camera3D/DirectionalLight3D.light_energy = 1.5
 	else:
 		$Camera3D/DirectionalLight3D.light_energy = 1.3
 
 var COLOR_CYCLE = 0
 func _process(delta):
-	if hmls.OS_CHECK == "mobile":
-		if hmls.ENABLE_SHADERS == true:
-			hmls.ENABLE_SHADERS = false
+	if GLOBALS.OS_CHECK == "mobile":
+		if GLOBALS.ENABLE_SHADERS == true:
+			GLOBALS.ENABLE_SHADERS = false
 	rotate_skybox()
 	if Input.is_action_just_pressed("ui_undo"):
-		if hmls.ENABLE_SHADERS:
-			hmls.ENABLE_SHADERS = false
+		if GLOBALS.ENABLE_SHADERS:
+			GLOBALS.ENABLE_SHADERS = false
 		else:
-			hmls.ENABLE_SHADERS = true
-	if hmls.ENABLE_SHADERS:
+			GLOBALS.ENABLE_SHADERS = true
+	if GLOBALS.ENABLE_SHADERS:
 		if not $Camera3D/shader_mobius.is_visible():
 			$Camera3D/DirectionalLight3D.light_energy = 1.5
 			$Camera3D/shader_mobius.show()
@@ -93,10 +93,16 @@ func _process(delta):
 			$Camera3D/shader_mobius.hide()
 			$Camera3D/DirectionalLight3D.light_energy = 1.3
 	if Input.is_action_just_pressed("CAM_ROTATE_LEFT"):
-		rotate_view(-1)
+		if GLOBALS.INVERT_CAM == true:
+			rotate_view(1)
+		else:
+			rotate_view(-1)
 	if Input.is_action_just_pressed("CAM_ROTATE_RIGHT"):
-		rotate_view(1)
-	match hmls.ROTATION_COUNT:
+		if GLOBALS.INVERT_CAM == true:
+			rotate_view(-1)
+		else:
+			rotate_view(1)
+	match GLOBALS.ROTATION_COUNT:
 		1:
 			cam_offset = Vector3(3, 8, 5)
 		2:
@@ -106,13 +112,14 @@ func _process(delta):
 		4:
 			cam_offset = Vector3(-5, 8, 3)
 		_:
-			hmls.ROTATION_COUNT = 1
-	if hmls.CLOSE_UP_CAM == "false":
-		cam_offset = cam_offset * 2
+			cam_offset = Vector3(3, 8, 5)
+			GLOBALS.ROTATION_COUNT = 1
+	if GLOBALS.CLOSE_UP_CAM == "false":
+		cam_offset = cam_offset * 3.2
 	$Camera3D.position = lerp($Camera3D.position, $Cube.position + cam_offset, cam_speed * delta)
-	$Camera3D.rotation_degrees = lerp($Camera3D.rotation_degrees, cam_rotation, (cam_speed + 1) * delta)
+	$Camera3D.rotation_degrees = lerp($Camera3D.rotation_degrees, cam_rotation, cam_speed * delta)
 	if Input.is_action_just_pressed("cam_swap"):
-		if hmls.CLOSE_UP_CAM == "true":
-			hmls.CLOSE_UP_CAM = "false"
+		if GLOBALS.CLOSE_UP_CAM == "true":
+			GLOBALS.CLOSE_UP_CAM = "false"
 		else:
-			hmls.CLOSE_UP_CAM = "true"
+			GLOBALS.CLOSE_UP_CAM = "true"

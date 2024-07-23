@@ -2,7 +2,6 @@ extends CharacterBody3D
 
 @onready var pivot = $Pivot
 @onready var mesh = $Pivot/MeshInstance3D
-#var STARTING_PIVOT
 var cube_size = 1.0
 var speed = 6.0
 var rolling = false
@@ -12,35 +11,22 @@ var FUTURE_ORIENTATION = Vector3(0,0,0)
 var FUTURE_ORIENTATION_COLOR
 
 func set_cube_material():
-	if hmls.GAME_DIFFICULTY == "normal":
+	if GLOBALS.GAME_DIFFICULTY == "normal":
 		var material = load("res://assets/textures/cube_3d_easy.tres")
-		if hmls.INVERTED_MODE == "true":
+		if GLOBALS.INVERTED_MODE == "true":
 			material = load("res://assets/textures/cube_3d_easy_inverted.tres")
 		else:
 			material = load("res://assets/textures/cube_3d_easy.tres")
-		#material.set_shading_mode(0)
-		#material.albedo_texture_force_srgb = true
-		#if FileAccess.file_exists("user://cube_easy.png"):
-		#	var image = Image.new()
-		#	image.load("user://cube_easy.png")
-		#	var texture = ImageTexture.create_from_image(image)
-		#	if texture is Texture:
-		#		material.albedo_texture = texture
 		mesh.set_surface_override_material(0, material)
-	elif hmls.GAME_DIFFICULTY == "hard":
+	elif GLOBALS.GAME_DIFFICULTY == "hard":
 		var material = load("res://assets/textures/cube_3d_hard.tres")
-		if hmls.INVERTED_MODE == "true":
+		if GLOBALS.INVERTED_MODE == "true":
 			material = load("res://assets/textures/cube_3d_hard_inverted.tres")
 		else:
 			material = load("res://assets/textures/cube_3d_hard.tres")
-		#material.set_shading_mode(0)
-		#material.albedo_texture_force_srgb = true
-		#if FileAccess.file_exists("user://cube_hard.png"):
-		#	var image = Image.new()
-		#	image.load("user://cube_hard.png")
-		#	var texture = ImageTexture.create_from_image(image)
-		#	if texture is Texture:
-		#		material.albedo_texture = texture
+		mesh.set_surface_override_material(0, material)
+	elif GLOBALS.GAME_DIFFICULTY == "invisible":
+		var material = load("res://assets/textures/cube_3d_invisible.tres")
 		mesh.set_surface_override_material(0, material)
 
 # the input passed through to match_orientation is a Vector3 with xyz containting a Vector3
@@ -59,7 +45,7 @@ func match_orientation(input):
 	elif input.z.y == -1:
 		RETURN_COLOR = "purple"
 	if RETURN_COLOR == "null":
-		hmls.debug_message("cube_3d.gd - match_orientation()", str(input), 3)
+		GLOBALS.debug_message("cube_3d.gd - match_orientation()", str(input), 3)
 	return RETURN_COLOR
 
 # before actually rolling, we want check for the color of the tile we are rolling into
@@ -80,7 +66,7 @@ func fake_roll(dir):
 	# set the properties from the original mesh and pivot
 	FAKE_MESH.position = mesh.position
 	FAKE_MESH.global_transform.basis = mesh.global_transform.basis
-	FAKE_MESH.rotation_degrees = hmls.round_vect3(mesh.rotation_degrees)
+	FAKE_MESH.rotation_degrees = GLOBALS.round_vect3(mesh.rotation_degrees)
 	# do the stuffs to make the fake pivot move
 	#FAKE_PIVOT.translate(dir * cube_size / 2)
 	FAKE_MESH.global_translate(-dir * cube_size / 2)
@@ -98,9 +84,9 @@ func fake_roll(dir):
 	FAKE_PIVOT.queue_free()
 	# we need to get the properties of the tile we are moving into
 	# this will create an x y position of the tile we are trying to move to
-	var CELL = Vector2(hmls.CUBE_POSITION.x + dir.x, hmls.CUBE_POSITION.y + dir.z)
+	var CELL = Vector2(GLOBALS.CUBE_POSITION.x + dir.x, GLOBALS.CUBE_POSITION.y + dir.z)
 	# we then take that CELL_DATA and get color and attributes of the tile we are trying to move to
-	var CHECK_TILE = hmls.get_cell_data(hmls.CURRENT_LEVEL[CELL.y][CELL.x])
+	var CHECK_TILE = GLOBALS.get_cell_data(GLOBALS.CURRENT_LEVEL[CELL.y][CELL.x])
 	# if the tile color is gray, we cheat and say that the tile color is the color of our cube
 	if CHECK_TILE[1] == "gray":
 		FUTURE_ORIENTATION_COLOR = CHECK_TILE[1]
@@ -110,8 +96,8 @@ func fake_roll(dir):
 	if FUTURE_ORIENTATION_COLOR == CHECK_TILE[1]:
 		return true
 	else:
-		hmls.sound_effect("illegal")
-		hmls.debug_message("cube_3d.gd - fake_roll() - CHECK_COLOR",CHECK_TILE,2)
+		GLOBALS.sound_effect("illegal")
+		GLOBALS.debug_message("cube_3d.gd - fake_roll() - CHECK_COLOR",CHECK_TILE,2)
 		return false
 
 func roll(dir):
@@ -126,16 +112,16 @@ func roll(dir):
 	if collision:
 		match int(collision.normal.x):
 			-1:
-				hmls.debug_message("cube_3d.gd - roll()","right side collision detected", 2)
+				GLOBALS.debug_message("cube_3d.gd - roll()","right side collision detected", 2)
 			1:
-				hmls.debug_message("cube_3d.gd - roll()","left side collision detected", 2)
+				GLOBALS.debug_message("cube_3d.gd - roll()","left side collision detected", 2)
 		match int(collision.normal.z):
 			-1:
-				hmls.debug_message("cube_3d.gd - roll()","bottom side collision detected", 2)
+				GLOBALS.debug_message("cube_3d.gd - roll()","bottom side collision detected", 2)
 			1:
-				hmls.debug_message("cube_3d.gd - roll()","top side collision detected", 2)
+				GLOBALS.debug_message("cube_3d.gd - roll()","top side collision detected", 2)
 		return
-	hmls.sound_effect("cube")
+	GLOBALS.sound_effect("cube")
 	rolling = true
 	# Step 1: Offset the pivot.
 	pivot.translate(dir * cube_size / 2)
@@ -152,90 +138,75 @@ func roll(dir):
 	mesh.position = Vector3(0, cube_size / 2, 0)
 	mesh.global_transform.basis = b
 	CURRENT_ORIENTATION_COLOR = match_orientation(mesh.global_transform.basis)
-	hmls.debug_message("cube_3d.gd - roll() - CURRENT_ORIENTATION_COLOR", CURRENT_ORIENTATION_COLOR,1)
+	GLOBALS.debug_message("cube_3d.gd - roll() - CURRENT_ORIENTATION_COLOR", CURRENT_ORIENTATION_COLOR,1)
 	rolling = false
-	hmls.update_cube_position(Vector2(int(position.x), int(position.z)))
+	GLOBALS.update_cube_position(Vector2(int(position.x), int(position.z)))
 
 func reset_pos():
-	hmls.update_cube_position(Vector2(hmls.START_POSITION.x,hmls.START_POSITION.y))
+	GLOBALS.update_cube_position(Vector2(GLOBALS.START_POSITION.x,GLOBALS.START_POSITION.y))
 	mesh.rotation_degrees = Vector3(0,0,0)
-	hmls.PAUSE = true
-	position = Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y)
+	GLOBALS.PAUSE = true
+	position = Vector3(GLOBALS.START_POSITION.x,0,GLOBALS.START_POSITION.y)
 	scale = Vector3(0.01,0.01,0.01)
-	hmls.PAUSE = true
+	GLOBALS.PAUSE = true
 	var tween2 = create_tween()
 	tween2.tween_property(self,"scale",Vector3(1,1,1),0.9)
 	await tween2.finished
-	hmls.PAUSE = false
-	#var tween2 = create_tween()
-	#tween2.tween_property(self,"position",Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y),0.7)
-	#await tween2.finished
+	GLOBALS.PAUSE = false
 	
-	hmls.PAUSE = false
-	#hmls.update_cube_position(Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y))
-	
-	#mesh.hide()
-	#position = Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y)
-	#mesh.scale = Vector3(0,0,0)
-	#hmls.PAUSE = true
-	#var tween = create_tween()
-	#tween.tween_property(mesh,"scale",Vector3(1,1,1),0.5)
-	#mesh.show()
-	#await tween.finished
-	#hmls.PAUSE = false
+	GLOBALS.PAUSE = false
 
 func _ready():
 	set_cube_material()
-	hmls.KEY_COUNT = 0
-	position = Vector3(hmls.START_POSITION.x,0,hmls.START_POSITION.y)
-	hmls.update_cube_position(Vector2(position.x,position.z))
+	GLOBALS.KEY_COUNT = 0
+	position = Vector3(GLOBALS.START_POSITION.x,0,GLOBALS.START_POSITION.y)
+	GLOBALS.update_cube_position(Vector2(position.x,position.z))
 	reset_pos()
 
 var ORIGINAL_SPEED = speed
-var LAST_MODE = hmls.GAME_DIFFICULTY
-var LAST_INVERTED = str(hmls.INVERTED_MODE)
+var LAST_MODE = GLOBALS.GAME_DIFFICULTY
+var LAST_INVERTED = str(GLOBALS.INVERTED_MODE)
 var TIMER = 0
 # sloppy input management
 func _physics_process(_delta):
-	if hmls.GAME_DIFFICULTY != LAST_MODE:
-		LAST_MODE = hmls.GAME_DIFFICULTY
+	if GLOBALS.GAME_DIFFICULTY != LAST_MODE:
+		LAST_MODE = GLOBALS.GAME_DIFFICULTY
 		set_cube_material()
-	if hmls.INVERTED_MODE != LAST_INVERTED:
-		LAST_INVERTED = hmls.INVERTED_MODE
+	if GLOBALS.INVERTED_MODE != LAST_INVERTED:
+		LAST_INVERTED = GLOBALS.INVERTED_MODE
 		set_cube_material()
 	if Input.is_action_just_pressed("reset"):
-		if hmls.PAUSE == false:
+		if GLOBALS.PAUSE == false:
 			# uncomment the line below to force the RNG to be the same each reset
-			#hmls.update_rng_seed(hmls.get_default("RNG_SEED"))
-			hmls.debug_message("cube_3d.gd", "reset button pressed", 1)
-			hmls.update_tiles("reset")
-			hmls.update_tiles("3d")
-			hmls.emit_signal("signal_level_start")
+			GLOBALS.debug_message("cube_3d.gd", "reset button pressed", 1)
+			GLOBALS.update_tiles("reset")
+			GLOBALS.update_tiles("3d")
+			GLOBALS.emit_signal("signal_level_start")
 			reset_pos()
 	if Input.is_action_just_pressed("level_next"):
-		if hmls.PAUSE == false:
-			hmls.update_level(1)
-			hmls.update_tiles("reset")
-			hmls.update_tiles("3d")
-			hmls.emit_signal("signal_level_start")
-			# set the position and then pass position to hmls.update_cube_position
+		if GLOBALS.PAUSE == false:
+			GLOBALS.update_level(1)
+			GLOBALS.update_tiles("reset")
+			GLOBALS.update_tiles("3d")
+			GLOBALS.emit_signal("signal_level_start")
+			# set the position and then pass position to GLOBALS.update_cube_position
 			# if we don't do this, the cube can end up on a bad tile
 			reset_pos()
 	if Input.is_action_just_pressed("level_previous"):
-		if hmls.PAUSE == false:
-			hmls.update_level(-1)
-			hmls.update_tiles("reset")
-			hmls.update_tiles("3d")
-			hmls.emit_signal("signal_level_start")
+		if GLOBALS.PAUSE == false:
+			GLOBALS.update_level(-1)
+			GLOBALS.update_tiles("reset")
+			GLOBALS.update_tiles("3d")
+			GLOBALS.emit_signal("signal_level_start")
 			reset_pos()
-	if hmls.PAUSE:
+	if GLOBALS.PAUSE:
 		return
 	speed = ORIGINAL_SPEED
 	if Input.is_action_pressed("hmls_shift"):
 		speed = speed * 1.5
 	var DIR = Vector3.ZERO
 	if Input.is_action_pressed("forward"):
-		match hmls.ROTATION_COUNT:
+		match GLOBALS.ROTATION_COUNT:
 			1:
 				DIR = Vector3.FORWARD
 			2:
@@ -245,7 +216,7 @@ func _physics_process(_delta):
 			4:
 				DIR = Vector3.RIGHT
 	if Input.is_action_pressed("back"):
-		match hmls.ROTATION_COUNT:
+		match GLOBALS.ROTATION_COUNT:
 			1:
 				DIR = Vector3.BACK
 			2:
@@ -255,7 +226,7 @@ func _physics_process(_delta):
 			4:
 				DIR = Vector3.LEFT
 	if Input.is_action_pressed("right"):
-		match hmls.ROTATION_COUNT:
+		match GLOBALS.ROTATION_COUNT:
 			1:
 				DIR = Vector3.RIGHT
 			2:
@@ -265,7 +236,7 @@ func _physics_process(_delta):
 			4:
 				DIR = Vector3.BACK
 	if Input.is_action_pressed("left"):
-		match hmls.ROTATION_COUNT:
+		match GLOBALS.ROTATION_COUNT:
 			1:
 				DIR = Vector3.LEFT
 			2:
@@ -276,17 +247,17 @@ func _physics_process(_delta):
 				DIR = Vector3.FORWARD
 	if DIR != Vector3.ZERO:
 		# check if there is even a tile in the LEVEL_MATRIX to move to
-		match str(hmls.floor_check(hmls.CUBE_POSITION.x + DIR.x, hmls.CUBE_POSITION.y + DIR.z)):
+		match str(GLOBALS.floor_check(GLOBALS.CUBE_POSITION.x + DIR.x, GLOBALS.CUBE_POSITION.y + DIR.z)):
 			"stop":
-				hmls.sound_effect("illegal")
+				GLOBALS.sound_effect("illegal")
 				return
 		# the CAN_ROLL variable is set after the fake cube checks if the orientation matches the tile
 		var CAN_ROLL = await fake_roll(DIR)
 		if CAN_ROLL == false:
 			return
 		# we then check if the tile has an attribute (bombs, keys, etc)
-		hmls.attribute_stuffs(Vector2(hmls.CUBE_POSITION.x + DIR.x, hmls.CUBE_POSITION.y + DIR.z))
+		GLOBALS.attribute_stuffs(Vector2(GLOBALS.CUBE_POSITION.x + DIR.x, GLOBALS.CUBE_POSITION.y + DIR.z))
 		# finally we roll into the tile
 		roll(DIR)
 		# add some RNG so every spawn is different
-		hmls.RNG_COUNTER += 1
+		GLOBALS.RNG_COUNTER += 1

@@ -8,7 +8,7 @@
 [sub_resource type="BoxShape3D" id="BoxShape3D_ps3m2"]
 
 [node name="Cube" type="CharacterBody3D"]
-transform = Transform3D(0.999962, -0.00872654, 3.48774e-16, 0.0087262, 0.999924, -0.00872654, 7.61524e-05, 0.0087262, 0.999962, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+transform = Transform3D(0.999962, -0.00872653, -4.64721e-11, 0.0087262, 0.999924, -0.00872653, 7.61524e-05, 0.0087262, 0.999962, 2.08165e-12, 2.08165e-12, 2.08165e-12)
 script = ExtResource("1_km0ke")
 
 [node name="Pivot" type="Node3D" parent="."]
