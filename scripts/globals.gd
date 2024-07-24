@@ -598,6 +598,7 @@ func attribute_stuffs(CELL):
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 					tile_spawn(CELL.x,CELL.y,"10")
 					AMOUNT_LEFT -= 1
+					sound_effect("tile")
 			if GAME_MODE == "Puzzle":
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
