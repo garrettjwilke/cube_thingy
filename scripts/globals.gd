@@ -26,6 +26,9 @@ var PAUSE = true
 var INVERTED_MODE = get_default("INVERTED_MODE")
 var INVERT_CAM = false
 
+var MUTE_MUSIC = false
+var MUTE_SOUNDS = false
+
 var AMOUNT_LEFT = 0
 var KEY_COUNT = 0
 var KEY_BLANK = 0
@@ -153,6 +156,8 @@ var pitch_scale = 1.0
 var pitch_flip = 0
 var previous_rng = 0
 func sound_effect(SOUND):
+	if MUTE_SOUNDS:
+		return
 	var SOUND_PLAYER = AudioStreamPlayer2D.new()
 	SOUND_PLAYER.pitch_scale = 1.0
 	SOUND_PLAYER.volume_db = 0.0

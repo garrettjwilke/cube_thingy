@@ -248,13 +248,13 @@ func _on_rng_seed_edit_text_changed(new_text):
 	GLOBALS.RNG_SEED = new_text
 
 func _on_music_disable_button_down():
-	print("add music enable/disable in music function")
+	GLOBALS.MUTE_MUSIC = true
 func _on_music_enable_button_down():
-	print("add music enable/disable in music function")
+	GLOBALS.MUTE_MUSIC = false
 func _on_sound_effects_disable_button_down():
-	print("add sound effects enable/disable")
+	GLOBALS.MUTE_SOUNDS = true
 func _on_sound_effects_enable_button_down():
-	print("add sound effects enable/disable")
+	GLOBALS.MUTE_SOUNDS = false
 
 func _on_main_menu_button_button_down():
 	print("go to main menu when it's actually made")

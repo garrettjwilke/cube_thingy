@@ -3,6 +3,8 @@ extends Node
 @onready var player = $AudioStreamPlayer2D
 
 func music_looper():
+	if GLOBALS.MUTE_MUSIC:
+		return
 	if player.playing == true:
 		return
 	player.play()
