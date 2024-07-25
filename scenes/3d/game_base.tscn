@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://d0qkbl33uofmb" path="res://scenes/3d/view_3d.tscn" id="1_msgmu"]
 [ext_resource type="PackedScene" uid="uid://d0kb0m1cengho" path="res://scenes/2d/view_2d.tscn" id="2_1nvwm"]
 [ext_resource type="Script" path="res://scripts/music.gd" id="3_m1ci8"]
-[ext_resource type="AudioStream" uid="uid://djng6rwis4rqp" path="res://assets/music/trash_loop_01.mp3" id="4_vaata"]
+[ext_resource type="AudioStream" uid="uid://djng6rwis4rqp" path="res://assets/music/loop_1.mp3" id="4_vaata"]
 
 [node name="GAME_BASE" type="Node3D"]
 
