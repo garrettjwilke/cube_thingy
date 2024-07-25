@@ -47,6 +47,7 @@ func reset_keys():
 var KEY_COUNT_TOTAL = 0
 
 var BOX_MESH = preload("res://scenes/3d/block_3d.tscn")
+var NEW_TILE = MeshInstance3D.new()
 
 signal signal_detonator(COLOR)
 signal signal_level_start()
@@ -495,13 +496,14 @@ func tile_spawn(x, y, cell):
 		await tween2.finished
 		#CURRENT_TILE.queue_free()
 	else:
-		CURRENT_TILE = MeshInstance3D.new()
+		CURRENT_TILE = NEW_TILE.duplicate(0)
+		#CURRENT_TILE = MeshInstance3D.new()
 		CURRENT_TILE.name = str(x,"x",y)
 		CURRENT_TILE.mesh = BoxMesh.new()
 		get_node("VIEW_3D").add_child(CURRENT_TILE)
 	var material = StandardMaterial3D.new()
 	material.albedo_color = COLOR
-	material.albedo_texture_force_srgb = true
+	#material.albedo_texture_force_srgb = true
 	CURRENT_TILE.mesh.surface_set_material(0, material)
 	spawn_floor(Vector2(x,y))
 	var TILE_SCALE = 0.85

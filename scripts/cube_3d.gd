@@ -9,6 +9,7 @@ var CURRENT_ORIENTATION = Vector3(0,0,0)
 var CURRENT_ORIENTATION_COLOR
 var FUTURE_ORIENTATION = Vector3(0,0,0)
 var FUTURE_ORIENTATION_COLOR
+var ENABLE_TRANSFORM_INFO = true
 
 func set_cube_material():
 	if GLOBALS.GAME_DIFFICULTY == "normal":
@@ -30,23 +31,36 @@ func set_cube_material():
 		mesh.set_surface_override_material(0, material)
 
 # the input passed through to match_orientation is a Vector3 with xyz containting a Vector3
-func match_orientation(input):
+func match_orientation(transform_basis):
 	var RETURN_COLOR = "null"
-	if input.x.y == 1:
+	if transform_basis.x.y == 1:
 		RETURN_COLOR = "yellow"
-	elif input.x.y == -1:
+	elif transform_basis.x.y == -1:
 		RETURN_COLOR = "red"
-	if input.y.y == 1:
+	if transform_basis.y.y == 1:
 		RETURN_COLOR = "blue"
-	elif input.y.y == -1:
+	elif transform_basis.y.y == -1:
 		RETURN_COLOR = "orange"
-	if input.z.y == 1:
+	if transform_basis.z.y == 1:
 		RETURN_COLOR = "green"
-	elif input.z.y == -1:
+	elif transform_basis.z.y == -1:
 		RETURN_COLOR = "purple"
 	if RETURN_COLOR == "null":
-		GLOBALS.debug_message("cube_3d.gd - match_orientation()", str(input), 3)
+		GLOBALS.debug_message("cube_3d.gd - match_orientation()", str(transform_basis), 3)
 	return RETURN_COLOR
+
+func print_transforms(state,transform_basis,dir):
+	if not ENABLE_TRANSFORM_INFO:
+		return
+	print("----------")
+	print("Direction: ",dir)
+	if state == "start":
+		print("Starting Position:")
+	elif state == "end":
+		print("Ending Position:")
+	print(str("x: ",GLOBALS.round_vect3(transform_basis).x))
+	print(str("y: ",GLOBALS.round_vect3(transform_basis).y))
+	print(str("z: ",GLOBALS.round_vect3(transform_basis).z))
 
 # before actually rolling, we want check for the color of the tile we are rolling into
 # so this junk below will create a fake cube and roll it to find if we can even land there
@@ -66,6 +80,7 @@ func fake_roll(dir):
 	# set the properties from the original mesh and pivot
 	FAKE_MESH.position = mesh.position
 	FAKE_MESH.global_transform.basis = mesh.global_transform.basis
+	print_transforms("start",FAKE_MESH.global_transform.basis,dir)
 	FAKE_MESH.rotation_degrees = GLOBALS.round_vect3(mesh.rotation_degrees)
 	# do the stuffs to make the fake pivot move
 	#FAKE_PIVOT.translate(dir * cube_size / 2)
@@ -78,6 +93,7 @@ func fake_roll(dir):
 	FAKE_PIVOT.transform = Transform3D.IDENTITY
 	FAKE_MESH.position = Vector3(0, cube_size / 2, 0)
 	FAKE_MESH.global_transform.basis = b
+	print_transforms("end",FAKE_MESH.global_transform.basis,dir)
 	# this will get the orientation of the FAKE_MESH after it has moved around and stuffs
 	FUTURE_ORIENTATION_COLOR = match_orientation(FAKE_MESH.global_transform.basis)
 	# we then delete the FAKE_PIVOT and FAKE_MESH

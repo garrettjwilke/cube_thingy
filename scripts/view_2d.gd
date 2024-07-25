@@ -46,12 +46,13 @@ var FONT_SIZE_SMALL = 16
 var BOX_OFFSET = Vector2(16,16)
 
 var KEYBINDS_TEXT = "------    Keybinds:    ------
+Move Cube:           Up/Down/Left/Right or A/S/D/W
+Rotate Cam Left:     Q
+Rotate Cam Right:    E
+Camera Zoom:         C
 Restart Level:       R
 Load Next Level:     N
 Load Previous Level: B
-Camera Toggle:       C
-Rotate Cam Left:     Q
-Rotate Cam Right:    E
 "
 
 func spawn_info_node(NAME, COLOR, STRING):
