@@ -25,6 +25,7 @@ var OS_CHECK = "null"
 var PAUSE = true
 var INVERTED_MODE = get_default("INVERTED_MODE")
 var INVERT_CAM = false
+var RESET_LEVEL = false
 
 var MUTE_MUSIC = false
 var MUTE_SOUNDS = false
@@ -54,6 +55,7 @@ var NEW_TILE = MeshInstance3D.new()
 
 signal signal_detonator(COLOR)
 signal signal_level_start()
+signal signal_level_end()
 
 # round number up/down
 func round_to_dec(num):
@@ -210,10 +212,10 @@ func update_cube_position(position):
 func floor_check(pos_x, pos_y):
 	var NODE_NAME = str(pos_x,"x",pos_y)
 	var NEXT_COLOR
-	for node in get_node("VIEW_3D").get_children():
-		if not get_node_or_null(str("VIEW_3D/",NODE_NAME)):
-			debug_message("gd - floor_check() - couldn't find node",str("VIEW_3D/",NODE_NAME),2)
-			return "stop"
+	#for node in get_node("VIEW_3D").get_children():
+	if not get_node_or_null(str("VIEW_3D/",NODE_NAME)):
+		debug_message("gd - floor_check() - couldn't find node",str("VIEW_3D/",NODE_NAME),2)
+		return "stop"
 	# if cube passes check, get the color of the next tile it is rolling into
 	NEXT_COLOR = CURRENT_LEVEL[pos_y][pos_x]
 	#print(NEXT_COLOR)
@@ -348,7 +350,10 @@ func get_cell_data(cell):
 		0:
 			ATTRIBUTE = "default"
 		1:
-			ATTRIBUTE = "bomb"
+			if COLOR == "null":
+				ATTRIBUTE = "final_orb"
+			else:
+				ATTRIBUTE = "bomb"
 		2:
 			ATTRIBUTE = "detonator"
 		3:
@@ -438,17 +443,13 @@ func spawn_detonator(x,y,COLOR):
 	get_node(str("VIEW_3D/",x,"x",y)).mesh.surface_set_material(0, floor_material)
 
 func spawn_final_orb(position,COLOR):
-	print(position)
-	position.x -= 1
-	position.z -= 1
-	if position.x < 0:
-		position.x = 0
-	if position.z < 0:
-		position.z = 0
 	if LEVEL_MATRIX == []:
 		print("wtf")
 		return
 	var static_mesh = StaticBody3D.new()
+	static_mesh.name = "final_orb"
+	static_mesh.set_collision_layer_value(3,true)
+	#static_mesh.position = position
 	get_node("VIEW_3D").add_child(static_mesh)
 	var finish_orb_mesh = MeshInstance3D.new()
 	finish_orb_mesh.name = "finish_orb_mesh"
@@ -459,14 +460,11 @@ func spawn_final_orb(position,COLOR):
 	finish_orb_mesh.position = position
 	static_mesh.add_child(finish_orb_mesh)
 	var collision = CollisionShape3D.new()
+	collision.name = "collision_box"
 	collision.shape = BoxShape3D.new()
+	#collision.disabled = false
 	collision.position = finish_orb_mesh.position
-	finish_orb_mesh.add_child(collision)
-	var fake_mesh = MeshInstance3D.new()
-	fake_mesh.mesh = BoxMesh.new()
-	fake_mesh.position = collision.position
-	fake_mesh.position.y += 2
-	collision.add_child(fake_mesh)
+	static_mesh.add_child(collision)
 	var new_mat = StandardMaterial3D.new()
 	if OS_CHECK == "desktop":
 		var subviewport = load("res://assets/textures/marble_subviewport.tscn").instantiate()
@@ -478,6 +476,7 @@ func spawn_final_orb(position,COLOR):
 	finish_orb_mesh.mesh.material = new_mat
 	finish_orb_mesh.rotation.z = 90
 
+var HAS_FINAL_ORB = false
 # this will spawn after the update_tiles() is ran
 func tile_spawn(x, y, cell):
 	# the get_cell_data() returns an array with html color codes and attributes
@@ -486,6 +485,14 @@ func tile_spawn(x, y, cell):
 	var ATTRIBUTE = CELL_DATA[3]
 	if ATTRIBUTE == "start_position":
 		START_POSITION = Vector2(x,y)
+	elif ATTRIBUTE == "final_orb":
+		FINAL_ORB_POSITION = Vector3(x,0.5,y)
+		COLOR = get_default("COLOR_GRAY")
+		HAS_FINAL_ORB = true
+		CURRENT_LEVEL[y][x] = "10"
+		if GAME_MODE == "Puzzle":
+			spawn_final_orb(FINAL_ORB_POSITION,COLOR)
+	
 	if COLOR == "null":
 		return
 	var CURRENT_TILE
@@ -520,6 +527,8 @@ func tile_spawn(x, y, cell):
 	match ATTRIBUTE:
 		"start_position":
 			pass
+		"final_orb":
+			pass
 		"box":
 			spawn_box(x,y,COLOR)
 		"key":
@@ -534,7 +543,6 @@ func tile_spawn(x, y, cell):
 func update_tiles(MODE):
 	# if reset, then delete all nodes and set CURRENT_LEVEL to nothing
 	if MODE == "reset":
-		emit_signal("signal_level_start")
 		remove_child(get_node("VIEW_3D"))
 		CURRENT_LEVEL = []
 		LEVEL_RESOLUTION = Vector2(0,0)
@@ -579,7 +587,12 @@ func update_tiles(MODE):
 		CURRENT_POS.y += 1
 		if CURRENT_POS.y > LEVEL_RESOLUTION.y:
 			LEVEL_RESOLUTION.y += 1
+	if HAS_FINAL_ORB == false:
+		print("WARNING!")
+		print("level missing final orb")
+		return
 	IS_READY = true
+	emit_signal("signal_level_start")
 
 var LAST_CELL = ""
 var WAITING = false
@@ -588,14 +601,6 @@ func attribute_stuffs(CELL):
 	var CHECK_TILE = get_cell_data(CURRENT_LEVEL[CELL.y][CELL.x])
 	var COLOR = CHECK_TILE[1]
 	var ATTRIBUTE = CHECK_TILE[3]
-	# for some reason, after killing a block, this function runs multiple frames, decreasing the key count by more than 1
-	# janky fix to check if the cell you are moving to is the same as the last time this function was ran
-	#if LAST_CELL == str(CELL.x,"x",CELL.y):
-	#	# if the WAITING var is set to false, the horn sound wont play
-	#	if WAITING == false:
-	#		sound_effect("illegal")
-	#	return
-	# update the LAST_CELL var if there is a new cell
 	LAST_CELL = str(CELL.x,"x",CELL.y)
 	match ATTRIBUTE:
 		"start_position":
@@ -680,6 +685,8 @@ func attribute_stuffs(CELL):
 			node.queue_free()
 		"bomb":
 			print("bomb detected: ", COLOR)
+		"final_orb":
+			pass
 
 func os_checker():
 	match OS.get_name():
@@ -769,11 +776,11 @@ func _ready():
 	#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED) 
 	update_level(1)
 
+var FINAL_ORB_POSITION: Vector3
 var SPHERE_COUNT = 0
 func _process(_delta):
 	if IS_READY == true:
 		if AMOUNT_LEFT == 0:
 			SPHERE_COUNT += 1
 			if SPHERE_COUNT == 1:
-				var rng_spawn = Vector2(rng(0,LEVEL_RESOLUTION.x),rng(0,LEVEL_RESOLUTION.y))
-				spawn_final_orb(Vector3(rng_spawn.x,0.5,rng_spawn.y),get_cell_data(str(rng(2,7),0))[0])
+				spawn_final_orb(Vector3(FINAL_ORB_POSITION),get_cell_data(str(rng(2,7),0))[0])

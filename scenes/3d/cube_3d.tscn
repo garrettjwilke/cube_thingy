@@ -9,6 +9,7 @@
 
 [node name="Cube" type="CharacterBody3D"]
 transform = Transform3D(0.999962, -0.00872653, -4.64721e-11, 0.0087262, 0.999924, -0.00872653, 7.61524e-05, 0.0087262, 0.999962, 2.08165e-12, 2.08165e-12, 2.08165e-12)
+collision_mask = 5
 script = ExtResource("1_km0ke")
 
 [node name="Pivot" type="Node3D" parent="."]

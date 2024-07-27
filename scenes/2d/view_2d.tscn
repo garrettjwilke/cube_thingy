@@ -825,7 +825,6 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
 [node name="start_end_screen" type="Control" parent="."]
-visible = false
 custom_minimum_size = Vector2(1280, 720)
 layout_mode = 3
 anchors_preset = 0
@@ -875,10 +874,10 @@ theme_override_constants/margin_top = 35
 theme_override_constants/margin_right = 35
 theme_override_constants/margin_bottom = 35
 
-[node name="start_screen" type="Control" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg"]
+[node name="end_screen" type="Control" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg"]
 layout_mode = 2
 
-[node name="vbox" type="VBoxContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen"]
+[node name="vbox" type="VBoxContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -886,35 +885,35 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/vbox"]
+[node name="VBoxContainer" type="VBoxContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/vbox"]
 layout_mode = 2
 
-[node name="level_name_label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/vbox/VBoxContainer"]
+[node name="level_name_label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/vbox/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 45
 text = "Level Name: "
 
-[node name="level_name" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/vbox/VBoxContainer"]
+[node name="level_name" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/vbox/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 30
 text = "..."
 clip_text = true
 
-[node name="game_mode_label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/vbox/VBoxContainer"]
+[node name="game_mode_label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/vbox/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 45
 text = "Game Mode:"
 
-[node name="game_mode" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/vbox/VBoxContainer"]
+[node name="game_mode" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/vbox/VBoxContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 30
 text = "..."
 
-[node name="MarginContainer" type="MarginContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen"]
+[node name="MarginContainer" type="MarginContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen"]
 custom_minimum_size = Vector2(2.08165e-12, 2.08165e-12)
 layout_mode = 1
 anchors_preset = 15
@@ -925,17 +924,17 @@ grow_vertical = 2
 size_flags_vertical = 8
 theme_override_constants/margin_top = 325
 
-[node name="HBoxContainer" type="HBoxContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer"]
 layout_mode = 2
 alignment = 1
 
-[node name="main_menu_button" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer"]
+[node name="main_menu_button" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(250, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 4
 color = Color(0, 0, 0, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/main_menu_button"]
+[node name="MarginContainer" type="MarginContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/main_menu_button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -947,11 +946,11 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="ColorRect" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer"]
+[node name="ColorRect" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer"]
 layout_mode = 2
 color = Color(0.25098, 0.156863, 0.0745098, 1)
 
-[node name="CenterContainer" type="CenterContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer/ColorRect"]
+[node name="CenterContainer" type="CenterContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -959,23 +958,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer/ColorRect/CenterContainer"]
+[node name="label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer/ColorRect/CenterContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 36
 text = "Main Menu"
 
-[node name="main_menu_button" type="Button" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer"]
+[node name="main_menu_button" type="Button" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="restart_level_button" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer"]
+[node name="restart_level_button" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(250, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 6
 color = Color(0, 0, 0, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/restart_level_button"]
+[node name="MarginContainer" type="MarginContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/restart_level_button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -987,11 +986,11 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="ColorRect" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer"]
+[node name="ColorRect" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer"]
 layout_mode = 2
 color = Color(0.25098, 0.156863, 0.0745098, 1)
 
-[node name="CenterContainer" type="CenterContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer/ColorRect"]
+[node name="CenterContainer" type="CenterContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -999,23 +998,23 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer/ColorRect/CenterContainer"]
+[node name="label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer/ColorRect/CenterContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 36
 text = "Restart Level"
 
-[node name="restart_level_button" type="Button" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer"]
+[node name="restart_level_button" type="Button" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer"]
 modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
-[node name="next_level_button" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer"]
+[node name="next_level_button" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer"]
 custom_minimum_size = Vector2(250, 2.08165e-12)
 layout_mode = 2
 size_flags_horizontal = 4
 color = Color(0, 0, 0, 1)
 
-[node name="MarginContainer" type="MarginContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/next_level_button"]
+[node name="MarginContainer" type="MarginContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/next_level_button"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1027,11 +1026,11 @@ theme_override_constants/margin_top = 6
 theme_override_constants/margin_right = 6
 theme_override_constants/margin_bottom = 6
 
-[node name="ColorRect" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer"]
+[node name="ColorRect" type="ColorRect" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer"]
 layout_mode = 2
 color = Color(0.25098, 0.156863, 0.0745098, 1)
 
-[node name="CenterContainer" type="CenterContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer/ColorRect"]
+[node name="CenterContainer" type="CenterContainer" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer/ColorRect"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -1039,18 +1038,14 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer/ColorRect/CenterContainer"]
+[node name="label" type="Label" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer/ColorRect/CenterContainer"]
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 36
 text = "Next Level"
 
-[node name="next_level_button" type="Button" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer"]
+[node name="next_level_button" type="Button" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer"]
 modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-
-[node name="end_screen" type="Control" parent="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg"]
-visible = false
 layout_mode = 2
 
 [connection signal="button_down" from="menu/center/marg/vbox/tabs/hbox/game_options/texture/center/game_button" to="." method="_on_game_button_down"]
@@ -1073,6 +1068,6 @@ layout_mode = 2
 [connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/shaders/disable_shaders" to="." method="_on_disable_shaders_button_down"]
 [connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg/video_options/vbox/shaders/enable_shaders" to="." method="_on_enable_shaders_button_down"]
 [connection signal="button_down" from="menu/center/marg/vbox/box/border/marg/bg/marg_right/ColorRect/MarginContainer/VBoxContainer/ColorRect/MarginContainer/close_menu" to="." method="_on_close_menu_button_down"]
-[connection signal="button_down" from="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer/main_menu_button" to="." method="_on_main_menu_button_button_down"]
-[connection signal="button_down" from="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer/restart_level_button" to="." method="_on_restart_level_button_button_down"]
-[connection signal="button_down" from="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/start_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer/next_level_button" to="." method="_on_next_level_button_button_down"]
+[connection signal="button_down" from="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/main_menu_button/MarginContainer/main_menu_button" to="." method="_on_main_menu_button_button_down"]
+[connection signal="button_down" from="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/restart_level_button/MarginContainer/restart_level_button" to="." method="_on_restart_level_button_button_down"]
+[connection signal="button_down" from="start_end_screen/MarginContainer/ColorRect/MarginContainer/ColorRect/marg/end_screen/MarginContainer/HBoxContainer/next_level_button/MarginContainer/next_level_button" to="." method="_on_next_level_button_button_down"]

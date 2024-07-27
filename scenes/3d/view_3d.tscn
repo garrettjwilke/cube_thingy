@@ -73,8 +73,10 @@ fov = 44.5
 far = 100.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
-transform = Transform3D(0.511465, -0.601974, 0.613213, 0.681239, 0.719008, 0.137627, -0.523753, 0.347354, 0.777836, 2.56992, 1.65027, -3.63865)
+transform = Transform3D(0.511465, -0.601974, 0.613214, 0.681239, 0.719008, 0.137626, -0.523753, 0.347354, 0.777836, 0.179668, 0.534831, 0.524227)
+light_bake_mode = 1
 shadow_enabled = true
+directional_shadow_mode = 1
 directional_shadow_split_1 = 0.2
 directional_shadow_split_2 = 0.3
 directional_shadow_max_distance = 100.1

@@ -59,7 +59,11 @@ func set_skybox(SKYBOX_NUMBER):
 		SKYBOX = 1
 		$WorldEnvironment.environment.sky = load("res://assets/textures/skybox.tres")
 
+func _on_signal_level_end():
+	print("do view_3d stuffs for level end")
+
 func _ready():
+	GLOBALS.signal_level_end.connect(_on_signal_level_end)
 	set_skybox(1)
 	rotate_view(0)
 	GLOBALS.update_tiles("3d")
@@ -67,7 +71,6 @@ func _ready():
 	var CUBE = get_node("Cube")
 	CUBE.position = Vector3(GLOBALS.START_POSITION.x,0,GLOBALS.START_POSITION.y)
 	GLOBALS.update_cube_position(Vector2(CUBE.position.x, CUBE.position.z))
-	GLOBALS.emit_signal("signal_level_start")
 	if GLOBALS.ENABLE_SHADERS == true:
 		$Camera3D/DirectionalLight3D.light_energy = 1.5
 	else:

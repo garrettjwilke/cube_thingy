@@ -122,16 +122,17 @@ func roll(dir):
 		return
 	# Cast a ray to check for obstacles
 	var space = get_world_3d().direct_space_state
-	var ray = PhysicsRayQueryParameters3D.create(mesh.global_position,
-			mesh.global_position + dir * cube_size, collision_mask, [self])
-	var collision = space.intersect_ray(ray)
-	if collision:
-		match int(collision.normal.x):
+	var ray = PhysicsRayQueryParameters3D.create(mesh.global_position,mesh.global_position + dir * cube_size, collision_mask, [self])
+	var main_collision = space.intersect_ray(ray)
+	if space.intersect_ray(ray):
+		if main_collision.collider.name == "final_orb":
+			GLOBALS.emit_signal("signal_level_end")
+		match int(main_collision.normal.x):
 			-1:
 				GLOBALS.debug_message("cube_3d.gd - roll()","right side collision detected", 2)
 			1:
 				GLOBALS.debug_message("cube_3d.gd - roll()","left side collision detected", 2)
-		match int(collision.normal.z):
+		match int(main_collision.normal.z):
 			-1:
 				GLOBALS.debug_message("cube_3d.gd - roll()","bottom side collision detected", 2)
 			1:
@@ -172,7 +173,11 @@ func reset_pos():
 	
 	GLOBALS.PAUSE = false
 
+func _on_signal_level_end():
+	print("finish cube_3d stuffs for level end")
+
 func _ready():
+	GLOBALS.signal_level_end.connect(_on_signal_level_end)
 	set_cube_material()
 	GLOBALS.KEY_COUNT = 0
 	position = Vector3(GLOBALS.START_POSITION.x,0,GLOBALS.START_POSITION.y)
@@ -183,8 +188,12 @@ var ORIGINAL_SPEED = speed
 var LAST_MODE = GLOBALS.GAME_DIFFICULTY
 var LAST_INVERTED = str(GLOBALS.INVERTED_MODE)
 var TIMER = 0
+
 # sloppy input management
 func _physics_process(_delta):
+	if GLOBALS.RESET_LEVEL == true:
+		GLOBALS.RESET_LEVEL = false
+		reset_pos()
 	if GLOBALS.GAME_DIFFICULTY != LAST_MODE:
 		LAST_MODE = GLOBALS.GAME_DIFFICULTY
 		set_cube_material()
@@ -197,14 +206,12 @@ func _physics_process(_delta):
 			GLOBALS.debug_message("cube_3d.gd", "reset button pressed", 1)
 			GLOBALS.update_tiles("reset")
 			GLOBALS.update_tiles("3d")
-			GLOBALS.emit_signal("signal_level_start")
 			reset_pos()
 	if Input.is_action_just_pressed("level_next"):
 		if GLOBALS.PAUSE == false:
 			GLOBALS.update_level(1)
 			GLOBALS.update_tiles("reset")
 			GLOBALS.update_tiles("3d")
-			GLOBALS.emit_signal("signal_level_start")
 			# set the position and then pass position to GLOBALS.update_cube_position
 			# if we don't do this, the cube can end up on a bad tile
 			reset_pos()
@@ -213,7 +220,6 @@ func _physics_process(_delta):
 			GLOBALS.update_level(-1)
 			GLOBALS.update_tiles("reset")
 			GLOBALS.update_tiles("3d")
-			GLOBALS.emit_signal("signal_level_start")
 			reset_pos()
 	if GLOBALS.PAUSE:
 		return

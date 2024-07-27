@@ -2,17 +2,23 @@
 
 TODO:
 
+* create save data
+
+* create main menu
+
 * add total tile count for levels in level json
 
 * if level tiles are less than total tile count, spawn rng tiles on board
 
 * create tutorial section
 
-* add options menu
-
-* add level ending rules
-
 * create animations for cube entering/exiting level
+
+* make more levels
+
+* make more music
+
+* make more sounds
 
 * clean shit up
 	

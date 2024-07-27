@@ -7,9 +7,9 @@
 
 [node name="GAME_BASE" type="Node3D"]
 
-[node name="view_2d" parent="." instance=ExtResource("2_1nvwm")]
-
 [node name="view_3d" parent="." instance=ExtResource("1_msgmu")]
+
+[node name="view_2d" parent="." instance=ExtResource("2_1nvwm")]
 
 [node name="music" type="Node" parent="."]
 script = ExtResource("3_m1ci8")

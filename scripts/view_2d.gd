@@ -110,6 +110,9 @@ func _on_signal_level_start():
 	TIMER = 0
 	top_bar("reset")
 
+func _on_signal_level_end():
+	get_node("start_end_screen").show()
+
 var SIDE_BAR_COLOR_1 = GLOBALS.get_default("COLOR_BLACK")
 var SIDE_BAR_COLOR_2 = "#98bb9c"
 func side_bar(MODE):
@@ -164,10 +167,12 @@ func side_bar(MODE):
 					AMOUNT_LEFT_BOX_1.hide()
 
 func _ready():
+	get_node("start_end_screen").hide()
 	turn_off_menu()
 	TAB_GAME_TEXTURE.texture = TAB_ACTIVE
 	TAB_GAME_CONTENT.show()
 	GLOBALS.signal_level_start.connect(_on_signal_level_start)
+	GLOBALS.signal_level_end.connect(_on_signal_level_end)
 	set_font()
 	#GLOBALS.PAUSE = false
 	MENU_NODE.hide()
@@ -259,9 +264,16 @@ func _on_sound_effects_enable_button_down():
 func _on_main_menu_button_button_down():
 	print("go to main menu when it's actually made")
 func _on_restart_level_button_button_down():
-	print("go to restart level hook thingy")
+	GLOBALS.update_tiles("reset")
+	GLOBALS.update_tiles("3d")
+	GLOBALS.RESET_LEVEL = true
+	get_node("start_end_screen").hide()
 func _on_next_level_button_button_down():
-	print("make next level button only available if the current level has already been cleared")
+	GLOBALS.update_level(1)
+	GLOBALS.update_tiles("reset")
+	GLOBALS.update_tiles("3d")
+	GLOBALS.RESET_LEVEL = true
+	get_node("start_end_screen").hide()
 
 func _on_inverted_cam_disable_button_down():
 	GLOBALS.INVERT_CAM = false
