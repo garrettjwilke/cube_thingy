@@ -226,7 +226,6 @@ func _physics_process(_delta):
 	speed = ORIGINAL_SPEED
 	if Input.is_action_pressed("hmls_shift"):
 		speed = speed * 1.5
-		print(GLOBALS.CURRENT_LEVEL)
 	var DIR = Vector3.ZERO
 	if Input.is_action_pressed("forward"):
 		match GLOBALS.ROTATION_COUNT:

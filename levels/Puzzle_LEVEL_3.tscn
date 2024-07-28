@@ -1,10 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://d4i68unr6167l"]
+[gd_scene load_steps=5 format=3 uid="uid://b3e85mhwevv4y"]
 
-[ext_resource type="Script" path="res://scripts/editor.gd" id="1_bno3y"]
-[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_h6d8r"]
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_iru7t"]
+[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_puh68"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q85ov"]
-texture = ExtResource("2_h6d8r")
+texture = ExtResource("2_puh68")
 texture_region_size = Vector2i(128, 128)
 2:0/0 = 0
 3:0/0 = 0
@@ -75,7 +75,7 @@ terrain_set_0/mode = 0
 sources/0 = SubResource("TileSetAtlasSource_q85ov")
 
 [node name="editor" type="Node2D"]
-script = ExtResource("1_bno3y")
+script = ExtResource("1_iru7t")
 metadata/_edit_lock_ = true
 
 [node name="bounds" type="Node2D" parent="."]
@@ -98,7 +98,7 @@ color = Color(0.490196, 0.411765, 0.184314, 1)
 
 [node name="LEVEL_NUMBER" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="8" type="Control" parent="LEVEL_SETTINGS/LEVEL_NUMBER"]
+[node name="3" type="Control" parent="LEVEL_SETTINGS/LEVEL_NUMBER"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -107,21 +107,21 @@ metadata/_edit_lock_ = true
 
 [node name="LEVEL_NAME" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="limited space RNG test" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
+[node name="puzzle spawn test" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_lock_ = true
 
 [node name="GAME_MODE" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="Classic" type="Control" parent="LEVEL_SETTINGS/GAME_MODE"]
+[node name="Puzzle" type="Control" parent="LEVEL_SETTINGS/GAME_MODE"]
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_lock_ = true
 
 [node name="TILE_AMOUNT" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="8" type="Control" parent="LEVEL_SETTINGS/TILE_AMOUNT"]
+[node name="0" type="Control" parent="LEVEL_SETTINGS/TILE_AMOUNT"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -130,5 +130,5 @@ offset_bottom = 40.0
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3cyw7")
 format = 2
-layer_0/tile_data = PackedInt32Array(2097152, 0, 0, 2097153, 0, 0, 2097154, 0, 0, 2097155, 0, 0, 2097156, 0, 0, 2097157, 0, 0, 2097158, 0, 0, 2097159, 0, 0, 2097160, 0, 0, 2097161, 0, 0, 2097162, 0, 0, 2097163, 0, 0, 2097164, 0, 0, 2097165, 0, 0, 2097166, 0, 0, 2097167, 0, 0, 2097168, 0, 0, 2097169, 0, 0, 2097170, 0, 0, 2097171, 0, 0, 2097172, 0, 0, 2097173, 0, 0, 2097174, 0, 0, 2097175, 0, 0, 2097176, 0, 0, 2097177, 0, 0, 2097178, 0, 0, 2097179, 0, 0, 2097180, 0, 0, 2097181, 0, 0, 2097182, 0, 0, 2097183, 0, 0, 2097184, 0, 0, 2031648, 0, 0, 1966112, 0, 0, 1900576, 0, 0, 1835040, 0, 0, 1769504, 0, 0, 1703968, 0, 0, 1638432, 0, 0, 1572896, 0, 0, 1507360, 0, 0, 1441824, 0, 0, 1376288, 0, 0, 1310752, 0, 0, 1245216, 0, 0, 1179680, 0, 0, 1114144, 0, 0, 1048608, 0, 0, 983072, 0, 0, 917536, 0, 0, 852000, 0, 0, 786464, 0, 0, 720928, 0, 0, 655392, 0, 0, 589856, 0, 0, 524320, 0, 0, 458784, 0, 0, 393248, 0, 0, 327712, 0, 0, 262176, 0, 0, 196640, 0, 0, 131104, 0, 0, 65568, 0, 0, 32, 0, 0, 0, 65536, 8, 65536, 65536, 8, 131072, 65536, 8, 1, 65536, 8, 65537, 65536, 8, 131073, 65536, 8, 2, 0, 1, 65538, 65536, 9, 131074, 65536, 8, 3, 65536, 8, 65539, 65536, 8, 131075, 65536, 8, 4, 65536, 8, 65540, 458752, 0, 131076, 65536, 8)
+layer_0/tile_data = PackedInt32Array(0, 524288, 3, 65536, 524288, 0, 131072, 524288, 3, 196608, 524288, 1, 262144, 524288, 3, 327680, 524288, 0, 393216, 524288, 3, 1, 524288, 0, 65537, 262144, 3, 131073, 196608, 0, 196609, 458752, 4, 262145, 393216, 0, 327681, 262144, 3, 393217, 524288, 0, 2, 524288, 3, 65538, 327680, 0, 196610, 327680, 0, 327682, 327680, 0, 393218, 524288, 3, 3, 524288, 1, 65539, 458752, 4, 131075, 196608, 0, 196611, 262144, 9, 262147, 393216, 0, 327683, 458752, 4, 393219, 524288, 1, 4, 524288, 3, 65540, 131072, 0, 196612, 131072, 0, 327684, 131072, 0, 393220, 524288, 3, 5, 524288, 0, 65541, 262144, 3, 131077, 196608, 0, 196613, 458752, 4, 262149, 393216, 0, 327685, 262144, 3, 393221, 524288, 0, 6, 524288, 3, 65542, 524288, 0, 131078, 524288, 3, 196614, 65536, 0, 262150, 524288, 3, 327686, 524288, 0, 393222, 524288, 3, 196615, 0, 1)
 metadata/_edit_lock_ = true

@@ -1,10 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjntiny28ivdp"]
+[gd_scene load_steps=5 format=3 uid="uid://deecl0gjbujw8"]
 
-[ext_resource type="Script" path="res://scripts/editor.gd" id="1_xv1ep"]
-[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_vqpdf"]
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_g7kx1"]
+[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_64jjj"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q85ov"]
-texture = ExtResource("2_vqpdf")
+texture = ExtResource("2_64jjj")
 texture_region_size = Vector2i(128, 128)
 2:0/0 = 0
 3:0/0 = 0
@@ -75,7 +75,7 @@ terrain_set_0/mode = 0
 sources/0 = SubResource("TileSetAtlasSource_q85ov")
 
 [node name="editor" type="Node2D"]
-script = ExtResource("1_xv1ep")
+script = ExtResource("1_g7kx1")
 metadata/_edit_lock_ = true
 
 [node name="bounds" type="Node2D" parent="."]
@@ -98,7 +98,7 @@ color = Color(0.490196, 0.411765, 0.184314, 1)
 
 [node name="LEVEL_NUMBER" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="5" type="Control" parent="LEVEL_SETTINGS/LEVEL_NUMBER"]
+[node name="level number here" type="Control" parent="LEVEL_SETTINGS/LEVEL_NUMBER"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -107,7 +107,7 @@ metadata/_edit_lock_ = true
 
 [node name="LEVEL_NAME" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="final orb test thingy" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
+[node name="level name here" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_lock_ = true
@@ -130,5 +130,4 @@ offset_bottom = 40.0
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3cyw7")
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 65536, 0, 65536, 65536, 0, 131072, 65536, 0, 196608, 65536, 0, 262144, 65536, 0, 1, 65536, 0, 65537, 65536, 0, 131073, 327680, 0, 196609, 65536, 0, 262145, 65536, 0, 2, 65536, 0, 65538, 65536, 0, 131074, 65536, 9, 196610, 65536, 0, 262146, 65536, 0, 3, 65536, 0, 65539, 65536, 0, 131075, 65536, 0, 196611, 65536, 0, 262147, 65536, 0, 4, 65536, 0, 65540, 65536, 0, 131076, 65536, 0, 196612, 65536, 0, 262148, 0, 1)
 metadata/_edit_lock_ = true

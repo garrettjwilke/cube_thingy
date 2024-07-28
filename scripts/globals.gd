@@ -130,6 +130,8 @@ func get_default(setting):
 			return DEFAULTS.LEVEL_MATRIX
 		"LEVEL_NAME":
 			return DEFAULTS.LEVEL_NAME
+		"TILE_AMOUNT":
+			return DEFAULTS.TILE_AMOUNT
 		"COLOR_GRAY":
 			return DEFAULTS.COLOR_GRAY
 		"COLOR_BLUE":
@@ -225,7 +227,7 @@ func floor_check(pos_x, pos_y):
 var LEVEL_COUNTER = 0
 func json_counter():
 	LEVEL_COUNTER = 0
-	var dir = DirAccess.open("res://levels")
+	var dir = DirAccess.open(str("res://levels/",GAME_MODE,"/"))
 	if dir:
 		dir.list_dir_begin()
 		var file_name = dir.get_next()
@@ -258,7 +260,13 @@ func load_level():
 		LEVEL_MATRIX = CURRENT_LEVEL
 		return
 	# check if the level exists and load it as LEVEL_MATRIX
-	var LEVEL_STRING = str("res://levels/LEVEL_", LEVEL, ".json")
+	var LEVEL_STRING
+	if GAME_MODE == "Classic":
+		LEVEL_STRING = str("res://levels/Classic/Classic_LEVEL_", LEVEL, ".json")
+	elif GAME_MODE == "Puzzle":
+		LEVEL_STRING = str("res://levels/Puzzle/Puzzle_LEVEL_", LEVEL, ".json")
+	else:
+		LEVEL_STRING = str("res://levels/Classic/Classic_LEVEL_", LEVEL, ".json")
 	if not FileAccess.file_exists(LEVEL_STRING):
 		LEVEL = 1
 		load_level()
@@ -280,6 +288,7 @@ func load_level():
 			LEVEL_MATRIX = level_data.LEVEL_MATRIX
 			if LEVEL_MATRIX == []:
 				LEVEL_MATRIX = get_default("LEVEL_MATRIX")
+				AMOUNT_LEFT_LEVEL = get_default("TILE_AMOUNT")
 		else:
 			LEVEL_MATRIX = get_default("LEVEL_MATRIX")
 		if level_data.has("GAME_MODE"):
@@ -289,7 +298,7 @@ func load_level():
 		if level_data.has("TILE_AMOUNT"):
 			AMOUNT_LEFT_LEVEL = level_data.TILE_AMOUNT
 		else:
-			AMOUNT_LEFT_LEVEL = "0"
+			AMOUNT_LEFT_LEVEL = get_default("TILE_AMOUNT")
 
 # this will return COLOR and NAME
 func get_cell_data(cell):
@@ -739,15 +748,14 @@ func _on_signal_detonator(COLOR):
 			if COLOR_MATCH == COLOR:
 				if ATTRIBUTE_MATCH == "bomb":
 					FOUND_NODE = true
-					#print(str("bomb identified: ",temp_x,"x",temp_y))
 					CURRENT_LEVEL[temp_y][temp_x] = 10
 					tile_spawn(temp_x,temp_y,10)
 					amount_left_thingy()
 					var up = Vector2(temp_x,temp_y - 1)
 					var middle = Vector2(temp_x,temp_y)
 					var down = Vector2(temp_x, temp_y + 1)
-					var left = Vector2(temp_x - 1, temp_y)
-					var right = Vector2(temp_x + 1, temp_y)
+					#var left = Vector2(temp_x - 1, temp_y)
+					#var right = Vector2(temp_x + 1, temp_y)
 					#for i in [up,right,down,left]:
 					for i in [up + Vector2(-1,0),up,up + Vector2(1,0),middle + Vector2(-1,0),middle,middle + Vector2(1,0),down + Vector2(-1,0),down,down + Vector2(1,0)]:
 						if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y)):

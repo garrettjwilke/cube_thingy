@@ -27,12 +27,12 @@ func status_menu(status_color,message_1,message_2):
 var STATUS
 func parse_level():
 	var MAP_SIZE = LEVEL_MATRIX.get_used_rect().size
-	if MAP_SIZE.x > 33:
+	if MAP_SIZE.x > 32:
 		print("ERROR: LEVEL_MATRIX too large!")
 		STATUS = "bad"
 		status_menu(STATUS,"LEVEL_MATRIX too large!","there is max level size of 32x32 tiles.")
 		return
-	if MAP_SIZE.y > 33:
+	if MAP_SIZE.y > 32:
 		print("ERROR: LEVEL_MATRIX too large!")
 		STATUS = "bad"
 		status_menu(STATUS,"LEVEL_MATRIX too large!","there is max level size of 32x32 tiles.")
@@ -66,22 +66,21 @@ func save_json() -> void:
 		print("ERROR: no LEVEL_MATRIX tiles")
 		status_menu("bad","No LEVEL_MATRIX set","set tiles using the LEVEL_MATRIX node")
 		return
-	if LEVEL_NUMBER == "level number here":
-		print("ERROR: level number not set")
-		status_menu("bad","Level Number Not Set","rename the level number node with an integer")
-		return
-	if LEVEL_NUMBER == "":
-		print("ERROR: level number not set")
-		status_menu("bad","Level Number not set","rename the level number node with an integer")
-		return
-	if LEVEL_NAME == "":
-		print("ERROR: no level name set. exiting")
-		status_menu("bad","Level Name not set","rename the level name node")
-		return
-	elif LEVEL_NAME == "level name here":
-		print("ERROR: no level name set. exiting")
-		status_menu("bad","Level Name not set","rename the level name node")
-		return
+	match LEVEL_NUMBER:
+		"","level number here":
+			print("ERROR: level number not set")
+			status_menu("bad","Level Number Not Set","rename the level number node with an integer")
+			return
+		_:
+			if not LEVEL_NUMBER.is_valid_int():
+				print("ERROR: level number not set")
+				status_menu("bad","Level Number Not Set","rename the level number node with an integer")
+				return
+	match LEVEL_NAME:
+		"","level name here":
+			print("ERROR: no level name set. exiting")
+			status_menu("bad","Level Name not set","rename the level name node")
+			return
 	match GAME_MODE:
 		"Classic":
 			print("game_mode set to Classic")
@@ -98,7 +97,11 @@ func save_json() -> void:
 		"TILE_AMOUNT":TILE_AMOUNT
 		}
 	var final_string := JSON.stringify(level_data)
-	var file_name = str("res://levels/LEVEL_",LEVEL_NUMBER,".json")
+	var file_name
+	if GAME_MODE == "Classic":
+		file_name = str("res://levels/Classic/Classic_LEVEL_",LEVEL_NUMBER,".json")
+	elif GAME_MODE == "Puzzle":
+		file_name = str("res://levels/Puzzle/Puzzle_LEVEL_",LEVEL_NUMBER,".json")
 	var file_access := FileAccess.open(file_name, FileAccess.WRITE)
 	if not file_access:
 		print("An error happened while saving data: ", FileAccess.get_open_error())
