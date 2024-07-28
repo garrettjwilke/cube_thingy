@@ -59,6 +59,15 @@ texture_region_size = Vector2i(128, 128)
 8:9/0 = 0
 9:9/0 = 0
 0:1/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+8:8/0 = 0
+9:8/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_3cyw7"]
 tile_size = Vector2i(128, 128)
@@ -109,6 +118,14 @@ metadata/_edit_lock_ = true
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_lock_ = true
+
+[node name="TILE_AMOUNT" type="Node" parent="LEVEL_SETTINGS"]
+
+[node name="0" type="Control" parent="LEVEL_SETTINGS/TILE_AMOUNT"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3cyw7")

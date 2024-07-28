@@ -8,6 +8,7 @@ var TEMP_NAME: String
 @onready var LEVEL_NAME = get_node("LEVEL_SETTINGS/LEVEL_NAME").get_child(0).name
 @onready var GAME_MODE = get_node("LEVEL_SETTINGS/GAME_MODE").get_child(0).name
 @onready var LEVEL_NUMBER = get_node("LEVEL_SETTINGS/LEVEL_NUMBER").get_child(0).name
+@onready var TILE_AMOUNT = get_node("LEVEL_SETTINGS/TILE_AMOUNT").get_child(0).name
 var HAS_FINAL_ORB = false
 var HAS_STARTING_POS = false
 
@@ -90,7 +91,12 @@ func save_json() -> void:
 			print("ERROR: game mode needs to be either Classic or Puzzle.")
 			status_menu("bad","Game Mode not set","set the game mode to either Classic or Puzzle")
 			return
-	var level_data := {"LEVEL_NAME":LEVEL_NAME,"GAME_MODE":GAME_MODE,"LEVEL_MATRIX":LEVEL_JSON}
+	var level_data := {
+		"LEVEL_NAME":LEVEL_NAME,
+		"GAME_MODE":GAME_MODE,
+		"LEVEL_MATRIX":LEVEL_JSON,
+		"TILE_AMOUNT":TILE_AMOUNT
+		}
 	var final_string := JSON.stringify(level_data)
 	var file_name = str("res://levels/LEVEL_",LEVEL_NUMBER,".json")
 	var file_access := FileAccess.open(file_name, FileAccess.WRITE)
@@ -103,13 +109,12 @@ func save_json() -> void:
 	print("LEVEL_NAME: ", LEVEL_NAME)
 	print("GAME_MODE: ", GAME_MODE)
 	print("-----")
-	print("level saved to:", file_name)
+	print("level saved to: ", file_name)
 	status_menu("good","Level Saved!",str("level saved to:",file_name))
 
 func _ready():
-	#var ADD_NODE = STATUS_NODE.instantiate()
 	$".".add_child(STATUS_NODE.instantiate())
-	get_node("status").show()
+	#get_node("status").show()
 	parse_level()
 	if STATUS == "bad":
 		return

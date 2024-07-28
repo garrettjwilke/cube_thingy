@@ -6,10 +6,6 @@ TODO:
 
 * create main menu
 
-* add total tile count for levels in level json
-
-* if level tiles are less than total tile count, spawn rng tiles on board
-
 * create tutorial section
 
 * create animations for cube entering/exiting level

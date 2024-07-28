@@ -30,6 +30,7 @@ var RESET_LEVEL = false
 var MUTE_MUSIC = false
 var MUTE_SOUNDS = false
 
+var AMOUNT_LEFT_LEVEL = "0"
 var AMOUNT_LEFT = 0
 var KEY_COUNT = 0
 var KEY_BLANK = 0
@@ -285,6 +286,10 @@ func load_level():
 			GAME_MODE = level_data.GAME_MODE
 		else:
 			GAME_MODE = get_default("GAME_MODE")
+		if level_data.has("TILE_AMOUNT"):
+			AMOUNT_LEFT_LEVEL = level_data.TILE_AMOUNT
+		else:
+			AMOUNT_LEFT_LEVEL = "0"
 
 # this will return COLOR and NAME
 func get_cell_data(cell):
@@ -360,10 +365,7 @@ func get_cell_data(cell):
 			ATTRIBUTE = "box"
 		4:
 			ATTRIBUTE = "key"
-		# check here for spawning subviewports for meshes
-		# https://www.reddit.com/r/godot/comments/13d93o1/godot_4_viewport_texture_error/
-		# https://github.com/godotengine/godot/issues/66247
-		7:
+		8:
 			ATTRIBUTE = "unspawnable"
 		9:
 			ATTRIBUTE = "start_position"
@@ -483,16 +485,16 @@ func tile_spawn(x, y, cell):
 	var CELL_DATA = get_cell_data(cell)
 	var COLOR = CELL_DATA[0]
 	var ATTRIBUTE = CELL_DATA[3]
+	# check the attribute for start position and final orb position before checking color data
 	if ATTRIBUTE == "start_position":
 		START_POSITION = Vector2(x,y)
 	elif ATTRIBUTE == "final_orb":
 		FINAL_ORB_POSITION = Vector3(x,0.5,y)
 		COLOR = get_default("COLOR_GRAY")
 		HAS_FINAL_ORB = true
-		CURRENT_LEVEL[y][x] = "10"
+		CURRENT_LEVEL[y][x] = "18"
 		if GAME_MODE == "Puzzle":
 			spawn_final_orb(FINAL_ORB_POSITION,COLOR)
-	
 	if COLOR == "null":
 		return
 	var CURRENT_TILE
@@ -525,9 +527,7 @@ func tile_spawn(x, y, cell):
 	CURRENT_TILE.scale = Vector3(TILE_SCALE, TILE_HEIGHT, TILE_SCALE)
 	CURRENT_TILE.position = Vector3(x, -(TILE_HEIGHT / 2 + 0.03), y)
 	match ATTRIBUTE:
-		"start_position":
-			pass
-		"final_orb":
+		"unspawnable":
 			pass
 		"box":
 			spawn_box(x,y,COLOR)
@@ -539,6 +539,7 @@ func tile_spawn(x, y, cell):
 			spawn_detonator(x,y,COLOR)
 	await scale_thingy(CURRENT_TILE,0.4)
 
+var STARTING_TILE_COUNT = 0
 # this is the first function to run to spawn tiles
 func update_tiles(MODE):
 	# if reset, then delete all nodes and set CURRENT_LEVEL to nothing
@@ -550,10 +551,14 @@ func update_tiles(MODE):
 		KEY_COUNT_TOTAL = 0
 		LAST_CELL = ""
 		SPHERE_COUNT = 0
+		STARTING_TILE_COUNT = 0
 		return
 	load_level()
 	# spawn all tiles in LEVEL_MATRIX
-	AMOUNT_LEFT = 0
+	if AMOUNT_LEFT_LEVEL != "0":
+		AMOUNT_LEFT = int(AMOUNT_LEFT_LEVEL)
+	else:
+		AMOUNT_LEFT = 0
 	var CURRENT_POS = Vector2(0,0)
 	for row in LEVEL_MATRIX:
 		for cell in row:
@@ -571,13 +576,25 @@ func update_tiles(MODE):
 			var CURRENT_COLOR = COLOR_CHECK[1]
 			var ATTRIBUTE_CHECK = COLOR_CHECK[3]
 			if CURRENT_COLOR == "gray":
-				if ATTRIBUTE_CHECK != "default":
-					if ATTRIBUTE_CHECK != "start_position":
-						AMOUNT_LEFT += 1
+				match ATTRIBUTE_CHECK:
+					"default":
+						pass
+					"start_position":
+						pass
+					"unspawnable":
+						pass
+					_:
+						if AMOUNT_LEFT_LEVEL == "0":
+							AMOUNT_LEFT += 1
+						else:
+							STARTING_TILE_COUNT += 1
 			elif CURRENT_COLOR != "gray":
 				if CURRENT_COLOR != "null":
 					if CURRENT_COLOR != "black":
-						AMOUNT_LEFT += 1
+						if AMOUNT_LEFT_LEVEL == "0":
+							AMOUNT_LEFT += 1
+						else:
+							STARTING_TILE_COUNT += 1
 			# increment x so the next cell will be read correctly
 			CURRENT_POS.x += 1
 			if CURRENT_POS.x > LEVEL_RESOLUTION.x:
@@ -603,13 +620,20 @@ func attribute_stuffs(CELL):
 	var ATTRIBUTE = CHECK_TILE[3]
 	LAST_CELL = str(CELL.x,"x",CELL.y)
 	match ATTRIBUTE:
+		"unspawnable":
+			if GAME_MODE == "Classic":
+				if COLOR != "gray":
+					CURRENT_LEVEL[CELL.y][CELL.x] = "18"
+					tile_spawn(CELL.x,CELL.y,"18")
+					amount_left_thingy()
+					sound_effect("tile")
 		"start_position":
 			if GAME_MODE == "Classic":
 				# check to see if tile is gray - without doing this, the level is rebuilt every step
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 					tile_spawn(CELL.x,CELL.y,"10")
-					AMOUNT_LEFT -= 1
+					amount_left_thingy()
 					sound_effect("tile")
 			if GAME_MODE == "Puzzle":
 				if COLOR != "gray":
@@ -617,10 +641,10 @@ func attribute_stuffs(CELL):
 					tile_spawn(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
 		"default":
 			if GAME_MODE == "Classic":
-				# check to see if tile is gray - without doing this, the level lags because it is rebuilt every step
+				# check to see if tile is gray
 				if COLOR != "gray":
 					sound_effect("tile")
-					AMOUNT_LEFT -= 1
+					amount_left_thingy()
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 					tile_spawn(CELL.x,CELL.y,"10")
 			if GAME_MODE == "Puzzle":
@@ -637,7 +661,7 @@ func attribute_stuffs(CELL):
 				tile_spawn(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
 			if GAME_MODE == "Classic":
 				sound_effect("tile")
-				AMOUNT_LEFT -= 1
+				amount_left_thingy()
 				CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 				tile_spawn(CELL.x,CELL.y,"10")
 			debug_message("cube_3d.gd - fake_roll() - KEY_COUNT",KEY_COUNT,1)
@@ -656,8 +680,6 @@ func attribute_stuffs(CELL):
 				tween2.tween_property(get_node(NODE_NAME),"scale",Vector3(0.01,0.01,0.01), 0.2)
 				await tween2.finished
 				get_node(NODE_NAME).queue_free()
-				#KEY_COUNT -= 1
-				#KEY_COUNT_TOTAL -= 1
 				WAITING = false
 			else:
 				return
@@ -665,7 +687,7 @@ func attribute_stuffs(CELL):
 				"Classic":
 					KEY_COUNT -= 1
 					KEY_COUNT_TOTAL -= 1
-					AMOUNT_LEFT -= 1
+					amount_left_thingy()
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 					tile_spawn(CELL.x,CELL.y,"10")
 				"Puzzle":
@@ -702,7 +724,7 @@ func os_checker():
 var FINISHED_CHECK = true
 func _on_signal_detonator(COLOR):
 	var FOUND_NODE = false
-	AMOUNT_LEFT -= 1
+	amount_left_thingy()
 	var temp_x = 0
 	var temp_y = 0
 	for row in CURRENT_LEVEL:
@@ -720,29 +742,31 @@ func _on_signal_detonator(COLOR):
 					#print(str("bomb identified: ",temp_x,"x",temp_y))
 					CURRENT_LEVEL[temp_y][temp_x] = 10
 					tile_spawn(temp_x,temp_y,10)
-					AMOUNT_LEFT -= 1
+					amount_left_thingy()
 					var up = Vector2(temp_x,temp_y - 1)
+					var middle = Vector2(temp_x,temp_y)
 					var down = Vector2(temp_x, temp_y + 1)
 					var left = Vector2(temp_x - 1, temp_y)
 					var right = Vector2(temp_x + 1, temp_y)
-					for i in [up,right,down,left]:
+					#for i in [up,right,down,left]:
+					for i in [up + Vector2(-1,0),up,up + Vector2(1,0),middle + Vector2(-1,0),middle,middle + Vector2(1,0),down + Vector2(-1,0),down,down + Vector2(1,0)]:
 						if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y)):
 							var tile_data = get_cell_data(CURRENT_LEVEL[i.y][i.x])
 							var potential_color = tile_data[1]
 							var potential_attribute = tile_data[3]
 							if potential_attribute == "key":
 								KEY_COUNT_TOTAL -= 1
-							if potential_color == "gray":
-								if potential_attribute == "default":
+							match potential_color:
+								"gray":
+									match potential_attribute:
+										"default","start_position","unspawnable":
+											pass
+										_:
+											amount_left_thingy()
+								"black":
 									pass
-								elif potential_attribute == "start_position":
-									pass
-								else:
-									AMOUNT_LEFT -= 1
-							elif potential_color == "black":
-								pass
-							else:
-								AMOUNT_LEFT -= 1
+								_:
+									amount_left_thingy()
 							sound_effect("bomb")
 							PAUSE = true
 							if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_box")):
@@ -757,8 +781,11 @@ func _on_signal_detonator(COLOR):
 								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
 								await tween.finished
 								#node.queue_free()
-							CURRENT_LEVEL[i.y][i.x] = "10"
-							tile_spawn(i.x,i.y,10)
+							if potential_attribute == "unspawnable":
+								CURRENT_LEVEL[i.y][i.x] = "18"
+							else:
+								CURRENT_LEVEL[i.y][i.x] = "10"
+							tile_spawn(i.x,i.y,CURRENT_LEVEL[i.y][i.x])
 							PAUSE = false
 			if FOUND_NODE == true:
 				return
@@ -766,19 +793,44 @@ func _on_signal_detonator(COLOR):
 		temp_x = 0
 		temp_y += 1
 
+func amount_left_thingy():
+	#if AMOUNT_LEFT_LEVEL != "0":
+	#	STARTING_TILE_COUNT -= 1
+	AMOUNT_LEFT -= 1
+	print("AMOUNT_LEFT: ", AMOUNT_LEFT)
+	print("STARTING_TILE_COUNT: ", STARTING_TILE_COUNT)
+	if AMOUNT_LEFT_LEVEL != "0":
+		if AMOUNT_LEFT >= STARTING_TILE_COUNT:
+			spawn_rng()
+
+func spawn_rng():
+	var VALID_TILE = false
+	var pos_x = 0
+	var pos_y = 0
+	while VALID_TILE == false:
+		pos_x = rng(0,LEVEL_RESOLUTION.x)
+		pos_y = rng(0,LEVEL_RESOLUTION.y)
+		var NODE_NAME = str(pos_x,"x",pos_y)
+		if get_node_or_null(str("VIEW_3D/",NODE_NAME)):
+			var CELL = CURRENT_LEVEL[pos_y][pos_x]
+			if CELL == "10" or CELL == "19":
+				VALID_TILE = true
+	var NEW_RNG = str(rng(2,7),0)
+	print(NEW_RNG)
+	CURRENT_LEVEL[pos_y][pos_x] = NEW_RNG
+	tile_spawn(pos_x,pos_y,NEW_RNG)
+
 func _ready():
 	os_checker()
 	signal_detonator.connect(_on_signal_detonator)
 	if not DirAccess.dir_exists_absolute("user://"):
 		DirAccess.make_dir_absolute("user://")
-	#DisplayServer.window_set_title(get_default("WINDOW_TITLE"))
-	#DisplayServer.window_set_size(get_default("RESOLUTION"))
-	#DisplayServer.window_set_mode(DisplayServer.WINDOW_MODE_WINDOWED) 
 	update_level(1)
 
 var FINAL_ORB_POSITION: Vector3
 var SPHERE_COUNT = 0
-func _process(_delta):
+func _process(delta):
+	RNG_COUNTER += delta
 	if IS_READY == true:
 		if AMOUNT_LEFT == 0:
 			SPHERE_COUNT += 1

@@ -9,7 +9,7 @@ var CURRENT_ORIENTATION = Vector3(0,0,0)
 var CURRENT_ORIENTATION_COLOR
 var FUTURE_ORIENTATION = Vector3(0,0,0)
 var FUTURE_ORIENTATION_COLOR
-var ENABLE_TRANSFORM_INFO = true
+var ENABLE_TRANSFORM_INFO = false
 
 func set_cube_material():
 	if GLOBALS.GAME_DIFFICULTY == "normal":
@@ -226,6 +226,7 @@ func _physics_process(_delta):
 	speed = ORIGINAL_SPEED
 	if Input.is_action_pressed("hmls_shift"):
 		speed = speed * 1.5
+		print(GLOBALS.CURRENT_LEVEL)
 	var DIR = Vector3.ZERO
 	if Input.is_action_pressed("forward"):
 		match GLOBALS.ROTATION_COUNT:

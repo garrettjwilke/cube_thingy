@@ -3,7 +3,6 @@
 [ext_resource type="FontFile" uid="uid://cxxrj44oufs70" path="res://assets/fonts/lt-saeada-medium.otf" id="1_u13ip"]
 
 [node name="status" type="Control"]
-visible = false
 custom_minimum_size = Vector2(1280, 720)
 layout_mode = 3
 anchors_preset = 0
@@ -60,6 +59,7 @@ layout_mode = 2
 theme_override_fonts/font = ExtResource("1_u13ip")
 theme_override_font_sizes/font_size = 60
 text = "STATUS MESSAGE 1"
+horizontal_alignment = 1
 
 [node name="ColorRect" type="ColorRect" parent="ColorRect/MarginContainer/status_color/MarginContainer/CenterContainer/VBoxContainer"]
 custom_minimum_size = Vector2(2.08165e-12, 45)
@@ -72,3 +72,4 @@ size_flags_vertical = 3
 theme_override_fonts/font = ExtResource("1_u13ip")
 theme_override_font_sizes/font_size = 32
 text = "STATUS MESSAGE 2"
+horizontal_alignment = 1
