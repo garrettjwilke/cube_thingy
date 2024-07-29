@@ -1,5 +1,7 @@
 extends Node
 
+var wtf = ""
+
 var IS_READY = false
 var DEBUG = false
 # setting DEBUG_SEVERITY can help isolate debug messages
@@ -18,7 +20,7 @@ var ENABLE_JANK = get_default("ENABLE_JANK")
 var TILE_SIZE_2D = 16
 var START_POSITION = Vector2(0,0)
 var GAME_DIFFICULTY = get_default("GAME_DIFFICULTY")
-var CLOSE_UP_CAM = "true"
+var CLOSE_UP_CAM = true
 var ROTATION_COUNT = 1
 var ENABLE_SHADERS = true
 var OS_CHECK = "null"
@@ -267,7 +269,7 @@ func load_level():
 		LEVEL_STRING = str("res://levels/Puzzle/Puzzle_LEVEL_", LEVEL, ".json")
 	else:
 		LEVEL_STRING = str("res://levels/Classic/Classic_LEVEL_", LEVEL, ".json")
-	if not FileAccess.file_exists(LEVEL_STRING):
+	if not ResourceLoader.exists(LEVEL_STRING):
 		LEVEL = 1
 		load_level()
 		return
@@ -487,7 +489,6 @@ func spawn_final_orb(position,COLOR):
 	finish_orb_mesh.mesh.material = new_mat
 	finish_orb_mesh.rotation.z = 90
 
-var HAS_FINAL_ORB = false
 # this will spawn after the update_tiles() is ran
 func tile_spawn(x, y, cell):
 	# the get_cell_data() returns an array with html color codes and attributes
@@ -500,7 +501,6 @@ func tile_spawn(x, y, cell):
 	elif ATTRIBUTE == "final_orb":
 		FINAL_ORB_POSITION = Vector3(x,0.5,y)
 		COLOR = get_default("COLOR_GRAY")
-		HAS_FINAL_ORB = true
 		CURRENT_LEVEL[y][x] = "18"
 		if GAME_MODE == "Puzzle":
 			spawn_final_orb(FINAL_ORB_POSITION,COLOR)
@@ -613,12 +613,12 @@ func update_tiles(MODE):
 		CURRENT_POS.y += 1
 		if CURRENT_POS.y > LEVEL_RESOLUTION.y:
 			LEVEL_RESOLUTION.y += 1
-	if HAS_FINAL_ORB == false:
-		print("WARNING!")
-		print("level missing final orb")
-		return
 	IS_READY = true
 	emit_signal("signal_level_start")
+	if LEVEL_RESOLUTION.x > 15 or LEVEL_RESOLUTION.y > 15:
+		CLOSE_UP_CAM = false
+	else:
+		CLOSE_UP_CAM = true
 
 var LAST_CELL = ""
 var WAITING = false

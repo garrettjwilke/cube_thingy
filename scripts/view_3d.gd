@@ -117,12 +117,12 @@ func _process(delta):
 		_:
 			cam_offset = Vector3(3, 8, 5)
 			GLOBALS.ROTATION_COUNT = 1
-	if GLOBALS.CLOSE_UP_CAM == "false":
+	if GLOBALS.CLOSE_UP_CAM == false:
 		cam_offset = cam_offset * 3.2
 	$Camera3D.position = lerp($Camera3D.position, $Cube.position + cam_offset, cam_speed * delta)
 	$Camera3D.rotation_degrees = lerp($Camera3D.rotation_degrees, cam_rotation, cam_speed * delta)
 	if Input.is_action_just_pressed("cam_swap"):
-		if GLOBALS.CLOSE_UP_CAM == "true":
-			GLOBALS.CLOSE_UP_CAM = "false"
+		if GLOBALS.CLOSE_UP_CAM == true:
+			GLOBALS.CLOSE_UP_CAM = false
 		else:
-			GLOBALS.CLOSE_UP_CAM = "true"
+			GLOBALS.CLOSE_UP_CAM = true
