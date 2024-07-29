@@ -1,0 +1,712 @@
+[gd_scene load_steps=2 format=3 uid="uid://cvnipxka8ncfv"]
+
+[ext_resource type="Script" path="res://scripts/cube_texture.gd" id="1_s2tjl"]
+
+[node name="cube_texture" type="Node2D"]
+script = ExtResource("1_s2tjl")
+
+[node name="vbox" type="VBoxContainer" parent="."]
+custom_minimum_size = Vector2(768, 512)
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 0
+
+[node name="top" type="HBoxContainer" parent="vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="1" type="ColorRect" parent="vbox/top"]
+custom_minimum_size = Vector2(256, 2.08165e-12)
+layout_mode = 2
+color = Color(0, 0.694118, 0.380392, 1)
+
+[node name="sides" type="MarginContainer" parent="vbox/top/1"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="top" type="CenterContainer" parent="vbox/top/1/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="border" type="ColorRect" parent="vbox/top/1/sides/top"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/1/sides/top/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="5_side" type="ColorRect" parent="vbox/top/1/sides/top/border/marg"]
+layout_mode = 2
+
+[node name="bottom" type="CenterContainer" parent="vbox/top/1/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="border" type="ColorRect" parent="vbox/top/1/sides/bottom"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/1/sides/bottom/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+
+[node name="6_side" type="ColorRect" parent="vbox/top/1/sides/bottom/border/marg"]
+layout_mode = 2
+
+[node name="left" type="CenterContainer" parent="vbox/top/1/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="border" type="ColorRect" parent="vbox/top/1/sides/left"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/1/sides/left/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="4_side" type="ColorRect" parent="vbox/top/1/sides/left/border/marg"]
+layout_mode = 2
+
+[node name="right" type="CenterContainer" parent="vbox/top/1/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="border" type="ColorRect" parent="vbox/top/1/sides/right"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/1/sides/right/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="2_side" type="ColorRect" parent="vbox/top/1/sides/right/border/marg"]
+layout_mode = 2
+
+[node name="2" type="ColorRect" parent="vbox/top"]
+custom_minimum_size = Vector2(256, 2.08165e-12)
+layout_mode = 2
+color = Color(0.929412, 0.909804, 0.0431373, 1)
+
+[node name="sides" type="MarginContainer" parent="vbox/top/2"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="top" type="CenterContainer" parent="vbox/top/2/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="border" type="ColorRect" parent="vbox/top/2/sides/top"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/2/sides/top/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="5_side" type="ColorRect" parent="vbox/top/2/sides/top/border/marg"]
+layout_mode = 2
+
+[node name="bottom" type="CenterContainer" parent="vbox/top/2/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="border" type="ColorRect" parent="vbox/top/2/sides/bottom"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/2/sides/bottom/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+
+[node name="6_side" type="ColorRect" parent="vbox/top/2/sides/bottom/border/marg"]
+layout_mode = 2
+
+[node name="left" type="CenterContainer" parent="vbox/top/2/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="border" type="ColorRect" parent="vbox/top/2/sides/left"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/2/sides/left/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="1_side" type="ColorRect" parent="vbox/top/2/sides/left/border/marg"]
+layout_mode = 2
+
+[node name="right" type="CenterContainer" parent="vbox/top/2/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="border" type="ColorRect" parent="vbox/top/2/sides/right"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/2/sides/right/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="3_side" type="ColorRect" parent="vbox/top/2/sides/right/border/marg"]
+layout_mode = 2
+
+[node name="3" type="ColorRect" parent="vbox/top"]
+custom_minimum_size = Vector2(256, 2.08165e-12)
+layout_mode = 2
+color = Color(0.678431, 0.466667, 1, 1)
+
+[node name="sides" type="MarginContainer" parent="vbox/top/3"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="top" type="CenterContainer" parent="vbox/top/3/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="border" type="ColorRect" parent="vbox/top/3/sides/top"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/3/sides/top/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="5_side" type="ColorRect" parent="vbox/top/3/sides/top/border/marg"]
+layout_mode = 2
+
+[node name="bottom" type="CenterContainer" parent="vbox/top/3/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="border" type="ColorRect" parent="vbox/top/3/sides/bottom"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/3/sides/bottom/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+
+[node name="6_side" type="ColorRect" parent="vbox/top/3/sides/bottom/border/marg"]
+layout_mode = 2
+
+[node name="left" type="CenterContainer" parent="vbox/top/3/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="border" type="ColorRect" parent="vbox/top/3/sides/left"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/3/sides/left/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="2_side" type="ColorRect" parent="vbox/top/3/sides/left/border/marg"]
+layout_mode = 2
+
+[node name="right" type="CenterContainer" parent="vbox/top/3/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="border" type="ColorRect" parent="vbox/top/3/sides/right"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/top/3/sides/right/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="4_side" type="ColorRect" parent="vbox/top/3/sides/right/border/marg"]
+layout_mode = 2
+
+[node name="bottom" type="HBoxContainer" parent="vbox"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 0
+
+[node name="4" type="ColorRect" parent="vbox/bottom"]
+custom_minimum_size = Vector2(256, 2.08165e-12)
+layout_mode = 2
+color = Color(0.92549, 0, 0.243137, 1)
+
+[node name="sides" type="MarginContainer" parent="vbox/bottom/4"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="top" type="CenterContainer" parent="vbox/bottom/4/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="border" type="ColorRect" parent="vbox/bottom/4/sides/top"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/4/sides/top/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="5_side" type="ColorRect" parent="vbox/bottom/4/sides/top/border/marg"]
+layout_mode = 2
+
+[node name="bottom" type="CenterContainer" parent="vbox/bottom/4/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="border" type="ColorRect" parent="vbox/bottom/4/sides/bottom"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/4/sides/bottom/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+
+[node name="6_side" type="ColorRect" parent="vbox/bottom/4/sides/bottom/border/marg"]
+layout_mode = 2
+
+[node name="left" type="CenterContainer" parent="vbox/bottom/4/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="border" type="ColorRect" parent="vbox/bottom/4/sides/left"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/4/sides/left/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="3_side" type="ColorRect" parent="vbox/bottom/4/sides/left/border/marg"]
+layout_mode = 2
+
+[node name="right" type="CenterContainer" parent="vbox/bottom/4/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="border" type="ColorRect" parent="vbox/bottom/4/sides/right"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/4/sides/right/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="1_side" type="ColorRect" parent="vbox/bottom/4/sides/right/border/marg"]
+layout_mode = 2
+
+[node name="5" type="ColorRect" parent="vbox/bottom"]
+custom_minimum_size = Vector2(256, 2.08165e-12)
+layout_mode = 2
+color = Color(0, 0.466667, 0.831373, 1)
+
+[node name="sides" type="MarginContainer" parent="vbox/bottom/5"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="top" type="CenterContainer" parent="vbox/bottom/5/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="border" type="ColorRect" parent="vbox/bottom/5/sides/top"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/5/sides/top/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="1_side" type="ColorRect" parent="vbox/bottom/5/sides/top/border/marg"]
+layout_mode = 2
+
+[node name="bottom" type="CenterContainer" parent="vbox/bottom/5/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="border" type="ColorRect" parent="vbox/bottom/5/sides/bottom"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/5/sides/bottom/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+
+[node name="3_side" type="ColorRect" parent="vbox/bottom/5/sides/bottom/border/marg"]
+layout_mode = 2
+
+[node name="left" type="CenterContainer" parent="vbox/bottom/5/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="border" type="ColorRect" parent="vbox/bottom/5/sides/left"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/5/sides/left/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="2_side" type="ColorRect" parent="vbox/bottom/5/sides/left/border/marg"]
+layout_mode = 2
+
+[node name="right" type="CenterContainer" parent="vbox/bottom/5/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="border" type="ColorRect" parent="vbox/bottom/5/sides/right"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/5/sides/right/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="4_side" type="ColorRect" parent="vbox/bottom/5/sides/right/border/marg"]
+layout_mode = 2
+
+[node name="6" type="ColorRect" parent="vbox/bottom"]
+custom_minimum_size = Vector2(256, 2.08165e-12)
+layout_mode = 2
+color = Color(1, 0.741176, 0.270588, 1)
+
+[node name="sides" type="MarginContainer" parent="vbox/bottom/6"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="top" type="CenterContainer" parent="vbox/bottom/6/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 0
+
+[node name="border" type="ColorRect" parent="vbox/bottom/6/sides/top"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/6/sides/top/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="1_side" type="ColorRect" parent="vbox/bottom/6/sides/top/border/marg"]
+layout_mode = 2
+
+[node name="bottom" type="CenterContainer" parent="vbox/bottom/6/sides"]
+custom_minimum_size = Vector2(256, 40)
+layout_mode = 2
+size_flags_vertical = 8
+
+[node name="border" type="ColorRect" parent="vbox/bottom/6/sides/bottom"]
+custom_minimum_size = Vector2(128, 40)
+layout_direction = 2
+layout_mode = 2
+size_flags_horizontal = 8
+size_flags_vertical = 0
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/6/sides/bottom/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+
+[node name="3_side" type="ColorRect" parent="vbox/bottom/6/sides/bottom/border/marg"]
+layout_mode = 2
+
+[node name="left" type="CenterContainer" parent="vbox/bottom/6/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="border" type="ColorRect" parent="vbox/bottom/6/sides/left"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/6/sides/left/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_right = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="4_side" type="ColorRect" parent="vbox/bottom/6/sides/left/border/marg"]
+layout_mode = 2
+
+[node name="right" type="CenterContainer" parent="vbox/bottom/6/sides"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="border" type="ColorRect" parent="vbox/bottom/6/sides/right"]
+custom_minimum_size = Vector2(40, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="marg" type="MarginContainer" parent="vbox/bottom/6/sides/right/border"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_top = 4
+theme_override_constants/margin_bottom = 4
+
+[node name="2_side" type="ColorRect" parent="vbox/bottom/6/sides/right/border/marg"]
+layout_mode = 2

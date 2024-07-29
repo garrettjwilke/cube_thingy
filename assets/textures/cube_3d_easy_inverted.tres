@@ -1,9 +1,0 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://c5noi3tmn80ld"]
-
-[ext_resource type="Texture2D" uid="uid://wa2b7ynx06u0" path="res://assets/textures/cube_easy_inverted.png" id="1_udm0k"]
-
-[resource]
-shading_mode = 2
-albedo_texture = ExtResource("1_udm0k")
-roughness_texture_channel = 3
-texture_filter = 0

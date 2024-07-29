@@ -1,8 +1,0 @@
-[gd_resource type="StandardMaterial3D" load_steps=2 format=3 uid="uid://81k78geerdda"]
-
-[ext_resource type="Texture2D" uid="uid://lliyr54q6jqe" path="res://assets/textures/cube_hard.png" id="1_cuaoq"]
-
-[resource]
-shading_mode = 2
-albedo_texture = ExtResource("1_cuaoq")
-texture_filter = 0

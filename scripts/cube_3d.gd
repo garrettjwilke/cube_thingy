@@ -11,25 +11,6 @@ var FUTURE_ORIENTATION = Vector3(0,0,0)
 var FUTURE_ORIENTATION_COLOR
 var ENABLE_TRANSFORM_INFO = false
 
-func set_cube_material():
-	if GLOBALS.GAME_DIFFICULTY == "normal":
-		var material = load("res://assets/textures/cube_3d_easy.tres")
-		if GLOBALS.INVERTED_MODE == "true":
-			material = load("res://assets/textures/cube_3d_easy_inverted.tres")
-		else:
-			material = load("res://assets/textures/cube_3d_easy.tres")
-		mesh.set_surface_override_material(0, material)
-	elif GLOBALS.GAME_DIFFICULTY == "hard":
-		var material = load("res://assets/textures/cube_3d_hard.tres")
-		if GLOBALS.INVERTED_MODE == "true":
-			material = load("res://assets/textures/cube_3d_hard_inverted.tres")
-		else:
-			material = load("res://assets/textures/cube_3d_hard.tres")
-		mesh.set_surface_override_material(0, material)
-	elif GLOBALS.GAME_DIFFICULTY == "invisible":
-		var material = load("res://assets/textures/cube_3d_invisible.tres")
-		mesh.set_surface_override_material(0, material)
-
 # the input passed through to match_orientation is a Vector3 with xyz containting a Vector3
 func match_orientation(transform_basis):
 	var RETURN_COLOR = "null"
@@ -178,7 +159,6 @@ func _on_signal_level_end():
 
 func _ready():
 	GLOBALS.signal_level_end.connect(_on_signal_level_end)
-	set_cube_material()
 	GLOBALS.KEY_COUNT = 0
 	position = Vector3(GLOBALS.START_POSITION.x,0,GLOBALS.START_POSITION.y)
 	GLOBALS.update_cube_position(Vector2(position.x,position.z))
@@ -194,12 +174,6 @@ func _physics_process(_delta):
 	if GLOBALS.RESET_LEVEL == true:
 		GLOBALS.RESET_LEVEL = false
 		reset_pos()
-	if GLOBALS.GAME_DIFFICULTY != LAST_MODE:
-		LAST_MODE = GLOBALS.GAME_DIFFICULTY
-		set_cube_material()
-	if GLOBALS.INVERTED_MODE != LAST_INVERTED:
-		LAST_INVERTED = GLOBALS.INVERTED_MODE
-		set_cube_material()
 	if Input.is_action_just_pressed("reset"):
 		if GLOBALS.PAUSE == false:
 			# uncomment the line below to force the RNG to be the same each reset
