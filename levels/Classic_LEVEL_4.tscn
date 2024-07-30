@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://b23acpllc85u2"]
+[gd_scene load_steps=5 format=3 uid="uid://cbwxlujtvaw6x"]
 
 [ext_resource type="Script" path="res://scripts/editor.gd" id="1_miupg"]
 [ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_a4ngw"]
@@ -94,13 +94,6 @@ offset_right = 4096.0
 offset_bottom = 4096.0
 color = Color(0.490196, 0.411765, 0.184314, 1)
 
-[node name="custom_colors_bg" type="ColorRect" parent="bounds"]
-offset_left = 1.0
-offset_top = -195.0
-offset_right = 1124.0
-offset_bottom = -8.0
-color = Color(0.94902, 0.678431, 0.403922, 1)
-
 [node name="LEVEL_SETTINGS" type="Node" parent="."]
 
 [node name="LEVEL_NUMBER" type="Node" parent="LEVEL_SETTINGS"]
@@ -134,48 +127,58 @@ anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
 
-[node name="colors" type="HBoxContainer" parent="LEVEL_SETTINGS"]
-offset_left = 36.0
-offset_top = -166.0
-offset_right = 1088.0
-offset_bottom = -38.0
+[node name="CUSTOM_COLORS" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="1" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+[node name="floor_color" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+offset_left = 1.0
+offset_top = -220.0
+offset_right = 1318.0
+offset_bottom = -33.0
+color = Color(0.4, 0.4, 0.4, 1)
+
+[node name="tile_colors" type="HBoxContainer" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+offset_left = 36.0
+offset_top = -191.0
+offset_right = 1284.0
+offset_bottom = -63.0
+theme_override_constants/separation = 32
+
+[node name="1" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.772549, 0.772549, 0.772549, 1)
 
-[node name="2" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+[node name="2" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.886275, 0.0862745, 0.0862745, 1)
 
-[node name="3" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+[node name="3" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.219608, 0.886275, 0.0862745, 1)
 
-[node name="4" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+[node name="4" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.0862745, 0.243137, 0.886275, 1)
 
-[node name="5" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+[node name="5" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(1, 1, 0, 1)
 
-[node name="6" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+[node name="6" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(1, 0, 0.792157, 1)
 
-[node name="7" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+[node name="7" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.992157, 0.490196, 0.00392157, 1)
 
-[node name="8" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+[node name="8" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.160784, 0.160784, 0.160784, 1)

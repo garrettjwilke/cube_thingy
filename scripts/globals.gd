@@ -263,6 +263,7 @@ var CURRENT_YELLOW = get_default("COLOR_YELLOW")
 var CURRENT_PURPLE = get_default("COLOR_PURPLE")
 var CURRENT_ORANGE = get_default("COLOR_ORANGE")
 var CURRENT_BLACK = get_default("COLOR_BLACK")
+var CURRENT_FLOOR = get_default("COLOR_FLOOR")
 
 func load_level():
 	# if the CURRENT_LEVEL has data, set the LEVEL_MATRIX
@@ -318,6 +319,7 @@ func load_level():
 		CURRENT_PURPLE = level_data.COLOR_6
 		CURRENT_ORANGE = level_data.COLOR_7
 		CURRENT_BLACK = level_data.COLOR_8
+		CURRENT_FLOOR = level_data.COLOR_FLOOR
 
 # this will return COLOR and NAME
 func get_cell_data(cell):
@@ -444,7 +446,7 @@ func scale_thingy(node, speed):
 	await tween.finished
 
 func spawn_floor(pos):
-	var COLOR = get_default("COLOR_FLOOR")
+	var COLOR = CURRENT_FLOOR
 	var new_mesh = MeshInstance3D.new()
 	new_mesh.name = str(pos.x,"x",pos.y,"_floor")
 	new_mesh.position = Vector3(pos.x,-0.15,pos.y)
