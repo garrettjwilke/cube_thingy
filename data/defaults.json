@@ -7,7 +7,7 @@
 	"GAME_MODE" : "Classic",
 	"INVERTED_MODE" : "false",
 	"RNG_SEED" : "cube_thingy rng test seed",
-	"COLOR_BLACK" : "#323232",
+	"COLOR_BLACK" : "#292929",
 	"COLOR_GRAY" : "#c5c5c5",
 	"COLOR_BLUE" : "#163ee2",
 	"COLOR_RED" : "#e21616",

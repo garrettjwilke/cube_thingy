@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=3 uid="uid://c7eujj0atc2fy"]
+[gd_scene load_steps=3 format=3 uid="uid://c7eujj0atc2fy"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_og6vo"]
+[ext_resource type="Texture2D" uid="uid://cbynoav2lly7l" path="res://assets/textures/bg/01_yellow.tres" id="2_avmap"]
 
 [node name="main_menu" type="Node2D"]
 script = ExtResource("1_og6vo")
@@ -10,6 +11,16 @@ custom_minimum_size = Vector2(1280, 720)
 offset_right = 1280.0
 offset_bottom = 720.0
 
-[node name="ColorRect" type="ColorRect" parent="MarginContainer"]
+[node name="bg" type="TextureRect" parent="MarginContainer"]
 layout_mode = 2
-color = Color(0.890196, 0.596078, 0.6, 1)
+texture = ExtResource("2_avmap")
+
+[node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 150
+theme_override_constants/margin_top = 100
+theme_override_constants/margin_right = 150
+theme_override_constants/margin_bottom = 100
+
+[node name="ColorRect" type="ColorRect" parent="MarginContainer/MarginContainer"]
+layout_mode = 2

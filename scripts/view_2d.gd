@@ -113,7 +113,7 @@ func _on_signal_level_start():
 func _on_signal_level_end():
 	get_node("start_end_screen").show()
 
-var SIDE_BAR_COLOR_1 = GLOBALS.get_default("COLOR_BLACK")
+var SIDE_BAR_COLOR_1 = GLOBALS.CURRENT_BLACK
 var SIDE_BAR_COLOR_2 = "#98bb9c"
 func side_bar(MODE):
 	var TIMER_BOX_1 = $side_bar/CenterContainer/VBoxContainer/timer_node
@@ -132,19 +132,19 @@ func side_bar(MODE):
 			TIMER_LABEL.text = str("000")
 			TIMER_LABEL.add_theme_font_override("font", FONT_2)
 			TIMER_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
-			TIMER_LABEL.set("theme_override_colors/font_color",GLOBALS.get_default("COLOR_BLACK"))
+			TIMER_LABEL.set("theme_override_colors/font_color",GLOBALS.CURRENT_BLACK)
 			KEY_COUNT_BOX_1.color = SIDE_BAR_COLOR_1
 			KEY_COUNT_BOX_2.color = SIDE_BAR_COLOR_2
 			KEY_COUNT_LABEL.text = str("0/0")
 			KEY_COUNT_LABEL.add_theme_font_override("font", FONT_2)
 			KEY_COUNT_LABEL.add_theme_font_size_override("font_size", FONT_SIZE_BIG)
-			KEY_COUNT_LABEL.set("theme_override_colors/font_color",GLOBALS.get_default("COLOR_BLACK"))
+			KEY_COUNT_LABEL.set("theme_override_colors/font_color",GLOBALS.CURRENT_BLACK)
 			AMOUNT_LEFT_BOX_1.color = SIDE_BAR_COLOR_1
 			AMOUNT_LEFT_BOX_2.color = SIDE_BAR_COLOR_2
 			AMOUNT_LEFT_LABEL.text = str("0")
 			AMOUNT_LEFT_LABEL.add_theme_font_override("font", FONT_2)
 			AMOUNT_LEFT_LABEL.add_theme_font_size_override("font_size", 60)
-			AMOUNT_LEFT_LABEL.set("theme_override_colors/font_color",GLOBALS.get_default("COLOR_BLACK"))
+			AMOUNT_LEFT_LABEL.set("theme_override_colors/font_color",GLOBALS.CURRENT_BLACK)
 			print("side bar reset")
 	elif MODE == "update":
 		TIMER_HUD = int(TIMER)

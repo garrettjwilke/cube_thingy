@@ -255,6 +255,15 @@ func update_level(amount):
 	KEY_COUNT_TOTAL = 0
 	debug_message("update_level()", str("level = ", LEVEL), 1)
 
+var CURRENT_GRAY = get_default("COLOR_GRAY")
+var CURRENT_RED = get_default("COLOR_RED")
+var CURRENT_GREEN = get_default("COLOR_GREEN")
+var CURRENT_BLUE = get_default("COLOR_BLUE")
+var CURRENT_YELLOW = get_default("COLOR_YELLOW")
+var CURRENT_PURPLE = get_default("COLOR_PURPLE")
+var CURRENT_ORANGE = get_default("COLOR_ORANGE")
+var CURRENT_BLACK = get_default("COLOR_BLACK")
+
 func load_level():
 	# if the CURRENT_LEVEL has data, set the LEVEL_MATRIX
 	# this is so that when we redraw the tiles, the RNG is not set to a new value
@@ -301,6 +310,14 @@ func load_level():
 			AMOUNT_LEFT_LEVEL = level_data.TILE_AMOUNT
 		else:
 			AMOUNT_LEFT_LEVEL = get_default("TILE_AMOUNT")
+		CURRENT_GRAY = level_data.COLOR_1
+		CURRENT_RED = level_data.COLOR_2
+		CURRENT_GREEN = level_data.COLOR_3
+		CURRENT_BLUE = level_data.COLOR_4
+		CURRENT_YELLOW = level_data.COLOR_5
+		CURRENT_PURPLE = level_data.COLOR_6
+		CURRENT_ORANGE = level_data.COLOR_7
+		CURRENT_BLACK = level_data.COLOR_8
 
 # this will return COLOR and NAME
 func get_cell_data(cell):
@@ -326,28 +343,36 @@ func get_cell_data(cell):
 			COLOR = "null"
 			NAME = "null"
 		1:
-			COLOR = get_default("COLOR_GRAY")
+			COLOR = CURRENT_GRAY
+			#COLOR = get_default("COLOR_GRAY")
 			NAME = "gray"
 		2:
-			COLOR = get_default("COLOR_RED")
+			COLOR = CURRENT_RED
+			#COLOR = get_default("COLOR_RED")
 			NAME = "red"
 		3:
-			COLOR = get_default("COLOR_GREEN")
+			COLOR = CURRENT_GREEN
+			#COLOR = get_default("COLOR_GREEN")
 			NAME = "green"
 		4:
-			COLOR = get_default("COLOR_BLUE")
+			COLOR = CURRENT_BLUE
+			#COLOR = get_default("COLOR_BLUE")
 			NAME = "blue"
 		5:
-			COLOR = get_default("COLOR_YELLOW")
+			COLOR = CURRENT_YELLOW
+			#COLOR = get_default("COLOR_YELLOW")
 			NAME = "yellow"
 		6:
-			COLOR = get_default("COLOR_PURPLE")
+			COLOR = CURRENT_PURPLE
+			#COLOR = get_default("COLOR_PURPLE")
 			NAME = "purple"
 		7:
-			COLOR = get_default("COLOR_ORANGE")
+			COLOR = CURRENT_ORANGE
+			#COLOR = get_default("COLOR_ORANGE")
 			NAME = "orange"
 		8:
-			COLOR = get_default("COLOR_BLACK")
+			COLOR = CURRENT_BLACK
+			#COLOR = get_default("COLOR_BLACK")
 			NAME = "black"
 		9:
 			print("hopefully this never prints - gd - get_cell_data()")
@@ -391,7 +416,8 @@ func spawn_box(x, y, COLOR):
 	NEW_BOX.scale = NEW_BOX.scale * 0.5
 	NEW_BOX.position = Vector3(x,0.3,y)
 	var material
-	if COLOR == get_default("COLOR_BLACK"):
+	if COLOR == CURRENT_BLACK:
+	#if COLOR == get_default("COLOR_BLACK"):
 		material = load("res://assets/textures/block_3d_blank_texture.tres")
 	else:
 		material = load("res://assets/textures/block_3d_texture.tres")
@@ -452,7 +478,8 @@ func spawn_detonator(x,y,COLOR):
 	get_node("VIEW_3D/").add_child(new_mesh)
 	get_node(str("VIEW_3D/",new_mesh.name)).mesh.surface_set_material(0, material)
 	var floor_material = StandardMaterial3D.new()
-	floor_material.albedo_color = get_default("COLOR_BLACK")
+	floor_material.albedo_color = CURRENT_BLACK
+	#floor_material.albedo_color = get_default("COLOR_BLACK")
 	get_node(str("VIEW_3D/",x,"x",y)).mesh.surface_set_material(0, floor_material)
 
 func spawn_final_orb(position,COLOR):
@@ -500,7 +527,8 @@ func tile_spawn(x, y, cell):
 		START_POSITION = Vector2(x,y)
 	elif ATTRIBUTE == "final_orb":
 		FINAL_ORB_POSITION = Vector3(x,0.5,y)
-		COLOR = get_default("COLOR_GRAY")
+		COLOR = CURRENT_GRAY
+		#COLOR = get_default("COLOR_GRAY")
 		CURRENT_LEVEL[y][x] = "18"
 		if GAME_MODE == "Puzzle":
 			spawn_final_orb(FINAL_ORB_POSITION,COLOR)

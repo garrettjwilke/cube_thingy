@@ -90,11 +90,27 @@ func save_json() -> void:
 			print("ERROR: game mode needs to be either Classic or Puzzle.")
 			status_menu("bad","Game Mode not set","set the game mode to either Classic or Puzzle")
 			return
+	var COLOR_1 = str("#",$"LEVEL_SETTINGS/colors/1".color.to_html()).left(7)
+	var COLOR_2 = str("#",$"LEVEL_SETTINGS/colors/2".color.to_html()).left(7)
+	var COLOR_3 = str("#",$"LEVEL_SETTINGS/colors/3".color.to_html()).left(7)
+	var COLOR_4 = str("#",$"LEVEL_SETTINGS/colors/4".color.to_html()).left(7)
+	var COLOR_5 = str("#",$"LEVEL_SETTINGS/colors/5".color.to_html()).left(7)
+	var COLOR_6 = str("#",$"LEVEL_SETTINGS/colors/6".color.to_html()).left(7)
+	var COLOR_7 = str("#",$"LEVEL_SETTINGS/colors/7".color.to_html()).left(7)
+	var COLOR_8 = str("#",$"LEVEL_SETTINGS/colors/8".color.to_html()).left(7)
 	var level_data := {
 		"LEVEL_NAME":LEVEL_NAME,
 		"GAME_MODE":GAME_MODE,
 		"LEVEL_MATRIX":LEVEL_JSON,
-		"TILE_AMOUNT":TILE_AMOUNT
+		"TILE_AMOUNT":TILE_AMOUNT,
+		"COLOR_1":COLOR_1,
+		"COLOR_2":COLOR_2,
+		"COLOR_3":COLOR_3,
+		"COLOR_4":COLOR_4,
+		"COLOR_5":COLOR_5,
+		"COLOR_6":COLOR_6,
+		"COLOR_7":COLOR_7,
+		"COLOR_8":COLOR_8
 		}
 	var final_string := JSON.stringify(level_data)
 	var file_name

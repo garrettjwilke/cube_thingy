@@ -94,6 +94,13 @@ offset_right = 4096.0
 offset_bottom = 4096.0
 color = Color(0.490196, 0.411765, 0.184314, 1)
 
+[node name="custom_colors_bg" type="ColorRect" parent="bounds"]
+offset_left = 1.0
+offset_top = -195.0
+offset_right = 1124.0
+offset_bottom = -8.0
+color = Color(0.94902, 0.678431, 0.403922, 1)
+
 [node name="LEVEL_SETTINGS" type="Node" parent="."]
 
 [node name="LEVEL_NUMBER" type="Node" parent="LEVEL_SETTINGS"]
@@ -107,7 +114,7 @@ metadata/_edit_lock_ = true
 
 [node name="LEVEL_NAME" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="full level test" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
+[node name="thomas\' test" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_lock_ = true
@@ -126,6 +133,51 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+
+[node name="colors" type="HBoxContainer" parent="LEVEL_SETTINGS"]
+offset_left = 36.0
+offset_top = -166.0
+offset_right = 1088.0
+offset_bottom = -38.0
+
+[node name="1" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+
+[node name="2" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.756863, 0.756863, 0.756863, 1)
+
+[node name="3" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.592157, 0.592157, 0.592157, 1)
+
+[node name="4" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.454902, 0.454902, 0.454902, 1)
+
+[node name="5" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.333333, 0.333333, 0.333333, 1)
+
+[node name="6" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.184314, 0.184314, 0.184314, 1)
+
+[node name="7" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0, 0, 0, 1)
+
+[node name="8" type="ColorRect" parent="LEVEL_SETTINGS/colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.447059, 0.447059, 0.447059, 1)
 
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3cyw7")
