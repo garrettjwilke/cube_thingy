@@ -152,6 +152,10 @@ func get_default(setting):
 			return DEFAULTS.COLOR_BLACK
 		"COLOR_FLOOR":
 			return DEFAULTS.COLOR_FLOOR
+		"COLOR_GALAXY_1":
+			return DEFAULTS.COLOR_GALAXY_1
+		"COLOR_GALAXY_2":
+			return DEFAULTS.COLOR_GALAXY_2
 		"GAME_MODE":
 			return DEFAULTS.GAME_MODE
 		"INVERTED_MODE" :
@@ -264,6 +268,8 @@ var CURRENT_PURPLE = get_default("COLOR_PURPLE")
 var CURRENT_ORANGE = get_default("COLOR_ORANGE")
 var CURRENT_BLACK = get_default("COLOR_BLACK")
 var CURRENT_FLOOR = get_default("COLOR_FLOOR")
+var CURRENT_GALAXY_1 = get_default("COLOR_GALAXY_1")
+var CURRENT_GALAXY_2 = get_default("COLOR_GALAXY_2")
 
 func load_level():
 	# if the CURRENT_LEVEL has data, set the LEVEL_MATRIX
@@ -320,6 +326,8 @@ func load_level():
 		CURRENT_ORANGE = level_data.COLOR_7
 		CURRENT_BLACK = level_data.COLOR_8
 		CURRENT_FLOOR = level_data.COLOR_FLOOR
+		CURRENT_GALAXY_1 = level_data.COLOR_GALAXY_1
+		CURRENT_GALAXY_2 = level_data.COLOR_GALAXY_2
 
 # this will return COLOR and NAME
 func get_cell_data(cell):
@@ -519,7 +527,7 @@ func spawn_final_orb(position,COLOR):
 	finish_orb_mesh.rotation.z = 90
 
 # this will spawn after the update_tiles() is ran
-func tile_spawn(x, y, cell):
+func spawn_tile(x, y, cell):
 	# the get_cell_data() returns an array with html color codes and attributes
 	var CELL_DATA = get_cell_data(cell)
 	var COLOR = CELL_DATA[0]
@@ -610,7 +618,7 @@ func update_tiles(MODE):
 				LEVEL_MATRIX[CURRENT_POS.y][CURRENT_POS.x] = NEW_CELL
 			# set CURRENT_LEVEL so that when tiles are updated, we are no longer regenerating RNG
 			CURRENT_LEVEL = LEVEL_MATRIX
-			tile_spawn(CURRENT_POS.x, CURRENT_POS.y, NEW_CELL)
+			spawn_tile(CURRENT_POS.x, CURRENT_POS.y, NEW_CELL)
 			var COLOR_CHECK = get_cell_data(NEW_CELL)
 			var CURRENT_COLOR = COLOR_CHECK[1]
 			var ATTRIBUTE_CHECK = COLOR_CHECK[3]
@@ -663,7 +671,7 @@ func attribute_stuffs(CELL):
 			if GAME_MODE == "Classic":
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = "18"
-					tile_spawn(CELL.x,CELL.y,"18")
+					spawn_tile(CELL.x,CELL.y,"18")
 					amount_left_thingy()
 					sound_effect("tile")
 		"start_position":
@@ -671,13 +679,13 @@ func attribute_stuffs(CELL):
 				# check to see if tile is gray - without doing this, the level is rebuilt every step
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
-					tile_spawn(CELL.x,CELL.y,"10")
+					spawn_tile(CELL.x,CELL.y,"10")
 					amount_left_thingy()
 					sound_effect("tile")
 			if GAME_MODE == "Puzzle":
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
-					tile_spawn(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
+					spawn_tile(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
 		"default":
 			if GAME_MODE == "Classic":
 				# check to see if tile is gray
@@ -685,11 +693,11 @@ func attribute_stuffs(CELL):
 					sound_effect("tile")
 					amount_left_thingy()
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
-					tile_spawn(CELL.x,CELL.y,"10")
+					spawn_tile(CELL.x,CELL.y,"10")
 			if GAME_MODE == "Puzzle":
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
-					tile_spawn(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
+					spawn_tile(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
 		"key":
 			if KEY_COUNT < 1:
 				reset_keys()
@@ -697,12 +705,12 @@ func attribute_stuffs(CELL):
 			KEY_COUNT += 1
 			if GAME_MODE == "Puzzle":
 				CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
-				tile_spawn(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
+				spawn_tile(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
 			if GAME_MODE == "Classic":
 				sound_effect("tile")
 				amount_left_thingy()
 				CURRENT_LEVEL[CELL.y][CELL.x] = "10"
-				tile_spawn(CELL.x,CELL.y,"10")
+				spawn_tile(CELL.x,CELL.y,"10")
 			debug_message("cube_3d.gd - fake_roll() - KEY_COUNT",KEY_COUNT,1)
 		"box":
 			if KEY_COUNT < 1:
@@ -728,16 +736,16 @@ func attribute_stuffs(CELL):
 					KEY_COUNT_TOTAL -= 1
 					amount_left_thingy()
 					CURRENT_LEVEL[CELL.y][CELL.x] = "10"
-					tile_spawn(CELL.x,CELL.y,"10")
+					spawn_tile(CELL.x,CELL.y,"10")
 				"Puzzle":
 					KEY_COUNT -= 1
 					KEY_COUNT_TOTAL -= 1
 					CURRENT_LEVEL[CELL.y][CELL.x] = str(str(CELL_DATA).left(1),0)
-					tile_spawn(CELL.x, CELL.y, str(str(CELL_DATA).left(1),0))
+					spawn_tile(CELL.x, CELL.y, str(str(CELL_DATA).left(1),0))
 		"detonator":
 			sound_effect("tile")
 			CURRENT_LEVEL[CELL.y][CELL.x] = "10"
-			tile_spawn(CELL.x,CELL.y,"10")
+			spawn_tile(CELL.x,CELL.y,"10")
 			emit_signal("signal_detonator", COLOR)
 			var node = get_node(str("VIEW_3D/",CELL.x,"x",CELL.y,"_detonator"))
 			var tween = create_tween()
@@ -773,13 +781,13 @@ func _on_signal_detonator(COLOR):
 			var ATTRIBUTE_MATCH = info[3]
 			if COLOR_MATCH == "black":
 				if ATTRIBUTE_MATCH == "bomb":
-					tile_spawn(temp_x,temp_y,10)
+					spawn_tile(temp_x,temp_y,10)
 					CURRENT_LEVEL[temp_y][temp_x] = 10
 			if COLOR_MATCH == COLOR:
 				if ATTRIBUTE_MATCH == "bomb":
 					FOUND_NODE = true
 					CURRENT_LEVEL[temp_y][temp_x] = 10
-					tile_spawn(temp_x,temp_y,10)
+					spawn_tile(temp_x,temp_y,10)
 					amount_left_thingy()
 					var up = Vector2(temp_x,temp_y - 1)
 					var middle = Vector2(temp_x,temp_y)
@@ -823,7 +831,7 @@ func _on_signal_detonator(COLOR):
 								CURRENT_LEVEL[i.y][i.x] = "18"
 							else:
 								CURRENT_LEVEL[i.y][i.x] = "10"
-							tile_spawn(i.x,i.y,CURRENT_LEVEL[i.y][i.x])
+							spawn_tile(i.x,i.y,CURRENT_LEVEL[i.y][i.x])
 							PAUSE = false
 			if FOUND_NODE == true:
 				return
@@ -856,7 +864,7 @@ func spawn_rng():
 	var NEW_RNG = str(rng(2,7),0)
 	print(NEW_RNG)
 	CURRENT_LEVEL[pos_y][pos_x] = NEW_RNG
-	tile_spawn(pos_x,pos_y,NEW_RNG)
+	spawn_tile(pos_x,pos_y,NEW_RNG)
 
 func _ready():
 	os_checker()

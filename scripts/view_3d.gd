@@ -1,11 +1,12 @@
 extends Node3D
 @onready var CAMERA_NODE = $Camera3D
-
 var cam_offset
 var cam_rotation = Vector3(-55,0,0)
 var cam_speed = 3
-
 var CAN_ROTATE = true
+
+@onready var SKY_MATERIAL = $WorldEnvironment.environment.sky.sky_material
+@onready var OUTLINE_SHADER = get_node("Camera3D/shader_mobius").mesh.material
 
 func rotate_view(input):
 	GLOBALS.ROTATION_COUNT += input
@@ -23,48 +24,28 @@ func rotate_view(input):
 	cam_rotation.y += ROTATION_DEGREES
 
 var rotation_count = 0
-var SKYBOX = 1
-var previous_skybox = SKYBOX
-var SKYBOX_COLOR_1 = Color.from_hsv(0.4,0.5,1.0,1.0)
-var SKYBOX_COLOR_2 = Color.from_hsv(0.4,0.5,1.0,1.0)
-var SKYBOX_COLOR_3 = Color.from_hsv(0.4,0.5,1.0,1.0)
-var SKYBOX_COLOR_4 = SKYBOX_COLOR_1
 func rotate_skybox():
-	if SKYBOX == 2:
-		$WorldEnvironment.environment.sky.sky_material.set_sky_top_color(SKYBOX_COLOR_1)
-		$WorldEnvironment.environment.sky.sky_material.set_sky_horizon_color(SKYBOX_COLOR_2)
-		$WorldEnvironment.environment.sky.sky_material.set_ground_bottom_color(SKYBOX_COLOR_3)
-		$WorldEnvironment.environment.sky.sky_material.set_ground_horizon_color(SKYBOX_COLOR_4)
 	var speed = 0.00015
 	rotation_count += 0.01
 	if rotation_count < 4:
 		$WorldEnvironment.environment.sky_rotation.x += speed
-		$WorldEnvironment.environment.sky_rotation.y -= speed
+		$WorldEnvironment.environment.sky_rotation.y += speed
 		$WorldEnvironment.environment.sky_rotation.z -= speed
 	if rotation_count > 4:
 		$WorldEnvironment.environment.sky_rotation.x += speed * 2
-		$WorldEnvironment.environment.sky_rotation.y -= speed * 2
+		$WorldEnvironment.environment.sky_rotation.y += speed * 2
 		$WorldEnvironment.environment.sky_rotation.z -= speed * 2
 	if rotation_count > 8:
 		rotation_count = 0
 
-func set_skybox(SKYBOX_NUMBER):
-	if SKYBOX_NUMBER == 1:
-		SKYBOX = 1
-		$WorldEnvironment.environment.sky = load("res://assets/textures/skybox.tres")
-	elif SKYBOX_NUMBER == 2:
-		SKYBOX = 2
-		$WorldEnvironment.environment.sky = load("res://assets/textures/skybox_02.tres")
-	else:
-		SKYBOX = 1
-		$WorldEnvironment.environment.sky = load("res://assets/textures/skybox.tres")
-
 func _on_signal_level_end():
 	print("do view_3d stuffs for level end")
+	SKY_MATERIAL.set("shader_parameter/color_1",Vector3(0.2, 0.2, 0.2))
+	#SKY_MATERIAL.set("shader_parameter/color_1",Vector3(0.5, 0.5, 0.4))
+	SKY_MATERIAL.set("shader_parameter/color_2",Vector3(0.1,0.1,0.1))
 
 func _ready():
 	GLOBALS.signal_level_end.connect(_on_signal_level_end)
-	set_skybox(1)
 	rotate_view(0)
 	GLOBALS.update_tiles("3d")
 	# after updating the level tiles, set the cube position
@@ -76,8 +57,19 @@ func _ready():
 	else:
 		$Camera3D/DirectionalLight3D.light_energy = 1.3
 
-var COLOR_CYCLE = 0
+var TIMER = 0
+var COLOR_GALAXY_1
+var COLOR_GALAXY_2
+#@onready var COLOR_GALAXY_1 = str("#",SKY_MATERIAL.get("shader_parameter/color_1").to_html(false))
+#@onready var COLOR_GALAXY_2 = str("#",SKY_MATERIAL.get("shader_parameter/color_2").to_html(false))
 func _process(delta):
+	if COLOR_GALAXY_1 != GLOBALS.CURRENT_GALAXY_1 or COLOR_GALAXY_2 != GLOBALS.CURRENT_GALAXY_2:
+		COLOR_GALAXY_1 = GLOBALS.CURRENT_GALAXY_1
+		COLOR_GALAXY_2 = GLOBALS.CURRENT_GALAXY_2
+		var TEMP_COLOR_1 = Color(str(COLOR_GALAXY_1).right(6))
+		var TEMP_COLOR_2 = Color(str(COLOR_GALAXY_2).right(6))
+		SKY_MATERIAL.set("shader_parameter/color_1",TEMP_COLOR_1)
+		SKY_MATERIAL.set("shader_parameter/color_2",TEMP_COLOR_2)
 	if GLOBALS.OS_CHECK == "mobile":
 		if GLOBALS.ENABLE_SHADERS == true:
 			GLOBALS.ENABLE_SHADERS = false

@@ -12,10 +12,6 @@
 background_mode = 2
 sky = ExtResource("2_tgmd5")
 
-[sub_resource type="QuadMesh" id="QuadMesh_wme0o"]
-flip_faces = true
-size = Vector2(2, 2)
-
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dd6dy"]
 render_priority = 0
 shader = ExtResource("5_hvqdt")
@@ -24,7 +20,12 @@ shader_parameter/zFar = 100.0
 shader_parameter/outlineThickness = 1.3
 shader_parameter/outlineColor = Color(0, 0, 0, 1)
 shader_parameter/wiggleFrequency = 2.0
-shader_parameter/wiggleAmplitude = 0.2
+shader_parameter/wiggleAmplitude = 2.08165e-12
+
+[sub_resource type="QuadMesh" id="QuadMesh_wme0o"]
+material = SubResource("ShaderMaterial_dd6dy")
+flip_faces = true
+size = Vector2(2, 2)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_7451y"]
 render_priority = 0
@@ -70,7 +71,7 @@ environment = SubResource("Environment_og5dg")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3.5, 7)
 fov = 44.5
-far = 100.0
+far = 75.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
 transform = Transform3D(0.511465, -0.601974, 0.613214, 0.681239, 0.719008, 0.137626, -0.523753, 0.347354, 0.777836, 0.179668, 0.534831, 0.524227)
@@ -86,7 +87,6 @@ sky_mode = 1
 transform = Transform3D(1, 0, 0, 0, 0.533939, 0.845523, 0, -0.845523, 0.533939, 0, -2.79695, -7.99637)
 mesh = SubResource("QuadMesh_wme0o")
 skeleton = NodePath("../..")
-surface_material_override/0 = SubResource("ShaderMaterial_dd6dy")
 
 [node name="Cube" parent="." instance=ExtResource("2_x1n4d")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 2.08165e-12, 2.08165e-12, 2.08165e-12)

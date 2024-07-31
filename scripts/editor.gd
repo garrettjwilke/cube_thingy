@@ -90,6 +90,8 @@ func save_json() -> void:
 			print("ERROR: game mode needs to be either Classic or Puzzle.")
 			status_menu("bad","Game Mode not set","set the game mode to either Classic or Puzzle")
 			return
+	var COLOR_GALAXY_1 = str("#",$LEVEL_SETTINGS/CUSTOM_COLORS/galaxy_color_1.color.to_html()).left(7)
+	var COLOR_GALAXY_2 = str("#",$LEVEL_SETTINGS/CUSTOM_COLORS/galaxy_color_2.color.to_html()).left(7)
 	var COLOR_FLOOR = str("#",$LEVEL_SETTINGS/CUSTOM_COLORS/floor_color.color.to_html()).left(7)
 	var COLOR_1 = str("#",$"LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors/1".color.to_html()).left(7)
 	var COLOR_2 = str("#",$"LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors/2".color.to_html()).left(7)
@@ -104,6 +106,8 @@ func save_json() -> void:
 		"GAME_MODE":GAME_MODE,
 		"LEVEL_MATRIX":LEVEL_JSON,
 		"TILE_AMOUNT":TILE_AMOUNT,
+		"COLOR_GALAXY_1":COLOR_GALAXY_1,
+		"COLOR_GALAXY_2":COLOR_GALAXY_2,
 		"COLOR_FLOOR":COLOR_FLOOR,
 		"COLOR_1":COLOR_1,
 		"COLOR_2":COLOR_2,

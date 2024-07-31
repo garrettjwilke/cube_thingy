@@ -129,59 +129,92 @@ offset_bottom = 40.0
 
 [node name="CUSTOM_COLORS" type="Node" parent="LEVEL_SETTINGS"]
 
+[node name="galaxy_color_1" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+offset_left = -1930.0
+offset_top = -901.0
+offset_right = -140.0
+offset_bottom = -517.0
+color = Color(0.419608, 0.333333, 0.611765, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="galaxy_color_2" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+offset_left = -1930.0
+offset_top = -517.0
+offset_right = -140.0
+offset_bottom = -133.0
+color = Color(0.517647, 0.309804, 0.129412, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
 [node name="floor_color" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
-offset_left = 1.0
-offset_top = -220.0
-offset_right = 1318.0
-offset_bottom = -33.0
+anchors_preset = -1
+anchor_right = 0.153906
+anchor_bottom = 0.0388889
+offset_left = -1765.0
+offset_top = -621.0
+offset_right = -448.0
+offset_bottom = -434.0
 color = Color(0.4, 0.4, 0.4, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
 [node name="tile_colors" type="HBoxContainer" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
-offset_left = 36.0
-offset_top = -191.0
-offset_right = 1284.0
-offset_bottom = -63.0
+offset_left = -1633.0
+offset_top = -578.0
+offset_right = -385.0
+offset_bottom = -450.0
 theme_override_constants/separation = 32
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
 [node name="1" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.772549, 0.772549, 0.772549, 1)
+metadata/_edit_lock_ = true
 
 [node name="2" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.886275, 0.0862745, 0.0862745, 1)
+metadata/_edit_lock_ = true
 
 [node name="3" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.219608, 0.886275, 0.0862745, 1)
+metadata/_edit_lock_ = true
 
 [node name="4" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.0862745, 0.243137, 0.886275, 1)
+metadata/_edit_lock_ = true
 
 [node name="5" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(1, 1, 0, 1)
+metadata/_edit_lock_ = true
 
 [node name="6" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(1, 0, 0.792157, 1)
+metadata/_edit_lock_ = true
 
 [node name="7" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.992157, 0.490196, 0.00392157, 1)
+metadata/_edit_lock_ = true
 
 [node name="8" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.160784, 0.160784, 0.160784, 1)
+metadata/_edit_lock_ = true
 
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3cyw7")

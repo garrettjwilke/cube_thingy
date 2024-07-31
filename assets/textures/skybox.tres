@@ -4,8 +4,8 @@
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_o1qub"]
 shader = ExtResource("1_8ns01")
-shader_parameter/color_1 = Color(0.42, 0.333, 0.612, 1)
-shader_parameter/color_2 = Color(0.518, 0.31, 0.129, 1)
+shader_parameter/color_1 = Color(0.419608, 0.333333, 0.611765, 1)
+shader_parameter/color_2 = Color(0.517647, 0.309804, 0.129412, 1)
 shader_parameter/exponent_factor_top = 1.0
 shader_parameter/exponent_factor_bottom = 1.0
 shader_parameter/intensity_amp = 1.0

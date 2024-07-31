@@ -121,7 +121,7 @@ metadata/_edit_lock_ = true
 
 [node name="TILE_AMOUNT" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="8" type="Control" parent="LEVEL_SETTINGS/TILE_AMOUNT"]
+[node name="12" type="Control" parent="LEVEL_SETTINGS/TILE_AMOUNT"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -129,62 +129,95 @@ offset_bottom = 40.0
 
 [node name="CUSTOM_COLORS" type="Node" parent="LEVEL_SETTINGS"]
 
+[node name="galaxy_color_1" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+offset_left = -1930.0
+offset_top = -901.0
+offset_right = -140.0
+offset_bottom = -517.0
+color = Color(0.419608, 0.333333, 0.611765, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="galaxy_color_2" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+offset_left = -1930.0
+offset_top = -517.0
+offset_right = -140.0
+offset_bottom = -133.0
+color = Color(0.517647, 0.309804, 0.129412, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
 [node name="floor_color" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
-offset_left = 1.0
-offset_top = -220.0
-offset_right = 1318.0
-offset_bottom = -33.0
+anchors_preset = -1
+anchor_right = 0.153906
+anchor_bottom = 0.0388889
+offset_left = -1765.0
+offset_top = -621.0
+offset_right = -448.0
+offset_bottom = -434.0
 color = Color(0.4, 0.4, 0.4, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
 [node name="tile_colors" type="HBoxContainer" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
-offset_left = 36.0
-offset_top = -191.0
-offset_right = 1284.0
-offset_bottom = -63.0
+offset_left = -1633.0
+offset_top = -578.0
+offset_right = -385.0
+offset_bottom = -450.0
 theme_override_constants/separation = 32
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
 
 [node name="1" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.772549, 0.772549, 0.772549, 1)
+metadata/_edit_lock_ = true
 
 [node name="2" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.886275, 0.0862745, 0.0862745, 1)
+metadata/_edit_lock_ = true
 
 [node name="3" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.219608, 0.886275, 0.0862745, 1)
+metadata/_edit_lock_ = true
 
 [node name="4" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.0862745, 0.243137, 0.886275, 1)
+metadata/_edit_lock_ = true
 
 [node name="5" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(1, 1, 0, 1)
+metadata/_edit_lock_ = true
 
 [node name="6" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(1, 0, 0.792157, 1)
+metadata/_edit_lock_ = true
 
 [node name="7" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.992157, 0.490196, 0.00392157, 1)
+metadata/_edit_lock_ = true
 
 [node name="8" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
 color = Color(0.160784, 0.160784, 0.160784, 1)
+metadata/_edit_lock_ = true
 
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3cyw7")
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 65536, 8, 1, 65536, 8, 2, 65536, 8, 3, 65536, 8, 4, 65536, 8, 5, 65536, 8, 6, 65536, 8, 7, 65536, 8, 8, 65536, 8, 9, 65536, 8, 65545, 65536, 8, 131081, 65536, 8, 196617, 65536, 8, 262153, 65536, 8, 327689, 65536, 8, 393225, 65536, 8, 458761, 65536, 8, 524297, 65536, 8, 589833, 65536, 8, 589832, 65536, 8, 589831, 65536, 8, 589830, 65536, 8, 589829, 65536, 8, 589828, 65536, 8, 589827, 65536, 8, 589826, 65536, 8, 589825, 65536, 8, 589824, 65536, 8, 524288, 65536, 8, 65536, 65536, 8, 131072, 65536, 8, 196608, 65536, 8, 262144, 65536, 8, 327680, 65536, 8, 393216, 65536, 8, 458752, 65536, 8, 65537, 65536, 0, 65538, 65536, 0, 65539, 65536, 0, 65540, 65536, 0, 65541, 65536, 0, 65542, 65536, 0, 65543, 65536, 0, 65544, 65536, 0, 131080, 65536, 0, 196616, 65536, 0, 262152, 65536, 0, 327688, 65536, 0, 393224, 65536, 0, 458760, 65536, 0, 524296, 65536, 0, 524295, 65536, 0, 524294, 65536, 0, 524293, 65536, 0, 524292, 65536, 0, 524291, 65536, 0, 524290, 65536, 0, 524289, 0, 1, 458753, 65536, 0, 393217, 65536, 0, 327681, 65536, 0, 262145, 65536, 0, 196609, 65536, 0, 131073, 65536, 0, 131074, 131072, 0, 262148, 0, 0, 262149, 0, 9, 327684, 0, 0, 327685, 0, 0, 196611, 65536, 8, 196612, 65536, 8, 196613, 65536, 8, 196614, 65536, 8, 262150, 65536, 8, 327686, 65536, 8, 393222, 65536, 8, 393221, 65536, 8, 393220, 65536, 8, 393219, 65536, 8, 327683, 65536, 8, 262147, 65536, 8, 131075, 65536, 0, 131076, 65536, 0, 131077, 65536, 0, 131078, 65536, 0, 131079, 65536, 0, 196615, 65536, 0, 262151, 65536, 0, 327687, 65536, 0, 393223, 65536, 0, 458759, 65536, 0, 458758, 65536, 0, 458757, 65536, 0, 458756, 65536, 0, 458755, 65536, 0, 458754, 65536, 0, 393218, 65536, 0, 327682, 65536, 0, 262146, 65536, 0, 196610, 65536, 0)
+layer_0/tile_data = PackedInt32Array(1, 65536, 8, 2, 65536, 0, 65536, 65536, 8, 131072, 589824, 0, 196608, 65536, 8, 65537, 65536, 8, 65538, 65536, 8, 393217, 65536, 8, 327681, 65536, 8, 262145, 65536, 8, 196609, 65536, 8, 131073, 65536, 8, 131074, 65536, 8, 393218, 65536, 8, 327682, 65536, 8, 262146, 65536, 8, 196610, 65536, 8, 589824, 65536, 8, 524289, 65536, 8, 589825, 65536, 8, 524290, 65536, 8, 589826, 65536, 8, 524291, 65536, 8, 589827, 65536, 8, 65540, 65536, 8, 131076, 65536, 8, 65541, 65536, 8, 131077, 65536, 8, 65542, 65536, 8, 131078, 65536, 8, 65543, 65536, 8, 131079, 65536, 8, 3, 65536, 8, 65539, 65536, 8, 131075, 65536, 8, 196611, 65536, 8, 262147, 65536, 8, 327683, 65536, 8, 393219, 65536, 8, 458755, 65536, 8, 458754, 65536, 8, 458753, 65536, 8, 589828, 65536, 8, 655364, 65536, 8, 393221, 65536, 8, 589829, 65536, 8, 655365, 65536, 8, 393222, 65536, 9, 458758, 65536, 8, 589830, 65536, 8, 655366, 65536, 8, 393223, 65536, 8, 589831, 65536, 8, 655367, 65536, 8, 720900, 65536, 8, 720901, 65536, 8, 720902, 65536, 8, 720903, 65536, 8, 9, 65536, 8, 65545, 65536, 8, 131081, 65536, 8, 262153, 65536, 8, 327689, 65536, 8, 393225, 65536, 8, 458761, 65536, 8, 524297, 65536, 8, 589833, 65536, 8, 655369, 65536, 8, 720905, 65536, 8, 10, 589824, 0, 65546, 65536, 8, 131082, 65536, 8, 262154, 65536, 8, 327690, 65536, 8, 393226, 65536, 8, 458762, 65536, 8, 524298, 65536, 8, 589834, 65536, 8, 655370, 65536, 8, 720906, 65536, 8, 11, 65536, 8, 65547, 65536, 8, 131083, 65536, 8, 262155, 65536, 8, 327691, 65536, 8, 393227, 65536, 8, 458763, 65536, 8, 524299, 65536, 8, 589835, 65536, 8, 655371, 65536, 8, 720907, 65536, 8, 720896, 65536, 8, 720898, 65536, 8, 720899, 65536, 8, 655362, 65536, 8, 655363, 65536, 8, 655368, 65536, 8, 589832, 65536, 8, 196616, 65536, 8, 196615, 65536, 8, 196614, 0, 1, 196613, 65536, 8, 196612, 65536, 8, 196617, 65536, 8, 196618, 65536, 8, 131080, 65536, 8, 65544, 65536, 8, 196619, 65536, 8, 720904, 65536, 8, 655360, 65536, 0, 786433, 65536, 8, 786434, 589824, 0, 786435, 65536, 8, 786441, 65536, 8, 786442, 65536, 0, 786443, 65536, 8, 720908, 65536, 8, 655372, 65536, 0, 589836, 65536, 8, 196620, 65536, 8, 131084, 65536, 0, 65548, 65536, 8, 327686, 65536, 8, 262150, 65536, 8, 262149, 65536, 8, 262151, 65536, 8, 327688, 65536, 8, 393224, 65536, 8, 458760, 65536, 8, 524295, 65536, 8, 524294, 65536, 8, 524293, 65536, 8, 458756, 65536, 8, 393220, 65536, 8, 327684, 65536, 8, 655361, 65536, 8, 720897, 65536, 8)
 metadata/_edit_lock_ = true

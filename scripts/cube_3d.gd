@@ -158,6 +158,11 @@ func _on_signal_level_end():
 	print("finish cube_3d stuffs for level end")
 
 func _ready():
+	var new_mat = StandardMaterial3D.new()
+	var subviewport = $SubViewport
+	new_mat.albedo_color = "#ffffff"
+	new_mat.albedo_texture = subviewport.get_texture()
+	$Pivot/MeshInstance3D.mesh.material = new_mat
 	GLOBALS.signal_level_end.connect(_on_signal_level_end)
 	GLOBALS.KEY_COUNT = 0
 	position = Vector3(GLOBALS.START_POSITION.x,0,GLOBALS.START_POSITION.y)

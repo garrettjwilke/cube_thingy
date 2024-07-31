@@ -16,6 +16,8 @@
 	"COLOR_PURPLE" : "#ff00ca",
 	"COLOR_ORANGE" : "#fd7d01",
 	"COLOR_FLOOR" : "#666666",
+	"COLOR_GALAXY_1" : "#6b559c",
+	"COLOR_GALAXY_2" : "#844f21",
 	"LEVEL_NAME" : "default level",
 	"LEVEL_MATRIX" : [
 		["10","10","10","10","10"],

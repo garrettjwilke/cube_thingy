@@ -99,7 +99,7 @@ func _ready():
 	set_colors()
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta):
+func _process(_delta):
 	if not GAME_DIFFICULTY == "invisible":
 		if COLOR_1 != GLOBALS.CURRENT_GREEN or COLOR_2 != GLOBALS.CURRENT_YELLOW or COLOR_3 != GLOBALS.CURRENT_PURPLE or COLOR_4 != GLOBALS.CURRENT_RED or COLOR_5 != GLOBALS.CURRENT_BLUE or COLOR_6 != GLOBALS.CURRENT_ORANGE:
 			COLOR_1 = GLOBALS.CURRENT_GREEN

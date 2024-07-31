@@ -14,9 +14,9 @@ var MENU_NUMBER = 0
 func set_bg():
 	match MENU_NUMBER:
 		0:
-			BG_NODE.texture = BG_RED
-		1:
 			BG_NODE.texture = BG_BLUE
+		1:
+			BG_NODE.texture = BG_PURPLE
 		2:
 			BG_NODE.texture = BG_GREEN
 		3:
@@ -24,7 +24,7 @@ func set_bg():
 		4:
 			BG_NODE.texture = BG_ORANGE
 		5:
-			BG_NODE.texture = BG_PURPLE
+			BG_NODE.texture = BG_RED
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
