@@ -40,9 +40,6 @@ func rotate_skybox():
 
 func _on_signal_level_end():
 	print("do view_3d stuffs for level end")
-	SKY_MATERIAL.set("shader_parameter/color_1",Vector3(0.2, 0.2, 0.2))
-	#SKY_MATERIAL.set("shader_parameter/color_1",Vector3(0.5, 0.5, 0.4))
-	SKY_MATERIAL.set("shader_parameter/color_2",Vector3(0.1,0.1,0.1))
 
 func _ready():
 	GLOBALS.signal_level_end.connect(_on_signal_level_end)
