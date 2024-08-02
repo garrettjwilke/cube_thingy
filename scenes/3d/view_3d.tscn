@@ -71,7 +71,7 @@ environment = SubResource("Environment_og5dg")
 [node name="Camera3D" type="Camera3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.965926, 0.258819, 0, -0.258819, 0.965926, 0, 3.5, 7)
 fov = 44.5
-far = 75.0
+far = 200.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
 transform = Transform3D(0.511465, -0.601974, 0.613214, 0.681239, 0.719008, 0.137626, -0.523753, 0.347354, 0.777836, 0.179668, 0.534831, 0.524227)
@@ -84,7 +84,7 @@ directional_shadow_max_distance = 100.1
 sky_mode = 1
 
 [node name="shader_mobius" type="MeshInstance3D" parent="Camera3D"]
-transform = Transform3D(1, 0, 0, 0, 0.533939, 0.845523, 0, -0.845523, 0.533939, 0, -2.79695, -7.99637)
+transform = Transform3D(1, 0, 0, 0, 0.999426, -0.0338875, 0, 0.0338877, 0.999427, 0.210032, -0.0817566, -1.58552)
 mesh = SubResource("QuadMesh_wme0o")
 skeleton = NodePath("../..")
 

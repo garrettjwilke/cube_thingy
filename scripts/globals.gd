@@ -794,7 +794,6 @@ func _on_signal_detonator(COLOR):
 					var down = Vector2(temp_x, temp_y + 1)
 					#var left = Vector2(temp_x - 1, temp_y)
 					#var right = Vector2(temp_x + 1, temp_y)
-					#for i in [up,right,down,left]:
 					for i in [up + Vector2(-1,0),up,up + Vector2(1,0),middle + Vector2(-1,0),middle,middle + Vector2(1,0),down + Vector2(-1,0),down,down + Vector2(1,0)]:
 						if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y)):
 							var tile_data = get_cell_data(CURRENT_LEVEL[i.y][i.x])
