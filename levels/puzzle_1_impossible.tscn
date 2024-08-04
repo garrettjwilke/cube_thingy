@@ -1,18 +1,19 @@
-[gd_scene load_steps=5 format=3 uid="uid://b3e85mhwevv4y"]
+[gd_scene load_steps=6 format=3 uid="uid://kr5llsd8sw0c"]
 
-[ext_resource type="Script" path="res://scripts/editor.gd" id="1_iru7t"]
-[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_puh68"]
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_ma2g7"]
+[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_nnhmk"]
+
+[sub_resource type="ImageTexture" id="ImageTexture_rfw87"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q85ov"]
-texture = ExtResource("2_puh68")
-texture_region_size = Vector2i(128, 128)
+texture = ExtResource("2_nnhmk")
+texture_region_size = Vector2i(32, 32)
 2:0/0 = 0
 3:0/0 = 0
 4:0/0 = 0
 5:0/0 = 0
 6:0/0 = 0
 7:0/0 = 0
-8:0/0 = 0
 9:0/0 = 0
 1:1/0 = 0
 2:1/0 = 0
@@ -66,16 +67,23 @@ texture_region_size = Vector2i(128, 128)
 5:8/0 = 0
 6:8/0 = 0
 7:8/0 = 0
-8:8/0 = 0
 9:8/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
 
-[sub_resource type="TileSet" id="TileSet_3cyw7"]
-tile_size = Vector2i(128, 128)
+[sub_resource type="TileSet" id="TileSet_cyimu"]
+tile_size = Vector2i(32, 32)
 terrain_set_0/mode = 0
 sources/0 = SubResource("TileSetAtlasSource_q85ov")
 
 [node name="editor" type="Node2D"]
-script = ExtResource("1_iru7t")
+script = ExtResource("1_ma2g7")
 metadata/_edit_lock_ = true
 
 [node name="bounds" type="Node2D" parent="."]
@@ -90,15 +98,26 @@ color = Color(1, 0.247059, 0.435294, 1)
 metadata/_edit_lock_ = true
 
 [node name="MAX_LEVEL_SIZE" type="ColorRect" parent="bounds"]
-offset_right = 4096.0
-offset_bottom = 4096.0
+offset_right = 1280.0
+offset_bottom = 1024.0
 color = Color(0.490196, 0.411765, 0.184314, 1)
+metadata/_edit_lock_ = true
+
+[node name="custom_reference_image" type="TextureRect" parent="bounds/MAX_LEVEL_SIZE"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("ImageTexture_rfw87")
+metadata/_edit_lock_ = true
 
 [node name="LEVEL_SETTINGS" type="Node" parent="."]
 
 [node name="LEVEL_NUMBER" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="3" type="Control" parent="LEVEL_SETTINGS/LEVEL_NUMBER"]
+[node name="1" type="Control" parent="LEVEL_SETTINGS/LEVEL_NUMBER"]
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -107,7 +126,7 @@ metadata/_edit_lock_ = true
 
 [node name="LEVEL_NAME" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="puzzle spawn test" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
+[node name="impossible?" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_lock_ = true
@@ -126,22 +145,23 @@ layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0
+metadata/_edit_lock_ = true
 
 [node name="CUSTOM_COLORS" type="Node" parent="LEVEL_SETTINGS"]
 
 [node name="galaxy_color_1" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
-offset_left = -1930.0
+offset_left = -266.0
 offset_top = -901.0
-offset_right = -140.0
+offset_right = 1524.0
 offset_bottom = -517.0
 color = Color(0.419608, 0.333333, 0.611765, 1)
 metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
 
 [node name="galaxy_color_2" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
-offset_left = -1930.0
+offset_left = -266.0
 offset_top = -517.0
-offset_right = -140.0
+offset_right = 1524.0
 offset_bottom = -133.0
 color = Color(0.517647, 0.309804, 0.129412, 1)
 metadata/_edit_use_anchors_ = true
@@ -151,18 +171,18 @@ metadata/_edit_lock_ = true
 anchors_preset = -1
 anchor_right = 0.153906
 anchor_bottom = 0.0388889
-offset_left = -1765.0
+offset_left = -101.0
 offset_top = -621.0
-offset_right = -448.0
+offset_right = 1216.0
 offset_bottom = -434.0
 color = Color(0.4, 0.4, 0.4, 1)
 metadata/_edit_use_anchors_ = true
 metadata/_edit_lock_ = true
 
 [node name="tile_colors" type="HBoxContainer" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
-offset_left = -1633.0
+offset_left = 31.0
 offset_top = -578.0
-offset_right = -385.0
+offset_right = 1279.0
 offset_bottom = -450.0
 theme_override_constants/separation = 32
 metadata/_edit_use_anchors_ = true
@@ -217,7 +237,7 @@ color = Color(0.160784, 0.160784, 0.160784, 1)
 metadata/_edit_lock_ = true
 
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
-tile_set = SubResource("TileSet_3cyw7")
+tile_set = SubResource("TileSet_cyimu")
 format = 2
-layer_0/tile_data = PackedInt32Array(0, 524288, 3, 65536, 524288, 0, 131072, 524288, 3, 196608, 524288, 1, 262144, 524288, 3, 327680, 524288, 0, 393216, 524288, 3, 1, 524288, 0, 65537, 262144, 3, 131073, 196608, 0, 196609, 458752, 4, 262145, 393216, 0, 327681, 262144, 3, 393217, 524288, 0, 2, 524288, 3, 65538, 327680, 0, 196610, 327680, 0, 327682, 327680, 0, 393218, 524288, 3, 3, 524288, 1, 65539, 458752, 4, 131075, 196608, 0, 196611, 262144, 9, 262147, 393216, 0, 327683, 458752, 4, 393219, 524288, 1, 4, 524288, 3, 65540, 131072, 0, 196612, 131072, 0, 327684, 131072, 0, 393220, 524288, 3, 5, 524288, 0, 65541, 262144, 3, 131077, 196608, 0, 196613, 458752, 4, 262149, 393216, 0, 327685, 262144, 3, 393221, 524288, 0, 6, 524288, 3, 65542, 524288, 0, 131078, 524288, 3, 196614, 65536, 0, 262150, 524288, 3, 327686, 524288, 0, 393222, 524288, 3, 196615, 0, 1)
+layer_0/tile_data = PackedInt32Array(131072, 65536, 0, 196608, 65536, 0, 262144, 65536, 0, 131073, 65536, 0, 196609, 0, 1, 262145, 65536, 0, 131074, 65536, 0, 196610, 65536, 0, 262146, 65536, 0, 196611, 327680, 3, 65540, 458752, 0, 131076, 65536, 0, 196612, 65536, 0, 262148, 65536, 0, 65541, 131072, 0, 131077, 65536, 0, 196613, 65536, 0, 262149, 65536, 0, 327685, 65536, 0, 65542, 65536, 0, 131078, 65536, 0, 196614, 65536, 0, 262150, 65536, 0, 327686, 65536, 0, 65543, 65536, 0, 131079, 65536, 0, 196615, 65536, 0, 262151, 65536, 0, 327687, 0, 9, 65544, 65536, 0, 196616, 65536, 0, 262152, 65536, 0, 65545, 131072, 0, 65546, 65536, 0, 65547, 65536, 0, 65548, 458752, 0, 13, 65536, 0, 65549, 131072, 0, 131085, 65536, 0, 14, 65536, 0, 65550, 262144, 0, 131086, 65536, 0, 15, 65536, 0, 65551, 65536, 0, 131087, 65536, 0, 16, 65536, 0, 65552, 65536, 0, 131088, 65536, 0, 65553, 327680, 4)
 metadata/_edit_lock_ = true

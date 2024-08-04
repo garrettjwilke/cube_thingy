@@ -18,3 +18,4 @@ shader_parameter/layers_count = 3
 
 [resource]
 sky_material = SubResource("ShaderMaterial_o1qub")
+radiance_size = 0

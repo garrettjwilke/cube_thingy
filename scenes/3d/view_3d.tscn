@@ -11,6 +11,9 @@
 [sub_resource type="Environment" id="Environment_og5dg"]
 background_mode = 2
 sky = ExtResource("2_tgmd5")
+ambient_light_source = 1
+reflected_light_source = 1
+tonemap_mode = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dd6dy"]
 render_priority = 0

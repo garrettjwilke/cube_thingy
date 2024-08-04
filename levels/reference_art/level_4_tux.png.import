@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dx34x3casophf"
-path="res://.godot/imported/level_1_pika.png-fbb0503b7d6594a65a4e3474ba7238cc.ctex"
+uid="uid://0t6acrtghmg3"
+path="res://.godot/imported/level_4_tux.png-a6bde98b9fc86bbdf966d3c0d480c8a3.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://levels/reference_art/level_1_pika.png"
-dest_files=["res://.godot/imported/level_1_pika.png-fbb0503b7d6594a65a4e3474ba7238cc.ctex"]
+source_file="res://levels/reference_art/level_4_tux.png"
+dest_files=["res://.godot/imported/level_4_tux.png-a6bde98b9fc86bbdf966d3c0d480c8a3.ctex"]
 
 [params]
 

@@ -822,7 +822,10 @@ func _on_signal_detonator(COLOR):
 								"black":
 									pass
 								_:
-									amount_left_thingy()
+									if potential_attribute == "uncounted_tile":
+										pass
+									else:
+										amount_left_thingy()
 							sound_effect("bomb")
 							PAUSE = true
 							if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_box")):
@@ -837,10 +840,11 @@ func _on_signal_detonator(COLOR):
 								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
 								await tween.finished
 								#node.queue_free()
-							if potential_attribute == "single_use_tile":
-								CURRENT_LEVEL[i.y][i.x] = "18"
-							else:
-								CURRENT_LEVEL[i.y][i.x] = "10"
+							#if potential_attribute == "single_use_tile":
+							#	CURRENT_LEVEL[i.y][i.x] = "18"
+							#else:
+							#	CURRENT_LEVEL[i.y][i.x] = "10"
+							CURRENT_LEVEL[i.y][i.x] = "18"
 							spawn_tile(i.x,i.y,CURRENT_LEVEL[i.y][i.x])
 							PAUSE = false
 			if FOUND_NODE == true:
