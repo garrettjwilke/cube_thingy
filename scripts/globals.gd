@@ -411,8 +411,10 @@ func get_cell_data(cell):
 			ATTRIBUTE = "box"
 		4:
 			ATTRIBUTE = "key"
+		7:
+			ATTRIBUTE = "uncounted_tile"
 		8:
-			ATTRIBUTE = "unspawnable"
+			ATTRIBUTE = "single_use_tile"
 		9:
 			ATTRIBUTE = "start_position"
 		_:
@@ -574,7 +576,9 @@ func spawn_tile(x, y, cell):
 	CURRENT_TILE.scale = Vector3(TILE_SCALE, TILE_HEIGHT, TILE_SCALE)
 	CURRENT_TILE.position = Vector3(x, -(TILE_HEIGHT / 2 + 0.03), y)
 	match ATTRIBUTE:
-		"unspawnable":
+		"uncounted_tile":
+			pass
+		"single_use_tile":
 			pass
 		"box":
 			spawn_box(x,y,COLOR)
@@ -628,7 +632,9 @@ func update_tiles(MODE):
 						pass
 					"start_position":
 						pass
-					"unspawnable":
+					"single_use_tile":
+						pass
+					"uncounted_tile":
 						pass
 					_:
 						if AMOUNT_LEFT_LEVEL == "0":
@@ -638,10 +644,11 @@ func update_tiles(MODE):
 			elif CURRENT_COLOR != "gray":
 				if CURRENT_COLOR != "null":
 					if CURRENT_COLOR != "black":
-						if AMOUNT_LEFT_LEVEL == "0":
-							AMOUNT_LEFT += 1
-						else:
-							STARTING_TILE_COUNT += 1
+						if ATTRIBUTE_CHECK != "uncounted_tile":
+							if AMOUNT_LEFT_LEVEL == "0":
+								AMOUNT_LEFT += 1
+							else:
+								STARTING_TILE_COUNT += 1
 			# increment x so the next cell will be read correctly
 			CURRENT_POS.x += 1
 			if CURRENT_POS.x > LEVEL_RESOLUTION.x:
@@ -653,10 +660,10 @@ func update_tiles(MODE):
 			LEVEL_RESOLUTION.y += 1
 	IS_READY = true
 	emit_signal("signal_level_start")
-	if LEVEL_RESOLUTION.x > 15 or LEVEL_RESOLUTION.y > 15:
-		CLOSE_UP_CAM = false
-	else:
-		CLOSE_UP_CAM = true
+	#if LEVEL_RESOLUTION.x > 15 or LEVEL_RESOLUTION.y > 15:
+	#	CLOSE_UP_CAM = false
+	#else:
+	#	CLOSE_UP_CAM = true
 
 var LAST_CELL = ""
 var WAITING = false
@@ -667,7 +674,11 @@ func attribute_stuffs(CELL):
 	var ATTRIBUTE = CHECK_TILE[3]
 	LAST_CELL = str(CELL.x,"x",CELL.y)
 	match ATTRIBUTE:
-		"unspawnable":
+		"uncounted_tile":
+			if COLOR != "gray":
+				spawn_tile(CELL.x,CELL.y,CELL_DATA)
+				return
+		"single_use_tile":
 			if GAME_MODE == "Classic":
 				if COLOR != "gray":
 					CURRENT_LEVEL[CELL.y][CELL.x] = "18"
@@ -804,7 +815,7 @@ func _on_signal_detonator(COLOR):
 							match potential_color:
 								"gray":
 									match potential_attribute:
-										"default","start_position","unspawnable":
+										"default","start_position","single_use_tile","uncounted_tile":
 											pass
 										_:
 											amount_left_thingy()
@@ -826,7 +837,7 @@ func _on_signal_detonator(COLOR):
 								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
 								await tween.finished
 								#node.queue_free()
-							if potential_attribute == "unspawnable":
+							if potential_attribute == "single_use_tile":
 								CURRENT_LEVEL[i.y][i.x] = "18"
 							else:
 								CURRENT_LEVEL[i.y][i.x] = "10"
@@ -877,7 +888,8 @@ var SPHERE_COUNT = 0
 func _process(delta):
 	RNG_COUNTER += delta
 	if IS_READY == true:
-		if AMOUNT_LEFT == 0:
+		if AMOUNT_LEFT <= 0:
+			AMOUNT_LEFT = 0
 			SPHERE_COUNT += 1
 			if SPHERE_COUNT == 1:
 				spawn_final_orb(Vector3(FINAL_ORB_POSITION),get_cell_data(str(rng(2,7),0))[0])

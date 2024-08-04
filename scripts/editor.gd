@@ -27,7 +27,7 @@ func status_menu(status_color,message_1,message_2):
 var STATUS
 func parse_level():
 	var MAP_SIZE = LEVEL_MATRIX.get_used_rect().size
-	if MAP_SIZE.x > 32:
+	if MAP_SIZE.x > 38:
 		print("ERROR: LEVEL_MATRIX too large!")
 		STATUS = "bad"
 		status_menu(STATUS,"LEVEL_MATRIX too large!","there is max level size of 32x32 tiles.")

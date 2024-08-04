@@ -1,6 +1,6 @@
 {
 	"WINDOW_TITLE" : "cube_thingy",
-	"RESOLUTION" : [1280,720],
+	"RESOLUTION" : [1280,800],
 	"FONT_THEME" : "3",
 	"GAME_DIFFICULTY" : "normal",
 	"comment": "the options for GAME_MODE are: Classic, Puzzle",
