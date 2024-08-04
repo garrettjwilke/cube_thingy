@@ -832,8 +832,8 @@ func _on_signal_detonator(COLOR):
 								var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_box"))
 								var tween = create_tween()
 								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
-								await tween.finished
-								node.queue_free()
+								#await tween.finished
+								#node.queue_free()
 							if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_detonator")):
 								var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_detonator"))
 								var tween = create_tween()

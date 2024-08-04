@@ -1,9 +1,8 @@
 [gd_scene load_steps=6 format=3 uid="uid://deecl0gjbujw8"]
 
 [ext_resource type="Script" path="res://scripts/editor.gd" id="1_g7kx1"]
+[ext_resource type="Texture2D" uid="uid://b5ww0vphitubh" path="res://levels/reference_art/blank_template.png" id="2_4jm14"]
 [ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="2_64jjj"]
-
-[sub_resource type="ImageTexture" id="ImageTexture_rfw87"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q85ov"]
 texture = ExtResource("2_64jjj")
@@ -90,12 +89,11 @@ metadata/_edit_lock_ = true
 metadata/_edit_lock_ = true
 
 [node name="OUT_OF_BOUNDS" type="ColorRect" parent="bounds"]
-offset_left = -204231.0
-offset_top = -160968.0
-offset_right = 213857.0
+offset_left = -1.05185e+06
+offset_top = -1.06042e+06
+offset_right = 999905.0
 offset_bottom = 171814.0
 color = Color(1, 0.247059, 0.435294, 1)
-metadata/_edit_lock_ = true
 
 [node name="MAX_LEVEL_SIZE" type="ColorRect" parent="bounds"]
 offset_right = 1280.0
@@ -103,14 +101,14 @@ offset_bottom = 1024.0
 color = Color(0.490196, 0.411765, 0.184314, 1)
 metadata/_edit_lock_ = true
 
-[node name="custom_reference_image" type="TextureRect" parent="bounds/MAX_LEVEL_SIZE"]
+[node name="reference_image_40x32" type="TextureRect" parent="bounds/MAX_LEVEL_SIZE"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("ImageTexture_rfw87")
+texture = ExtResource("2_4jm14")
 metadata/_edit_lock_ = true
 
 [node name="LEVEL_SETTINGS" type="Node" parent="."]

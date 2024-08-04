@@ -24,15 +24,28 @@ func status_menu(status_color,message_1,message_2):
 	$status/ColorRect/MarginContainer/status_color/MarginContainer/CenterContainer/VBoxContainer/message_1.text = message_1
 	$status/ColorRect/MarginContainer/status_color/MarginContainer/CenterContainer/VBoxContainer/message_2.text = message_2
 
+var MAX_LEVEL_SIZE = Vector2(39,31)
 var STATUS
+var HAS_TILES_X = false
+var HAS_TILES_Y = false
+var FIRST_ROW = true
+
 func parse_level():
+	var NEW_MAX = LEVEL_MATRIX.map_to_local(MAX_LEVEL_SIZE)
+	var STRAY_TILES = LEVEL_MATRIX.get_used_cells(0)
+	for i in STRAY_TILES:
+		if LEVEL_MATRIX.map_to_local(i) > NEW_MAX or LEVEL_MATRIX.map_to_local(i) < Vector2(0,0):
+			print("ERROR: Tiles outside of LEVEL_MATRIX bounds!")
+			STATUS = "bad"
+			status_menu(STATUS,"Tiles outside of LEVEL_MATRIX bounds","delete the tiles that are in the RED area.")
+			return
 	var MAP_SIZE = LEVEL_MATRIX.get_used_rect().size
-	if MAP_SIZE.x > 40:
+	if MAP_SIZE.x > MAX_LEVEL_SIZE.x:
 		print("ERROR: LEVEL_MATRIX too large!")
 		STATUS = "bad"
 		status_menu(STATUS,"LEVEL_MATRIX too large!","there is max level size of 40x32 tiles.")
 		return
-	if MAP_SIZE.y > 32:
+	if MAP_SIZE.y > MAX_LEVEL_SIZE.y:
 		print("ERROR: LEVEL_MATRIX too large!")
 		STATUS = "bad"
 		status_menu(STATUS,"LEVEL_MATRIX too large!","there is max level size of 40x32 tiles.")
@@ -51,11 +64,31 @@ func parse_level():
 				TEMP_TEMP = Vector2(0,0)
 			TEMP_NAME = str(TEMP_TEMP.x,TEMP_TEMP.y)
 			if TEMP_NAME == "01":
+				if HAS_FINAL_ORB:
+					print("ERROR: More than one final orb")
+					STATUS = "bad"
+					status_menu(STATUS,"More than one final orb","there can only be one final orb set.")
+					return
 				HAS_FINAL_ORB = true
 			if TEMP_NAME.right(1) == "9":
+				if HAS_STARTING_POS:
+					print("ERROR: More than one starting position set")
+					STATUS = "bad"
+					status_menu(STATUS,"More than one starting position","there can only be one starting position set.")
+					return
 				HAS_STARTING_POS = true
+			if FIRST_ROW:
+				if TEMP_NAME != "00":
+					HAS_TILES_X = true
 			TEMP_ARRAY.append(TEMP_NAME)
 			CURRENT_POSITION.x += 1
+		if FIRST_ROW:
+			if not HAS_TILES_X:
+				print("ERROR: no tiles on first row")
+				STATUS = "bad"
+				status_menu(STATUS,"Tiles not at top of area", "move LEVEL_MATRIX tiles to top of area")
+				return
+		FIRST_ROW = false
 		LEVEL_JSON.append(TEMP_ARRAY)
 		TEMP_ARRAY = []
 		CURRENT_POSITION.y += 1
@@ -65,6 +98,15 @@ func save_json() -> void:
 	if LEVEL_JSON == []:
 		print("ERROR: no LEVEL_MATRIX tiles")
 		status_menu("bad","No LEVEL_MATRIX set","set tiles using the LEVEL_MATRIX node")
+		return
+	for i in LEVEL_JSON:
+		var LEFT_CHECK = i[0]
+		if str(LEFT_CHECK) != "00":
+			HAS_TILES_Y = true
+	if not HAS_TILES_Y:
+		print("ERROR: LEVEL_MATRIX tiles not at left")
+		STATUS = "bad"
+		status_menu(STATUS,"Tiles not at the left in area", "move LEVEL_MATRIX tiles to the left in the area")
 		return
 	match LEVEL_NUMBER:
 		"","level number here":
