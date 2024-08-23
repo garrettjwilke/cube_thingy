@@ -714,6 +714,7 @@ text = "Shaders"
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
+button_pressed = true
 action_mode = 0
 button_group = SubResource("ButtonGroup_6njf0")
 text = "Disabled"
@@ -727,7 +728,6 @@ color = Color(1, 1, 1, 0)
 layout_mode = 2
 theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 24
-button_pressed = true
 action_mode = 0
 button_group = SubResource("ButtonGroup_6njf0")
 text = "Enabled"
@@ -825,6 +825,7 @@ modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 
 [node name="start_end_screen" type="Control" parent="."]
+visible = false
 custom_minimum_size = Vector2(1280, 720)
 layout_mode = 3
 anchors_preset = 0

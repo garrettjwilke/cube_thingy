@@ -22,7 +22,7 @@ var START_POSITION = Vector2(0,0)
 var GAME_DIFFICULTY = get_default("GAME_DIFFICULTY")
 var CLOSE_UP_CAM = true
 var ROTATION_COUNT = 1
-var ENABLE_SHADERS = true
+var ENABLE_SHADERS = false
 var OS_CHECK = "null"
 var PAUSE = true
 var INVERTED_MODE = get_default("INVERTED_MODE")
@@ -779,6 +779,7 @@ func os_checker():
 		_:
 			OS_CHECK = "mobile"
 
+var BOMB_TILES : Array
 var FINISHED_CHECK = true
 func _on_signal_detonator(COLOR):
 	var FOUND_NODE = false
@@ -806,6 +807,7 @@ func _on_signal_detonator(COLOR):
 					#var left = Vector2(temp_x - 1, temp_y)
 					#var right = Vector2(temp_x + 1, temp_y)
 					for i in [up + Vector2(-1,0),up,up + Vector2(1,0),middle + Vector2(-1,0),middle,middle + Vector2(1,0),down + Vector2(-1,0),down,down + Vector2(1,0)]:
+						BOMB_TILES.append(i)
 						if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y)):
 							var tile_data = get_cell_data(CURRENT_LEVEL[i.y][i.x])
 							var potential_color = tile_data[1]
@@ -828,18 +830,18 @@ func _on_signal_detonator(COLOR):
 										amount_left_thingy()
 							sound_effect("bomb")
 							PAUSE = true
-							if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_box")):
-								var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_box"))
-								var tween = create_tween()
-								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
-								#await tween.finished
-								#node.queue_free()
-							if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_detonator")):
-								var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_detonator"))
-								var tween = create_tween()
-								tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
-								await tween.finished
-								#node.queue_free()
+							#if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_box")):
+							#	var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_box"))
+							#	var tween = create_tween()
+							#	tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
+							#	#await tween.finished
+							#	#node.queue_free()
+							#if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_detonator")):
+							#	var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_detonator"))
+							#	var tween = create_tween()
+							#	tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
+							#	await tween.finished
+							#	#node.queue_free()
 							#if potential_attribute == "single_use_tile":
 							#	CURRENT_LEVEL[i.y][i.x] = "18"
 							#else:
@@ -863,6 +865,7 @@ func amount_left_thingy():
 		if AMOUNT_LEFT >= STARTING_TILE_COUNT:
 			spawn_rng()
 
+var bad_tile = false
 func spawn_rng():
 	var VALID_TILE = false
 	var pos_x = 0
@@ -873,8 +876,13 @@ func spawn_rng():
 		var NODE_NAME = str(pos_x,"x",pos_y)
 		if get_node_or_null(str("VIEW_3D/",NODE_NAME)):
 			var CELL = CURRENT_LEVEL[pos_y][pos_x]
-			if CELL == "10" or CELL == "19":
-				VALID_TILE = true
+			if str(CELL) == "10" or CELL == "19":
+				for cell in BOMB_TILES:
+					if Vector2(pos_x,pos_y) == cell:
+						bad_tile == true
+				if bad_tile == false:
+					VALID_TILE = true
+					BOMB_TILES = []
 	var NEW_RNG = str(rng(2,7),0)
 	print(NEW_RNG)
 	CURRENT_LEVEL[pos_y][pos_x] = NEW_RNG

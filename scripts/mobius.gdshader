@@ -4,7 +4,7 @@ render_mode unshaded;
 // Parameters
 uniform float zNear = 0.05; 
 uniform float zFar = 200;  
-uniform float outlineThickness = 1.0; 
+uniform float outlineThickness = 0.0; 
 uniform vec3 outlineColor : source_color = vec3(0.0);
 //uniform float wiggleFrequency = 0.08;
 uniform float wiggleFrequency = 2; 
