@@ -202,7 +202,7 @@ metadata/_edit_lock_ = true
 [node name="3" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
 custom_minimum_size = Vector2(128, 128)
 layout_mode = 2
-color = Color(0, 0.74902, 0.517647, 1)
+color = Color(0.999078, 0.492679, 0.667016, 1)
 metadata/_edit_lock_ = true
 
 [node name="4" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]

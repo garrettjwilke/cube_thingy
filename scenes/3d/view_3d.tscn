@@ -13,14 +13,12 @@ reflected_light_source = 1
 tonemap_mode = 2
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_dd6dy"]
-render_priority = 0
+render_priority = 1
 shader = ExtResource("5_hvqdt")
 shader_parameter/zNear = 0.05
 shader_parameter/zFar = 200.0
-shader_parameter/outlineThickness = 1.3
+shader_parameter/outlineThickness = 0.8
 shader_parameter/outlineColor = Color(0, 0, 0, 1)
-shader_parameter/wiggleFrequency = 2.0
-shader_parameter/wiggleAmplitude = 2.08165e-12
 
 [sub_resource type="QuadMesh" id="QuadMesh_wme0o"]
 material = SubResource("ShaderMaterial_dd6dy")
@@ -40,9 +38,10 @@ fov = 44.5
 far = 200.0
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="Camera3D"]
-transform = Transform3D(0.511465, -0.601974, 0.613214, 0.681239, 0.719008, 0.137626, -0.523753, 0.347354, 0.777836, 0.179668, 0.534831, 0.524227)
-light_bake_mode = 1
+transform = Transform3D(0.606124, -0.652493, 0.454826, 0.754331, 0.6529, -0.0686099, -0.252188, 0.384675, 0.887934, -0.490267, 0.544752, 1.02491)
+light_bake_mode = 0
 shadow_enabled = true
+shadow_opacity = 0.94
 directional_shadow_mode = 1
 directional_shadow_split_1 = 0.2
 directional_shadow_split_2 = 0.3

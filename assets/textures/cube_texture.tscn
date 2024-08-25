@@ -21,6 +21,32 @@ custom_minimum_size = Vector2(256, 2.08165e-12)
 layout_mode = 2
 color = Color(0, 0.694118, 0.380392, 1)
 
+[node name="border_top" type="ColorRect" parent="vbox/top/1"]
+layout_mode = 0
+offset_right = 256.0
+offset_bottom = 4.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_bottom" type="ColorRect" parent="vbox/top/1"]
+layout_mode = 0
+offset_top = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_left" type="ColorRect" parent="vbox/top/1"]
+layout_mode = 0
+offset_right = 4.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_right" type="ColorRect" parent="vbox/top/1"]
+layout_mode = 0
+offset_left = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
 [node name="sides" type="MarginContainer" parent="vbox/top/1"]
 layout_mode = 1
 anchors_preset = 15
@@ -49,9 +75,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="5_side" type="ColorRect" parent="vbox/top/1/sides/top/border/marg"]
 layout_mode = 2
@@ -76,9 +102,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
 
 [node name="6_side" type="ColorRect" parent="vbox/top/1/sides/bottom/border/marg"]
 layout_mode = 2
@@ -100,9 +126,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="4_side" type="ColorRect" parent="vbox/top/1/sides/left/border/marg"]
 layout_mode = 2
@@ -124,9 +150,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="2_side" type="ColorRect" parent="vbox/top/1/sides/right/border/marg"]
 layout_mode = 2
@@ -135,6 +161,28 @@ layout_mode = 2
 custom_minimum_size = Vector2(256, 2.08165e-12)
 layout_mode = 2
 color = Color(0.929412, 0.909804, 0.0431373, 1)
+
+[node name="border_top" type="ColorRect" parent="vbox/top/2"]
+offset_right = 256.0
+offset_bottom = 4.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_bottom" type="ColorRect" parent="vbox/top/2"]
+offset_top = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_left" type="ColorRect" parent="vbox/top/2"]
+offset_right = 4.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_right" type="ColorRect" parent="vbox/top/2"]
+offset_left = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
 
 [node name="sides" type="MarginContainer" parent="vbox/top/2"]
 layout_mode = 1
@@ -164,9 +212,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="5_side" type="ColorRect" parent="vbox/top/2/sides/top/border/marg"]
 layout_mode = 2
@@ -191,9 +239,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
 
 [node name="6_side" type="ColorRect" parent="vbox/top/2/sides/bottom/border/marg"]
 layout_mode = 2
@@ -215,9 +263,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="1_side" type="ColorRect" parent="vbox/top/2/sides/left/border/marg"]
 layout_mode = 2
@@ -239,9 +287,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="3_side" type="ColorRect" parent="vbox/top/2/sides/right/border/marg"]
 layout_mode = 2
@@ -250,6 +298,28 @@ layout_mode = 2
 custom_minimum_size = Vector2(256, 2.08165e-12)
 layout_mode = 2
 color = Color(0.678431, 0.466667, 1, 1)
+
+[node name="border_top" type="ColorRect" parent="vbox/top/3"]
+offset_right = 256.0
+offset_bottom = 4.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_bottom" type="ColorRect" parent="vbox/top/3"]
+offset_top = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_left" type="ColorRect" parent="vbox/top/3"]
+offset_right = 4.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_right" type="ColorRect" parent="vbox/top/3"]
+offset_left = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
 
 [node name="sides" type="MarginContainer" parent="vbox/top/3"]
 layout_mode = 1
@@ -279,9 +349,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="5_side" type="ColorRect" parent="vbox/top/3/sides/top/border/marg"]
 layout_mode = 2
@@ -306,9 +376,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
 
 [node name="6_side" type="ColorRect" parent="vbox/top/3/sides/bottom/border/marg"]
 layout_mode = 2
@@ -330,9 +400,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="2_side" type="ColorRect" parent="vbox/top/3/sides/left/border/marg"]
 layout_mode = 2
@@ -354,9 +424,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="4_side" type="ColorRect" parent="vbox/top/3/sides/right/border/marg"]
 layout_mode = 2
@@ -370,6 +440,28 @@ theme_override_constants/separation = 0
 custom_minimum_size = Vector2(256, 2.08165e-12)
 layout_mode = 2
 color = Color(0.92549, 0, 0.243137, 1)
+
+[node name="border_top" type="ColorRect" parent="vbox/bottom/4"]
+offset_right = 256.0
+offset_bottom = 4.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_bottom" type="ColorRect" parent="vbox/bottom/4"]
+offset_top = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_left" type="ColorRect" parent="vbox/bottom/4"]
+offset_right = 4.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_right" type="ColorRect" parent="vbox/bottom/4"]
+offset_left = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
 
 [node name="sides" type="MarginContainer" parent="vbox/bottom/4"]
 layout_mode = 1
@@ -399,9 +491,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="5_side" type="ColorRect" parent="vbox/bottom/4/sides/top/border/marg"]
 layout_mode = 2
@@ -426,9 +518,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
 
 [node name="6_side" type="ColorRect" parent="vbox/bottom/4/sides/bottom/border/marg"]
 layout_mode = 2
@@ -450,9 +542,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="3_side" type="ColorRect" parent="vbox/bottom/4/sides/left/border/marg"]
 layout_mode = 2
@@ -474,9 +566,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="1_side" type="ColorRect" parent="vbox/bottom/4/sides/right/border/marg"]
 layout_mode = 2
@@ -485,6 +577,28 @@ layout_mode = 2
 custom_minimum_size = Vector2(256, 2.08165e-12)
 layout_mode = 2
 color = Color(0, 0.466667, 0.831373, 1)
+
+[node name="border_top" type="ColorRect" parent="vbox/bottom/5"]
+offset_right = 256.0
+offset_bottom = 4.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_bottom" type="ColorRect" parent="vbox/bottom/5"]
+offset_top = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_left" type="ColorRect" parent="vbox/bottom/5"]
+offset_right = 4.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_right" type="ColorRect" parent="vbox/bottom/5"]
+offset_left = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
 
 [node name="sides" type="MarginContainer" parent="vbox/bottom/5"]
 layout_mode = 1
@@ -514,9 +628,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="1_side" type="ColorRect" parent="vbox/bottom/5/sides/top/border/marg"]
 layout_mode = 2
@@ -541,9 +655,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
 
 [node name="3_side" type="ColorRect" parent="vbox/bottom/5/sides/bottom/border/marg"]
 layout_mode = 2
@@ -565,9 +679,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="2_side" type="ColorRect" parent="vbox/bottom/5/sides/left/border/marg"]
 layout_mode = 2
@@ -589,9 +703,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="4_side" type="ColorRect" parent="vbox/bottom/5/sides/right/border/marg"]
 layout_mode = 2
@@ -600,6 +714,28 @@ layout_mode = 2
 custom_minimum_size = Vector2(256, 2.08165e-12)
 layout_mode = 2
 color = Color(1, 0.741176, 0.270588, 1)
+
+[node name="border_top" type="ColorRect" parent="vbox/bottom/6"]
+offset_right = 256.0
+offset_bottom = 4.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_bottom" type="ColorRect" parent="vbox/bottom/6"]
+offset_top = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_left" type="ColorRect" parent="vbox/bottom/6"]
+offset_right = 4.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
+
+[node name="border_right" type="ColorRect" parent="vbox/bottom/6"]
+offset_left = 252.0
+offset_right = 256.0
+offset_bottom = 256.0
+color = Color(0, 0, 0, 1)
 
 [node name="sides" type="MarginContainer" parent="vbox/bottom/6"]
 layout_mode = 1
@@ -629,9 +765,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="1_side" type="ColorRect" parent="vbox/bottom/6/sides/top/border/marg"]
 layout_mode = 2
@@ -656,9 +792,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
 
 [node name="3_side" type="ColorRect" parent="vbox/bottom/6/sides/bottom/border/marg"]
 layout_mode = 2
@@ -680,9 +816,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_right = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="4_side" type="ColorRect" parent="vbox/bottom/6/sides/left/border/marg"]
 layout_mode = 2
@@ -704,9 +840,9 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_top = 4
-theme_override_constants/margin_bottom = 4
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_bottom = 8
 
 [node name="2_side" type="ColorRect" parent="vbox/bottom/6/sides/right/border/marg"]
 layout_mode = 2

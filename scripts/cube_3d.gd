@@ -107,7 +107,8 @@ func roll(dir):
 	var main_collision = space.intersect_ray(ray)
 	if space.intersect_ray(ray):
 		if main_collision.collider.name == "final_orb":
-			GLOBALS.emit_signal("signal_level_end")
+			#GLOBALS.emit_signal("signal_level_end")
+			GLOBALS.signal_level_end.emit()
 		match int(main_collision.normal.x):
 			-1:
 				GLOBALS.debug_message("cube_3d.gd - roll()","right side collision detected", 2)
@@ -176,6 +177,8 @@ var TIMER = 0
 
 # sloppy input management
 func _physics_process(_delta):
+	if GLOBALS.LEVEL_END:
+		return
 	if GLOBALS.RESET_LEVEL == true:
 		GLOBALS.RESET_LEVEL = false
 		reset_pos()

@@ -6,7 +6,7 @@ var BG_RED = load("res://assets/textures/bg/01_red.tres")
 var BG_BLUE = load("res://assets/textures/bg/01_blue.tres")
 var BG_GREEN = load("res://assets/textures/bg/01_green.tres")
 var BG_YELLOW = load("res://assets/textures/bg/01_yellow.tres")
-var BG_ORANGE = load("res://assets/textures/bg/01_orange.png")
+var BG_ORANGE = load("res://assets/textures/bg/01_orange.tres")
 var BG_PURPLE = load("res://assets/textures/bg/01_purple.tres")
 
 var MENU_NUMBER = 0

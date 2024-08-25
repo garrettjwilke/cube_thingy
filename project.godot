@@ -134,4 +134,4 @@ cam_full={
 textures/canvas_textures/default_texture_filter=0
 textures/vram_compression/import_etc2_astc=true
 textures/decals/filter=0
-environment/defaults/default_clear_color=Color(0.266667, 0.494118, 0.537255, 1)
+environment/defaults/default_clear_color=Color(0.689014, 0.63341, 0.560339, 1)

@@ -40,12 +40,12 @@ func parse_level():
 			status_menu(STATUS,"Tiles outside of LEVEL_MATRIX bounds","delete the tiles that are in the RED area.")
 			return
 	var MAP_SIZE = LEVEL_MATRIX.get_used_rect().size
-	if MAP_SIZE.x > MAX_LEVEL_SIZE.x:
+	if MAP_SIZE.x -1 > MAX_LEVEL_SIZE.x:
 		print("ERROR: LEVEL_MATRIX too large!")
 		STATUS = "bad"
 		status_menu(STATUS,"LEVEL_MATRIX too large!","there is max level size of 40x32 tiles.")
 		return
-	if MAP_SIZE.y > MAX_LEVEL_SIZE.y:
+	if MAP_SIZE.y - 1 > MAX_LEVEL_SIZE.y:
 		print("ERROR: LEVEL_MATRIX too large!")
 		STATUS = "bad"
 		status_menu(STATUS,"LEVEL_MATRIX too large!","there is max level size of 40x32 tiles.")

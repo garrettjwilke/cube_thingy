@@ -183,7 +183,8 @@ func _ready():
 var TIMER = 0
 func _process(delta):
 	if MENU_NODE.is_visible_in_tree():
-		GLOBALS.PAUSE = true
+		if GLOBALS.PAUSE == false:
+			GLOBALS.PAUSE = true
 	if GLOBALS.PAUSE == false:
 		TIMER += delta
 	top_bar("update")
@@ -194,6 +195,9 @@ func _process(delta):
 			GLOBALS.PAUSE = false
 		else:
 			MENU_NODE.show()
+
+func set_state():
+	print("put all state stuff here - view_2d.gd")
 
 func turn_off_menu():
 	TAB_GAME_CONTENT.hide()

@@ -8,6 +8,25 @@ var DEBUG = false
 #   setting to 0 will show all debug messages
 var DEBUG_SEVERITY = 0
 
+var save_dict : Dictionary = {}
+
+var LEVEL_END = false
+
+func save_game():
+	save_dict["LEVEL"] = LEVEL
+	var final_string = JSON.stringify(save_dict)
+	var file_name = str("user://save.json")
+	var file_access := FileAccess.open(file_name, FileAccess.WRITE)
+	if not file_access:
+		print("An error happened while saving data: ", FileAccess.get_open_error())
+		return
+	file_access.store_string(final_string)
+	file_access.close()
+
+func load_game():
+	var file = FileAccess.open("res://data/defaults.json", FileAccess.READ)
+	var vars = JSON.parse_string(file.get_as_text())
+
 # this is set after the level matrix has been loaded
 var CURRENT_LEVEL = []
 # this will get set with the level data later
@@ -22,7 +41,7 @@ var START_POSITION = Vector2(0,0)
 var GAME_DIFFICULTY = get_default("GAME_DIFFICULTY")
 var CLOSE_UP_CAM = true
 var ROTATION_COUNT = 1
-var ENABLE_SHADERS = false
+var ENABLE_SHADERS = true
 var OS_CHECK = "null"
 var PAUSE = true
 var INVERTED_MODE = get_default("INVERTED_MODE")
@@ -35,22 +54,6 @@ var MUTE_SOUNDS = false
 var AMOUNT_LEFT_LEVEL = "0"
 var AMOUNT_LEFT = 0
 var KEY_COUNT = 0
-var KEY_BLANK = 0
-var KEY_RED = 0
-var KEY_GREEN = 0
-var KEY_BLUE = 0
-var KEY_YELLOW = 0
-var KEY_PURPLE = 0
-var KEY_ORANGE = 0
-func reset_keys():
-	KEY_COUNT = 0
-	KEY_BLANK = 0
-	KEY_RED = 0
-	KEY_GREEN = 0
-	KEY_BLUE = 0
-	KEY_YELLOW = 0
-	KEY_PURPLE = 0
-	KEY_ORANGE = 0
 var KEY_COUNT_TOTAL = 0
 
 var BOX_MESH = preload("res://scenes/3d/block_3d.tscn")
@@ -227,7 +230,6 @@ func floor_check(pos_x, pos_y):
 		return "stop"
 	# if cube passes check, get the color of the next tile it is rolling into
 	NEXT_COLOR = CURRENT_LEVEL[pos_y][pos_x]
-	#print(NEXT_COLOR)
 	return NEXT_COLOR
 
 var LEVEL_COUNTER = 0
@@ -272,6 +274,7 @@ var CURRENT_GALAXY_1 = get_default("COLOR_GALAXY_1")
 var CURRENT_GALAXY_2 = get_default("COLOR_GALAXY_2")
 
 func load_level():
+	GLOBALS.LEVEL_END = false
 	# if the CURRENT_LEVEL has data, set the LEVEL_MATRIX
 	# this is so that when we redraw the tiles, the RNG is not set to a new value
 	if CURRENT_LEVEL != []:
@@ -527,6 +530,8 @@ func spawn_final_orb(position,COLOR):
 		new_mat.albedo_color = COLOR
 	finish_orb_mesh.mesh.material = new_mat
 	finish_orb_mesh.rotation.z = 90
+	finish_orb_mesh.rotation.x = 45
+	finish_orb_mesh.rotation.y = 45
 
 # this will spawn after the update_tiles() is ran
 func spawn_tile(x, y, cell):
@@ -559,8 +564,8 @@ func spawn_tile(x, y, cell):
 		await tween2.finished
 		#CURRENT_TILE.queue_free()
 	else:
-		CURRENT_TILE = NEW_TILE.duplicate(0)
-		#CURRENT_TILE = MeshInstance3D.new()
+		#CURRENT_TILE = NEW_TILE.duplicate(0)
+		CURRENT_TILE = MeshInstance3D.new()
 		CURRENT_TILE.name = str(x,"x",y)
 		CURRENT_TILE.mesh = BoxMesh.new()
 		get_node("VIEW_3D").add_child(CURRENT_TILE)
@@ -659,7 +664,8 @@ func update_tiles(MODE):
 		if CURRENT_POS.y > LEVEL_RESOLUTION.y:
 			LEVEL_RESOLUTION.y += 1
 	IS_READY = true
-	emit_signal("signal_level_start")
+	#emit_signal("signal_level_start")
+	signal_level_start.emit()
 	#if LEVEL_RESOLUTION.x > 15 or LEVEL_RESOLUTION.y > 15:
 	#	CLOSE_UP_CAM = false
 	#else:
@@ -711,7 +717,6 @@ func attribute_stuffs(CELL):
 					spawn_tile(CELL.x,CELL.y,str(str(CELL_DATA).left(1),0))
 		"key":
 			if KEY_COUNT < 1:
-				reset_keys()
 				KEY_COUNT = 0
 			KEY_COUNT += 1
 			if GAME_MODE == "Puzzle":
@@ -757,7 +762,8 @@ func attribute_stuffs(CELL):
 			sound_effect("tile")
 			CURRENT_LEVEL[CELL.y][CELL.x] = "10"
 			spawn_tile(CELL.x,CELL.y,"10")
-			emit_signal("signal_detonator", COLOR)
+			#emit_signal("signal_detonator", COLOR)
+			signal_detonator.emit(COLOR)
 			var node = get_node(str("VIEW_3D/",CELL.x,"x",CELL.y,"_detonator"))
 			var tween = create_tween()
 			tween.tween_property(node,"scale",Vector3(0.01,0.01,0.01),0.3)
@@ -879,16 +885,17 @@ func spawn_rng():
 			if str(CELL) == "10" or CELL == "19":
 				for cell in BOMB_TILES:
 					if Vector2(pos_x,pos_y) == cell:
-						bad_tile == true
+						bad_tile = true
 				if bad_tile == false:
 					VALID_TILE = true
 					BOMB_TILES = []
 	var NEW_RNG = str(rng(2,7),0)
-	print(NEW_RNG)
 	CURRENT_LEVEL[pos_y][pos_x] = NEW_RNG
 	spawn_tile(pos_x,pos_y,NEW_RNG)
 
 func _ready():
+	save_game()
+	load_game()
 	os_checker()
 	signal_detonator.connect(_on_signal_detonator)
 	if not DirAccess.dir_exists_absolute("user://"):
@@ -904,4 +911,5 @@ func _process(delta):
 			AMOUNT_LEFT = 0
 			SPHERE_COUNT += 1
 			if SPHERE_COUNT == 1:
+				IS_READY = false
 				spawn_final_orb(Vector3(FINAL_ORB_POSITION),get_cell_data(str(rng(2,7),0))[0])

@@ -1,7 +1,7 @@
 extends Node3D
 @onready var CAMERA_NODE = $Camera3D
 var cam_offset
-var cam_rotation = Vector3(-55,0,0)
+var cam_rotation = Vector3(-50,0,0)
 var cam_speed = 3
 var CAN_ROTATE = true
 
@@ -24,8 +24,8 @@ func rotate_view(input):
 	cam_rotation.y += ROTATION_DEGREES
 
 var rotation_count = 0
+var speed = 0.00015
 func rotate_skybox():
-	var speed = 0.00015
 	rotation_count += 0.01
 	if rotation_count < 4:
 		$WorldEnvironment.environment.sky_rotation.x += speed
@@ -39,6 +39,7 @@ func rotate_skybox():
 		rotation_count = 0
 
 func _on_signal_level_end():
+	GLOBALS.LEVEL_END = true
 	print("do view_3d stuffs for level end")
 
 func _ready():
@@ -71,11 +72,13 @@ func _process(delta):
 		if GLOBALS.ENABLE_SHADERS == true:
 			GLOBALS.ENABLE_SHADERS = false
 	rotate_skybox()
-	if Input.is_action_just_pressed("ui_undo"):
-		if GLOBALS.ENABLE_SHADERS:
-			GLOBALS.ENABLE_SHADERS = false
-		else:
-			GLOBALS.ENABLE_SHADERS = true
+	if GLOBALS.LEVEL_END:
+		return
+	#if Input.is_action_just_pressed("ui_undo"):
+	#	if GLOBALS.ENABLE_SHADERS:
+	#		GLOBALS.ENABLE_SHADERS = false
+	#	else:
+	#		GLOBALS.ENABLE_SHADERS = true
 	if GLOBALS.ENABLE_SHADERS:
 		if not $Camera3D/shader_mobius.is_visible():
 			$Camera3D/DirectionalLight3D.light_energy = 1.5
@@ -96,18 +99,26 @@ func _process(delta):
 			rotate_view(1)
 	match GLOBALS.ROTATION_COUNT:
 		1:
-			cam_offset = Vector3(3, 8, 5)
+			if cam_offset != Vector3(3, 10, 5):
+				cam_offset = Vector3(3, 10, 5)
 		2:
-			cam_offset = Vector3(5, 8, -3)
+			if cam_offset != Vector3(5, 10, -3):
+				cam_offset = Vector3(5, 10, -3)
 		3:
-			cam_offset = Vector3(-3, 8, -5)
+			if cam_offset != Vector3(-3, 10, -5):
+				cam_offset = Vector3(-3, 10, -5)
 		4:
-			cam_offset = Vector3(-5, 8, 3)
+			if cam_offset != Vector3(-5, 10, 3):
+				cam_offset = Vector3(-5, 10, 3)
 		_:
-			cam_offset = Vector3(3, 8, 5)
+			cam_offset = Vector3(3, 10, 5)
 			GLOBALS.ROTATION_COUNT = 1
 	if GLOBALS.CLOSE_UP_CAM == false:
-		cam_offset = cam_offset * 3.2
+		if cam_offset != cam_offset * 3:
+			cam_offset = cam_offset * 3
+			cam_rotation.x = -60
+	else:
+		cam_rotation.x = -50
 	$Camera3D.position = lerp($Camera3D.position, $Cube.position + cam_offset, cam_speed * delta)
 	$Camera3D.rotation_degrees = lerp($Camera3D.rotation_degrees, cam_rotation, cam_speed * delta)
 	if Input.is_action_just_pressed("cam_swap"):
