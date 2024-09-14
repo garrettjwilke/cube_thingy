@@ -88,11 +88,13 @@ func _process(delta):
 			$Camera3D/shader_mobius.hide()
 			$Camera3D/DirectionalLight3D.light_energy = 1.3
 	if Input.is_action_just_pressed("CAM_ROTATE_LEFT"):
+		GLOBALS.HAS_ROTATED = true
 		if GLOBALS.INVERT_CAM == true:
 			rotate_view(1)
 		else:
 			rotate_view(-1)
 	if Input.is_action_just_pressed("CAM_ROTATE_RIGHT"):
+		GLOBALS.HAS_ROTATED = true
 		if GLOBALS.INVERT_CAM == true:
 			rotate_view(-1)
 		else:

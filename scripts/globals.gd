@@ -47,6 +47,7 @@ var PAUSE = true
 var INVERTED_MODE = get_default("INVERTED_MODE")
 var INVERT_CAM = false
 var RESET_LEVEL = false
+var HAS_ROTATED = false
 
 var MUTE_MUSIC = false
 var MUTE_SOUNDS = false
@@ -473,6 +474,15 @@ func spawn_floor(pos):
 	else:
 		get_node("VIEW_3D").add_child(new_mesh)
 
+func spawn_uncounted(COLOR, node_name):
+	if COLOR == CURRENT_BLACK:
+		return
+	var CURRENT_NODE = get_node(str("VIEW_3D/",node_name))
+	var material = load("res://assets/textures/uncounted_tile_texture.tres")
+	var new_material = material.duplicate()
+	new_material.albedo_color = COLOR
+	CURRENT_NODE.mesh.surface_set_material(0, new_material)
+
 func spawn_bomb(COLOR, node_name):
 	var CURRENT_NODE = get_node(str("VIEW_3D/",node_name))
 	var material = load("res://assets/textures/bomb_texture.tres")
@@ -582,7 +592,7 @@ func spawn_tile(x, y, cell):
 	CURRENT_TILE.position = Vector3(x, -(TILE_HEIGHT / 2 + 0.03), y)
 	match ATTRIBUTE:
 		"uncounted_tile":
-			pass
+			spawn_uncounted(COLOR,CURRENT_TILE.name)
 		"single_use_tile":
 			pass
 		"box":

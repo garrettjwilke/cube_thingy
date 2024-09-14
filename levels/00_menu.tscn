@@ -1,0 +1,242 @@
+[gd_scene load_steps=6 format=3 uid="uid://dddn8n8btufdv"]
+
+[ext_resource type="Script" path="res://scripts/editor.gd" id="1_0or7c"]
+[ext_resource type="Texture2D" uid="uid://7i8t6b3owp2y" path="res://levels/reference_art/00_reference.png" id="2_vnyyg"]
+[ext_resource type="Texture2D" uid="uid://dm8hbrvihg5j3" path="res://assets/textures/editor_tiles.png" id="3_jj5oh"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_q85ov"]
+texture = ExtResource("3_jj5oh")
+texture_region_size = Vector2i(32, 32)
+2:0/0 = 0
+3:0/0 = 0
+4:0/0 = 0
+5:0/0 = 0
+6:0/0 = 0
+7:0/0 = 0
+9:0/0 = 0
+1:1/0 = 0
+2:1/0 = 0
+3:1/0 = 0
+4:1/0 = 0
+5:1/0 = 0
+6:1/0 = 0
+7:1/0 = 0
+2:2/0 = 0
+3:2/0 = 0
+4:2/0 = 0
+5:2/0 = 0
+6:2/0 = 0
+7:2/0 = 0
+1:3/0 = 0
+2:3/0 = 0
+3:3/0 = 0
+4:3/0 = 0
+5:3/0 = 0
+6:3/0 = 0
+7:3/0 = 0
+8:3/0 = 0
+2:4/0 = 0
+3:4/0 = 0
+4:4/0 = 0
+5:4/0 = 0
+6:4/0 = 0
+7:4/0 = 0
+8:1/0 = 0
+9:3/0 = 0
+9:4/0 = 0
+1:2/0 = 0
+1:4/0 = 0
+0:0/0 = 0
+1:0/0 = 0
+0:9/0 = 0
+1:9/0 = 0
+2:9/0 = 0
+3:9/0 = 0
+4:9/0 = 0
+5:9/0 = 0
+6:9/0 = 0
+7:9/0 = 0
+8:9/0 = 0
+9:9/0 = 0
+0:1/0 = 0
+1:8/0 = 0
+2:8/0 = 0
+3:8/0 = 0
+4:8/0 = 0
+5:8/0 = 0
+6:8/0 = 0
+7:8/0 = 0
+9:8/0 = 0
+2:7/0 = 0
+3:7/0 = 0
+4:7/0 = 0
+5:7/0 = 0
+6:7/0 = 0
+7:7/0 = 0
+8:7/0 = 0
+9:7/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_3cyw7"]
+tile_size = Vector2i(32, 32)
+terrain_set_0/mode = 0
+sources/0 = SubResource("TileSetAtlasSource_q85ov")
+
+[node name="editor" type="Node2D"]
+script = ExtResource("1_0or7c")
+metadata/_edit_lock_ = true
+
+[node name="bounds" type="Node2D" parent="."]
+metadata/_edit_lock_ = true
+
+[node name="OUT_OF_BOUNDS" type="ColorRect" parent="bounds"]
+offset_left = -1.05185e+06
+offset_top = -1.06042e+06
+offset_right = 999905.0
+offset_bottom = 171814.0
+color = Color(1, 0.247059, 0.435294, 1)
+
+[node name="MAX_LEVEL_SIZE" type="ColorRect" parent="bounds"]
+offset_right = 1280.0
+offset_bottom = 1024.0
+color = Color(0.490196, 0.411765, 0.184314, 1)
+metadata/_edit_lock_ = true
+
+[node name="reference_image_40x32" type="TextureRect" parent="bounds/MAX_LEVEL_SIZE"]
+visible = false
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_vnyyg")
+metadata/_edit_lock_ = true
+
+[node name="LEVEL_SETTINGS" type="Node" parent="."]
+
+[node name="LEVEL_NUMBER" type="Node" parent="LEVEL_SETTINGS"]
+
+[node name="level number here" type="Control" parent="LEVEL_SETTINGS/LEVEL_NUMBER"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_lock_ = true
+
+[node name="LEVEL_NAME" type="Node" parent="LEVEL_SETTINGS"]
+
+[node name="level name here" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
+layout_mode = 3
+anchors_preset = 0
+metadata/_edit_lock_ = true
+
+[node name="GAME_MODE" type="Node" parent="LEVEL_SETTINGS"]
+
+[node name="Classic" type="Control" parent="LEVEL_SETTINGS/GAME_MODE"]
+layout_mode = 3
+anchors_preset = 0
+metadata/_edit_lock_ = true
+
+[node name="TILE_AMOUNT" type="Node" parent="LEVEL_SETTINGS"]
+
+[node name="0" type="Control" parent="LEVEL_SETTINGS/TILE_AMOUNT"]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+metadata/_edit_lock_ = true
+
+[node name="CUSTOM_COLORS" type="Node" parent="LEVEL_SETTINGS"]
+
+[node name="galaxy_color_1" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+offset_left = -266.0
+offset_top = -901.0
+offset_right = 1524.0
+offset_bottom = -517.0
+color = Color(0.419608, 0.333333, 0.611765, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="galaxy_color_2" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+offset_left = -266.0
+offset_top = -517.0
+offset_right = 1524.0
+offset_bottom = -133.0
+color = Color(0.517647, 0.309804, 0.129412, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="floor_color" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+anchors_preset = -1
+anchor_right = 0.153906
+anchor_bottom = 0.0388889
+offset_left = -101.0
+offset_top = -621.0
+offset_right = 1216.0
+offset_bottom = -434.0
+color = Color(0.4, 0.4, 0.4, 1)
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="tile_colors" type="HBoxContainer" parent="LEVEL_SETTINGS/CUSTOM_COLORS"]
+offset_left = 31.0
+offset_top = -578.0
+offset_right = 1279.0
+offset_bottom = -450.0
+theme_override_constants/separation = 32
+metadata/_edit_use_anchors_ = true
+metadata/_edit_lock_ = true
+
+[node name="1" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.772549, 0.772549, 0.772549, 1)
+metadata/_edit_lock_ = true
+
+[node name="2" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.886275, 0.0862745, 0.0862745, 1)
+metadata/_edit_lock_ = true
+
+[node name="3" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.219608, 0.886275, 0.0862745, 1)
+metadata/_edit_lock_ = true
+
+[node name="4" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.0862745, 0.243137, 0.886275, 1)
+metadata/_edit_lock_ = true
+
+[node name="5" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(1, 1, 0, 1)
+metadata/_edit_lock_ = true
+
+[node name="6" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(1, 0, 0.792157, 1)
+metadata/_edit_lock_ = true
+
+[node name="7" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.992157, 0.490196, 0.00392157, 1)
+metadata/_edit_lock_ = true
+
+[node name="8" type="ColorRect" parent="LEVEL_SETTINGS/CUSTOM_COLORS/tile_colors"]
+custom_minimum_size = Vector2(128, 128)
+layout_mode = 2
+color = Color(0.160784, 0.160784, 0.160784, 1)
+metadata/_edit_lock_ = true
+
+[node name="LEVEL_MATRIX" type="TileMap" parent="."]
+tile_set = SubResource("TileSet_3cyw7")
+format = 2
+layer_0/tile_data = PackedInt32Array(1441811, 65536, 9, 1310741, 65536, 8, 1376277, 65536, 8, 1441813, 65536, 8, 1507349, 65536, 8, 1572885, 65536, 8, 1310740, 65536, 8, 1310739, 65536, 8, 1310738, 65536, 8, 1310737, 65536, 8, 1376273, 65536, 8, 1441809, 65536, 8, 1507345, 65536, 8, 1572881, 65536, 8, 1572882, 65536, 8, 1572883, 65536, 8, 1572884, 65536, 8, 1507348, 65536, 8, 1441812, 65536, 8, 1376276, 65536, 8, 1376275, 65536, 8, 1376274, 65536, 8, 1441810, 65536, 8, 1507346, 65536, 8, 1507347, 65536, 8)
+metadata/_edit_lock_ = true
