@@ -57,7 +57,7 @@ var AMOUNT_LEFT = 0
 var KEY_COUNT = 0
 var KEY_COUNT_TOTAL = 0
 
-var BOX_MESH = preload("res://scenes/3d/block_3d.tscn")
+var BOX_MESH = load("res://scenes/3d/block_3d.tscn")
 var NEW_TILE = MeshInstance3D.new()
 
 signal signal_detonator(COLOR)
