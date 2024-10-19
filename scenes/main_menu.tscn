@@ -1,21 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://c7eujj0atc2fy"]
+[gd_scene load_steps=4 format=3 uid="uid://c7eujj0atc2fy"]
 
 [ext_resource type="Script" path="res://scripts/main_menu.gd" id="1_og6vo"]
-[ext_resource type="Texture2D" uid="uid://cbynoav2lly7l" path="res://assets/textures/bg/01_yellow.tres" id="2_avmap"]
+[ext_resource type="Texture2D" uid="uid://dwomlwsnkr72k" path="res://assets/textures/bg/01_blue.png" id="2_tibnr"]
+[ext_resource type="PackedScene" uid="uid://d0qkbl33uofmb" path="res://scenes/3d/view_3d.tscn" id="3_y1afv"]
 
 [node name="main_menu" type="Node2D"]
 script = ExtResource("1_og6vo")
 
 [node name="MarginContainer" type="MarginContainer" parent="."]
+visible = false
 custom_minimum_size = Vector2(1280, 720)
 offset_right = 1280.0
 offset_bottom = 720.0
 
 [node name="bg" type="TextureRect" parent="MarginContainer"]
 layout_mode = 2
-texture = ExtResource("2_avmap")
+texture = ExtResource("2_tibnr")
 
 [node name="MarginContainer" type="MarginContainer" parent="MarginContainer"]
+visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 150
 theme_override_constants/margin_top = 100
@@ -24,3 +27,7 @@ theme_override_constants/margin_bottom = 100
 
 [node name="ColorRect" type="ColorRect" parent="MarginContainer/MarginContainer"]
 layout_mode = 2
+
+[node name="Node3D" type="Node3D" parent="."]
+
+[node name="view_3d" parent="Node3D" instance=ExtResource("3_y1afv")]

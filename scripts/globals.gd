@@ -12,6 +12,7 @@ var save_dict : Dictionary = {}
 
 var LEVEL_END = false
 
+# saves are not fully implemented yet
 func save_game():
 	save_dict["LEVEL"] = LEVEL
 	var final_string = JSON.stringify(save_dict)
@@ -23,6 +24,7 @@ func save_game():
 	file_access.store_string(final_string)
 	file_access.close()
 
+# this should load the save data when i implement saves
 func load_game():
 	var file = FileAccess.open("res://data/defaults.json", FileAccess.READ)
 	var vars = JSON.parse_string(file.get_as_text())
@@ -287,6 +289,8 @@ func load_level():
 		LEVEL_STRING = str("res://levels/Classic/Classic_LEVEL_", LEVEL, ".json")
 	elif GAME_MODE == "Puzzle":
 		LEVEL_STRING = str("res://levels/Puzzle/Puzzle_LEVEL_", LEVEL, ".json")
+	elif GAME_MODE == "Menu":
+		LEVEL_STRING = str("res://levels/00_menu.json")
 	else:
 		LEVEL_STRING = str("res://levels/Classic/Classic_LEVEL_", LEVEL, ".json")
 	if not ResourceLoader.exists(LEVEL_STRING):
@@ -350,7 +354,7 @@ func get_cell_data(cell):
 	var ATTRIBUTE
 	# the json file has numbers that represent the colors/attributes listed here
 	# placing the sequence [1,2,3,4] will output the following colors:
-	# # gray, blue, red, green
+	# # gray, red, green, blue
 	# we set them as an int to filter out any ascii or other stuff
 	match int(str(cell).left(1)):
 		0:
@@ -358,35 +362,27 @@ func get_cell_data(cell):
 			NAME = "null"
 		1:
 			COLOR = CURRENT_GRAY
-			#COLOR = get_default("COLOR_GRAY")
 			NAME = "gray"
 		2:
 			COLOR = CURRENT_RED
-			#COLOR = get_default("COLOR_RED")
 			NAME = "red"
 		3:
 			COLOR = CURRENT_GREEN
-			#COLOR = get_default("COLOR_GREEN")
 			NAME = "green"
 		4:
 			COLOR = CURRENT_BLUE
-			#COLOR = get_default("COLOR_BLUE")
 			NAME = "blue"
 		5:
 			COLOR = CURRENT_YELLOW
-			#COLOR = get_default("COLOR_YELLOW")
 			NAME = "yellow"
 		6:
 			COLOR = CURRENT_PURPLE
-			#COLOR = get_default("COLOR_PURPLE")
 			NAME = "purple"
 		7:
 			COLOR = CURRENT_ORANGE
-			#COLOR = get_default("COLOR_ORANGE")
 			NAME = "orange"
 		8:
 			COLOR = CURRENT_BLACK
-			#COLOR = get_default("COLOR_BLACK")
 			NAME = "black"
 		9:
 			print("hopefully this never prints - gd - get_cell_data()")
@@ -433,7 +429,6 @@ func spawn_box(x, y, COLOR):
 	NEW_BOX.position = Vector3(x,0.3,y)
 	var material
 	if COLOR == CURRENT_BLACK:
-	#if COLOR == get_default("COLOR_BLACK"):
 		material = load("res://assets/textures/block_3d_blank_texture.tres")
 	else:
 		material = load("res://assets/textures/block_3d_texture.tres")
@@ -508,13 +503,9 @@ func spawn_detonator(x,y,COLOR):
 	get_node(str("VIEW_3D/",x,"x",y)).mesh.surface_set_material(0, floor_material)
 
 func spawn_final_orb(position,COLOR):
-	if LEVEL_MATRIX == []:
-		print("wtf")
-		return
 	var static_mesh = StaticBody3D.new()
 	static_mesh.name = "final_orb"
 	static_mesh.set_collision_layer_value(3,true)
-	#static_mesh.position = position
 	get_node("VIEW_3D").add_child(static_mesh)
 	var finish_orb_mesh = MeshInstance3D.new()
 	finish_orb_mesh.name = "finish_orb_mesh"
@@ -581,7 +572,6 @@ func spawn_tile(x, y, cell):
 		get_node("VIEW_3D").add_child(CURRENT_TILE)
 	var material = StandardMaterial3D.new()
 	material.albedo_color = COLOR
-	#material.albedo_texture_force_srgb = true
 	CURRENT_TILE.mesh.surface_set_material(0, material)
 	spawn_floor(Vector2(x,y))
 	var TILE_SCALE = 0.85
@@ -674,7 +664,6 @@ func update_tiles(MODE):
 		if CURRENT_POS.y > LEVEL_RESOLUTION.y:
 			LEVEL_RESOLUTION.y += 1
 	IS_READY = true
-	#emit_signal("signal_level_start")
 	signal_level_start.emit()
 	#if LEVEL_RESOLUTION.x > 15 or LEVEL_RESOLUTION.y > 15:
 	#	CLOSE_UP_CAM = false
@@ -798,6 +787,7 @@ func os_checker():
 var BOMB_TILES : Array
 var FINISHED_CHECK = true
 func _on_signal_detonator(COLOR):
+	BOMB_TILES = []
 	var FOUND_NODE = false
 	amount_left_thingy()
 	var temp_x = 0
@@ -822,7 +812,14 @@ func _on_signal_detonator(COLOR):
 					var down = Vector2(temp_x, temp_y + 1)
 					#var left = Vector2(temp_x - 1, temp_y)
 					#var right = Vector2(temp_x + 1, temp_y)
-					for i in [up + Vector2(-1,0),up,up + Vector2(1,0),middle + Vector2(-1,0),middle,middle + Vector2(1,0),down + Vector2(-1,0),down,down + Vector2(1,0)]:
+					for i in [
+						# check 3 tiles above bomb
+						up + Vector2(-1,0),up,up + Vector2(1,0),
+						# check 3 tiles same row as bomb
+						middle + Vector2(-1,0),middle,middle + Vector2(1,0),
+						# check 3 tiles below bomb
+						down + Vector2(-1,0),down,down + Vector2(1,0)
+						]:
 						BOMB_TILES.append(i)
 						if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y)):
 							var tile_data = get_cell_data(CURRENT_LEVEL[i.y][i.x])
@@ -845,7 +842,7 @@ func _on_signal_detonator(COLOR):
 									else:
 										amount_left_thingy()
 							sound_effect("bomb")
-							PAUSE = true
+							#PAUSE = true
 							#if get_node_or_null(str("VIEW_3D/",i.x,"x",i.y,"_box")):
 							#	var node = get_node(str("VIEW_3D/",i.x,"x",i.y,"_box"))
 							#	var tween = create_tween()
@@ -864,7 +861,7 @@ func _on_signal_detonator(COLOR):
 							#	CURRENT_LEVEL[i.y][i.x] = "10"
 							CURRENT_LEVEL[i.y][i.x] = "18"
 							spawn_tile(i.x,i.y,CURRENT_LEVEL[i.y][i.x])
-							PAUSE = false
+							#PAUSE = false
 			if FOUND_NODE == true:
 				return
 			temp_x += 1
@@ -872,8 +869,6 @@ func _on_signal_detonator(COLOR):
 		temp_y += 1
 
 func amount_left_thingy():
-	#if AMOUNT_LEFT_LEVEL != "0":
-	#	STARTING_TILE_COUNT -= 1
 	AMOUNT_LEFT -= 1
 	print("AMOUNT_LEFT: ", AMOUNT_LEFT)
 	print("STARTING_TILE_COUNT: ", STARTING_TILE_COUNT)

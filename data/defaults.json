@@ -4,7 +4,7 @@
 	"FONT_THEME" : "3",
 	"GAME_DIFFICULTY" : "normal",
 	"comment": "the options for GAME_MODE are: Classic, Puzzle",
-	"GAME_MODE" : "Classic",
+	"GAME_MODE" : "Menu",
 	"INVERTED_MODE" : "false",
 	"RNG_SEED" : "cube_thingy rng test seed",
 	"COLOR_BLACK" : "#292929",
