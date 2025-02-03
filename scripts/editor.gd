@@ -95,6 +95,19 @@ func parse_level():
 		CURRENT_POSITION.x = 0
 
 func save_json() -> void:
+	match GAME_MODE:
+		"Classic":
+			print("game_mode set to Classic")
+		"Puzzle":
+			print("game_mode set to Puzzle")
+		"Menu":
+			print("game_mode set to Menu")
+		"Test":
+			print("game_mode set to Test")
+		_:
+			print("ERROR: game mode needs to be either Classic or Puzzle.")
+			status_menu("bad","Game Mode not set","set the game mode to either Classic or Puzzle")
+			return
 	if LEVEL_JSON == []:
 		print("ERROR: no LEVEL_MATRIX tiles")
 		status_menu("bad","No LEVEL_MATRIX set","set tiles using the LEVEL_MATRIX node")
@@ -104,33 +117,27 @@ func save_json() -> void:
 		if str(LEFT_CHECK) != "00":
 			HAS_TILES_Y = true
 	if not HAS_TILES_Y:
-		print("ERROR: LEVEL_MATRIX tiles not at left")
-		STATUS = "bad"
-		status_menu(STATUS,"Tiles not at the left in area", "move LEVEL_MATRIX tiles to the left in the area")
-		return
+		if GAME_MODE != "Menu":
+			print("ERROR: LEVEL_MATRIX tiles not at left")
+			STATUS = "bad"
+			status_menu(STATUS,"Tiles not at the left in area", "move LEVEL_MATRIX tiles to the left in the area")
+			return
 	match LEVEL_NUMBER:
 		"","level number here":
-			print("ERROR: level number not set")
-			status_menu("bad","Level Number Not Set","rename the level number node with an integer")
-			return
-		_:
-			if not LEVEL_NUMBER.is_valid_int():
+			if GAME_MODE != "Menu" or GAME_MODE != "Test":
 				print("ERROR: level number not set")
 				status_menu("bad","Level Number Not Set","rename the level number node with an integer")
 				return
+		_:
+			if not LEVEL_NUMBER.is_valid_int():
+				if GAME_MODE != "Menu":
+					print("ERROR: level number not set")
+					status_menu("bad","Level Number Not Set","rename the level number node with an integer")
+					return
 	match LEVEL_NAME:
 		"","level name here":
 			print("ERROR: no level name set. exiting")
 			status_menu("bad","Level Name not set","rename the level name node")
-			return
-	match GAME_MODE:
-		"Classic":
-			print("game_mode set to Classic")
-		"Puzzle":
-			print("game_mode set to Puzzle")
-		_:
-			print("ERROR: game mode needs to be either Classic or Puzzle.")
-			status_menu("bad","Game Mode not set","set the game mode to either Classic or Puzzle")
 			return
 	var COLOR_GALAXY_1 = str("#",$LEVEL_SETTINGS/CUSTOM_COLORS/galaxy_color_1.color.to_html()).left(7)
 	var COLOR_GALAXY_2 = str("#",$LEVEL_SETTINGS/CUSTOM_COLORS/galaxy_color_2.color.to_html()).left(7)
@@ -166,6 +173,10 @@ func save_json() -> void:
 		file_name = str("res://levels/Classic/Classic_LEVEL_",LEVEL_NUMBER,".json")
 	elif GAME_MODE == "Puzzle":
 		file_name = str("res://levels/Puzzle/Puzzle_LEVEL_",LEVEL_NUMBER,".json")
+	elif GAME_MODE == "Menu":
+		file_name = str("res://levels/00_menu.json")
+	elif GAME_MODE == "Test":
+		file_name = str("res://levels/00_test.json")
 	var file_access := FileAccess.open(file_name, FileAccess.WRITE)
 	if not file_access:
 		print("An error happened while saving data: ", FileAccess.get_open_error())
@@ -177,7 +188,7 @@ func save_json() -> void:
 	print("GAME_MODE: ", GAME_MODE)
 	print("-----")
 	print("level saved to: ", file_name)
-	status_menu("good","Level Saved!",str("level saved to:",file_name))
+	status_menu("good","Level Saved!",str("level saved to: ",file_name))
 
 func _ready():
 	$".".add_child(STATUS_NODE.instantiate())

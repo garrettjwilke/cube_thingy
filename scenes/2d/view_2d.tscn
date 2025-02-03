@@ -193,7 +193,85 @@ theme_override_fonts/font = ExtResource("5_2fa2u")
 theme_override_font_sizes/font_size = 45
 text = "00"
 
+[node name="invisible_mode_node" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 120)
+layout_mode = 2
+color = Color(0.360784, 0.396078, 0.627451, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 5
+theme_override_constants/margin_top = 5
+theme_override_constants/margin_right = 5
+theme_override_constants/margin_bottom = 5
+
+[node name="ColorRect" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer"]
+layout_mode = 2
+color = Color(0.376781, 0.436744, 0.51956, 1)
+
+[node name="MarginContainer" type="MarginContainer" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 8
+theme_override_constants/margin_top = 8
+theme_override_constants/margin_right = 8
+theme_override_constants/margin_bottom = 8
+
+[node name="HBoxContainer" type="HBoxContainer" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="colors_a" type="CenterContainer" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_a"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="color_1" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_a/VBoxContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(1, 0, 0, 1)
+
+[node name="color_2" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_a/VBoxContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(0, 1, 0, 1)
+
+[node name="color_3" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_a/VBoxContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(0, 0, 1, 1)
+
+[node name="colors_b" type="CenterContainer" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_b"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="color_4" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_b/VBoxContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(1, 1, 0, 1)
+
+[node name="color_5" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_b/VBoxContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(1, 0, 1, 1)
+
+[node name="color_6" type="ColorRect" parent="side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_b/VBoxContainer"]
+custom_minimum_size = Vector2(28, 28)
+layout_mode = 2
+color = Color(1, 0.364706, 0, 1)
+
 [node name="menu" type="Control" parent="."]
+visible = false
 custom_minimum_size = Vector2(1280, 720)
 layout_mode = 3
 anchors_preset = 0

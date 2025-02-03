@@ -5,6 +5,7 @@ extends Node
 var song
 var change_song = false
 func music_looper():
+
 	if GLOBALS.MUTE_MUSIC:
 		if player.playing:
 			player.stop()
@@ -30,6 +31,8 @@ func _ready():
 @onready var CURRENT_LEVEL = GLOBALS.LEVEL
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta):
+	if GLOBALS.TEST_MODE:
+		return
 	if CURRENT_LEVEL != GLOBALS.LEVEL:
 		CURRENT_LEVEL = GLOBALS.LEVEL
 		player.stop()

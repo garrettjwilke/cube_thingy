@@ -3,21 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://dmxjveukl1pds"
-path.s3tc="res://.godot/imported/box_blank.png-a30189a79a145067ba17414f4449c9bb.s3tc.ctex"
-path.etc2="res://.godot/imported/box_blank.png-a30189a79a145067ba17414f4449c9bb.etc2.ctex"
+path="res://.godot/imported/box_blank.png-a30189a79a145067ba17414f4449c9bb.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc", "etc2_astc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/textures/box_blank.png"
-dest_files=["res://.godot/imported/box_blank.png-a30189a79a145067ba17414f4449c9bb.s3tc.ctex", "res://.godot/imported/box_blank.png-a30189a79a145067ba17414f4449c9bb.etc2.ctex"]
+dest_files=["res://.godot/imported/box_blank.png-a30189a79a145067ba17414f4449c9bb.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

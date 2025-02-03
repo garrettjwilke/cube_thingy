@@ -3,21 +3,19 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://c7c4s4muw8o1"
-path.s3tc="res://.godot/imported/uncounted_tile.png-5fdc2f749755b33c8c94822d9cef601b.s3tc.ctex"
-path.etc2="res://.godot/imported/uncounted_tile.png-5fdc2f749755b33c8c94822d9cef601b.etc2.ctex"
+path="res://.godot/imported/uncounted_tile.png-5fdc2f749755b33c8c94822d9cef601b.ctex"
 metadata={
-"imported_formats": ["s3tc_bptc", "etc2_astc"],
-"vram_texture": true
+"vram_texture": false
 }
 
 [deps]
 
 source_file="res://assets/textures/uncounted_tile.png"
-dest_files=["res://.godot/imported/uncounted_tile.png-5fdc2f749755b33c8c94822d9cef601b.s3tc.ctex", "res://.godot/imported/uncounted_tile.png-5fdc2f749755b33c8c94822d9cef601b.etc2.ctex"]
+dest_files=["res://.godot/imported/uncounted_tile.png-5fdc2f749755b33c8c94822d9cef601b.ctex"]
 
 [params]
 
-compress/mode=2
+compress/mode=3
 compress/high_quality=false
 compress/lossy_quality=0.7
 compress/hdr_compression=1

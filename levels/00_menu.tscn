@@ -125,14 +125,14 @@ metadata/_edit_lock_ = true
 
 [node name="LEVEL_NAME" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="level name here" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
+[node name="main menu" type="Control" parent="LEVEL_SETTINGS/LEVEL_NAME"]
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_lock_ = true
 
 [node name="GAME_MODE" type="Node" parent="LEVEL_SETTINGS"]
 
-[node name="Classic" type="Control" parent="LEVEL_SETTINGS/GAME_MODE"]
+[node name="Menu" type="Control" parent="LEVEL_SETTINGS/GAME_MODE"]
 layout_mode = 3
 anchors_preset = 0
 metadata/_edit_lock_ = true
@@ -238,5 +238,5 @@ metadata/_edit_lock_ = true
 [node name="LEVEL_MATRIX" type="TileMap" parent="."]
 tile_set = SubResource("TileSet_3cyw7")
 format = 2
-layer_0/tile_data = PackedInt32Array(1441811, 65536, 9, 1310741, 65536, 8, 1376277, 65536, 8, 1441813, 65536, 8, 1507349, 65536, 8, 1572885, 65536, 8, 1310740, 65536, 8, 1310739, 65536, 8, 1310738, 65536, 8, 1310737, 65536, 8, 1376273, 65536, 8, 1441809, 65536, 8, 1507345, 65536, 8, 1572881, 65536, 8, 1572882, 65536, 8, 1572883, 65536, 8, 1572884, 65536, 8, 1507348, 65536, 8, 1441812, 65536, 8, 1376276, 65536, 8, 1376275, 65536, 8, 1376274, 65536, 8, 1441810, 65536, 8, 1507346, 65536, 8, 1507347, 65536, 8)
+layer_0/tile_data = PackedInt32Array(1441811, 65536, 9, 1376277, 65536, 8, 1507349, 65536, 8, 1310740, 65536, 8, 1310738, 65536, 8, 1376273, 65536, 8, 1507345, 65536, 8, 1507348, 65536, 8, 1441812, 65536, 8, 1376276, 65536, 8, 1376275, 65536, 8, 1376274, 65536, 8, 1441810, 65536, 8, 1507346, 65536, 8, 1507347, 65536, 8, 0, 0, 1, 1572882, 65536, 8, 1572884, 65536, 8)
 metadata/_edit_lock_ = true
