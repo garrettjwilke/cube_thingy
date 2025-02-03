@@ -12,6 +12,8 @@ var save_dict : Dictionary = {}
 
 var LEVEL_END = false
 
+var TEST_MODE = false
+
 # saves are not fully implemented yet
 func save_game():
 	save_dict["LEVEL"] = LEVEL
@@ -58,6 +60,7 @@ var AMOUNT_LEFT_LEVEL = "0"
 var AMOUNT_LEFT = 0
 var KEY_COUNT = 0
 var KEY_COUNT_TOTAL = 0
+@onready var current_colors = [CURRENT_RED, CURRENT_YELLOW, CURRENT_BLUE, CURRENT_ORANGE, CURRENT_GREEN, CURRENT_PURPLE]
 
 var BOX_MESH = load("res://scenes/3d/block_3d.tscn")
 var NEW_TILE = MeshInstance3D.new()
@@ -72,6 +75,13 @@ func round_to_dec(num):
 
 # round vector3
 func round_vect3(data):
+	data.x = round(data.x * pow(10.0,0))
+	data.y = round(data.y * pow(10.0,0))
+	data.z = round(data.z * pow(10.0,0))
+	return data
+
+func round_vect4(data):
+	data.w = round(data.w * pow(10.0,0))
 	data.x = round(data.x * pow(10.0,0))
 	data.y = round(data.y * pow(10.0,0))
 	data.z = round(data.z * pow(10.0,0))
@@ -123,51 +133,60 @@ func debug_message(INFO, MESSAGE, SEVERITY):
 func get_default(setting):
 	var file = FileAccess.open("res://data/defaults.json", FileAccess.READ)
 	var DEFAULTS = JSON.parse_string(file.get_as_text())
-	match setting:
-		"WINDOW_TITLE":
-			return DEFAULTS.WINDOW_TITLE
-		"RNG_SEED":
-			return DEFAULTS.RNG_SEED
-		"RESOLUTION":
-			return Vector2(DEFAULTS.RESOLUTION[0], DEFAULTS.RESOLUTION[1])
-		"FONT_THEME":
-			return DEFAULTS.FONT_THEME
-		"GAME_DIFFICULTY":
-			return DEFAULTS.GAME_DIFFICULTY
-		"LEVEL_MATRIX":
-			return DEFAULTS.LEVEL_MATRIX
-		"LEVEL_NAME":
-			return DEFAULTS.LEVEL_NAME
-		"TILE_AMOUNT":
-			return DEFAULTS.TILE_AMOUNT
-		"COLOR_GRAY":
-			return DEFAULTS.COLOR_GRAY
-		"COLOR_BLUE":
-			return DEFAULTS.COLOR_BLUE
-		"COLOR_GREEN":
-			return DEFAULTS.COLOR_GREEN
-		"COLOR_ORANGE":
-			return DEFAULTS.COLOR_ORANGE
-		"COLOR_PURPLE":
-			return DEFAULTS.COLOR_PURPLE
-		"COLOR_RED":
-			return DEFAULTS.COLOR_RED
-		"COLOR_YELLOW":
-			return DEFAULTS.COLOR_YELLOW
-		"COLOR_BLACK":
-			return DEFAULTS.COLOR_BLACK
-		"COLOR_FLOOR":
-			return DEFAULTS.COLOR_FLOOR
-		"COLOR_GALAXY_1":
-			return DEFAULTS.COLOR_GALAXY_1
-		"COLOR_GALAXY_2":
-			return DEFAULTS.COLOR_GALAXY_2
-		"GAME_MODE":
-			return DEFAULTS.GAME_MODE
-		"INVERTED_MODE" :
-			return DEFAULTS.INVERTED_MODE
-		"ENABLE_JANK":
-			return DEFAULTS.ENABLE_JANK
+	if DEFAULTS.has(setting):
+		return DEFAULTS[setting]
+	else:
+		debug_message("get_default()", "key does not exist: " + setting, 2)
+
+var PACKET_STRING = {}
+func print_colors():
+	PACKET_STRING = {}
+	PACKET_STRING.color_1 = current_colors[0]
+	PACKET_STRING.color_2 = current_colors[1]
+	PACKET_STRING.color_3 = current_colors[2]
+	PACKET_STRING.color_4 = current_colors[3]
+	PACKET_STRING.color_5 = current_colors[4]
+	PACKET_STRING.color_6 = current_colors[5]
+	match ROTATION_COUNT:
+		1:
+			PACKET_STRING.color_1 = current_colors[0]
+			PACKET_STRING.color_2 = current_colors[1]
+			PACKET_STRING.color_3 = current_colors[2]
+			PACKET_STRING.color_4 = current_colors[3]
+			PACKET_STRING.color_5 = current_colors[4]
+			PACKET_STRING.color_6 = current_colors[5]
+		2:
+			PACKET_STRING.color_1 = current_colors[4]
+			PACKET_STRING.color_2 = current_colors[5]
+			PACKET_STRING.color_3 = current_colors[2]
+			PACKET_STRING.color_4 = current_colors[3]
+			PACKET_STRING.color_5 = current_colors[1]
+			PACKET_STRING.color_6 = current_colors[0]
+		3:
+			PACKET_STRING.color_1 = current_colors[1]
+			PACKET_STRING.color_2 = current_colors[0]
+			PACKET_STRING.color_3 = current_colors[2]
+			PACKET_STRING.color_4 = current_colors[3]
+			PACKET_STRING.color_5 = current_colors[5]
+			PACKET_STRING.color_6 = current_colors[4]
+		4:
+			PACKET_STRING.color_1 = current_colors[5]
+			PACKET_STRING.color_2 = current_colors[4]
+			PACKET_STRING.color_3 = current_colors[2]
+			PACKET_STRING.color_4 = current_colors[3]
+			PACKET_STRING.color_5 = current_colors[0]
+			PACKET_STRING.color_6 = current_colors[1]
+	PACKET_STRING.string = str("Left:   ", PACKET_STRING.color_1,
+								"\nRight:  ", PACKET_STRING.color_2,
+								"\nTop:    ", PACKET_STRING.color_3,
+								"\nBottom: ", PACKET_STRING.color_4,
+								"\nFace:   ", PACKET_STRING.color_5,
+								"\nBack:   ", PACKET_STRING.color_6)
+	if GAME_DIFFICULTY != "invisible":
+		if TEST_MODE == false:
+			return
+	print("-------------------------------")
+	print(PACKET_STRING.string)
 
 var pitch_scale = 1.0
 var pitch_flip = 0
@@ -264,6 +283,7 @@ func update_level(amount):
 	KEY_COUNT_TOTAL = 0
 	debug_message("update_level()", str("level = ", LEVEL), 1)
 
+var TEST_COLOR = get_default("wtf")
 var CURRENT_GRAY = get_default("COLOR_GRAY")
 var CURRENT_RED = get_default("COLOR_RED")
 var CURRENT_GREEN = get_default("COLOR_GREEN")
@@ -277,6 +297,8 @@ var CURRENT_GALAXY_1 = get_default("COLOR_GALAXY_1")
 var CURRENT_GALAXY_2 = get_default("COLOR_GALAXY_2")
 
 func load_level():
+	if TEST_MODE:
+		GAME_MODE = "Test"
 	GLOBALS.LEVEL_END = false
 	# if the CURRENT_LEVEL has data, set the LEVEL_MATRIX
 	# this is so that when we redraw the tiles, the RNG is not set to a new value
@@ -291,6 +313,8 @@ func load_level():
 		LEVEL_STRING = str("res://levels/Puzzle/Puzzle_LEVEL_", LEVEL, ".json")
 	elif GAME_MODE == "Menu":
 		LEVEL_STRING = str("res://levels/00_menu.json")
+	elif GAME_MODE == "Test":
+		LEVEL_STRING = str("res://levels/00_test.json")
 	else:
 		LEVEL_STRING = str("res://levels/Classic/Classic_LEVEL_", LEVEL, ".json")
 	if not ResourceLoader.exists(LEVEL_STRING):

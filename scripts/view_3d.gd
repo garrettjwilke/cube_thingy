@@ -14,6 +14,7 @@ func rotate_view(input):
 		GLOBALS.ROTATION_COUNT = 1
 	if GLOBALS.ROTATION_COUNT < 1:
 		GLOBALS.ROTATION_COUNT = 4
+	GLOBALS.print_colors()
 	var ROTATION_DEGREES
 	if input == 1:
 		ROTATION_DEGREES = 90

@@ -13,6 +13,7 @@ var TAB_ACTIVE = preload("res://assets/textures/menu_tab_active.tres")
 @onready var TAB_VIDEO_TEXTURE = $menu/center/marg/vbox/tabs/hbox/video_options/texture
 @onready var TAB_CONTROLS_TEXTURE = $menu/center/marg/vbox/tabs/hbox/controls_options/texture
 @onready var KEYBINDS_LABEL = $menu/center/marg/vbox/box/border/marg/bg/marg/controls/Label
+@onready var INVISIBLE_MODE_NODE = $side_bar/CenterContainer/VBoxContainer/invisible_mode_node
 
 # set the tile size for the 2d tiles
 var TILE_SIZE_2D = 16
@@ -115,6 +116,7 @@ func _on_signal_level_end():
 
 var SIDE_BAR_COLOR_1 = GLOBALS.CURRENT_BLACK
 var SIDE_BAR_COLOR_2 = "#98bb9c"
+var COUNTER_9000 = 0
 func side_bar(MODE):
 	var TIMER_BOX_1 = $side_bar/CenterContainer/VBoxContainer/timer_node
 	var TIMER_BOX_2 = $side_bar/CenterContainer/VBoxContainer/timer_node/cent/marg/crect
@@ -148,7 +150,20 @@ func side_bar(MODE):
 			print("side bar reset")
 	elif MODE == "update":
 		TIMER_HUD = int(TIMER)
+		#TIMER_HUD = 995
 		var TEMP_TIMER = TIMER_HUD
+		if TIMER_HUD > 9999:
+			TIMER = 0
+			TIMER_HUD = TIMER
+			TEMP_TIMER = TIMER_HUD
+		if TIMER_HUD > 9000:
+			COUNTER_9000 += 1
+			if COUNTER_9000 > 9001:
+				pass
+			else:
+				print("over 9000 - ", COUNTER_9000)
+		if TIMER_HUD < 10000:
+			TEMP_TIMER = str(TIMER_HUD)
 		if TIMER_HUD < 1000:
 			TEMP_TIMER = str("0", TIMER_HUD)
 		if TIMER_HUD < 100:
@@ -166,6 +181,30 @@ func side_bar(MODE):
 				if AMOUNT_LEFT_BOX_1.is_visible():
 					AMOUNT_LEFT_BOX_1.hide()
 
+var current_colors = {}
+func invisible_mode():
+	if GLOBALS.GAME_DIFFICULTY != "invisible":
+		if INVISIBLE_MODE_NODE.visible:
+			INVISIBLE_MODE_NODE.hide()
+		return
+	if not INVISIBLE_MODE_NODE.visible:
+		INVISIBLE_MODE_NODE.show()
+	if current_colors != GLOBALS.PACKET_STRING:
+		current_colors = GLOBALS.PACKET_STRING
+		await GLOBALS.print_colors()
+		var COLOR_1 = GLOBALS.PACKET_STRING.color_1
+		var COLOR_2 = GLOBALS.PACKET_STRING.color_2
+		var COLOR_3 = GLOBALS.PACKET_STRING.color_3
+		var COLOR_4 = GLOBALS.PACKET_STRING.color_4
+		var COLOR_5 = GLOBALS.PACKET_STRING.color_5
+		var COLOR_6 = GLOBALS.PACKET_STRING.color_6
+		$side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_a/VBoxContainer/color_1.color = COLOR_1
+		$side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_a/VBoxContainer/color_2.color = COLOR_3
+		$side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_a/VBoxContainer/color_3.color = COLOR_5
+		$side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_b/VBoxContainer/color_4.color = COLOR_2
+		$side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_b/VBoxContainer/color_5.color = COLOR_4
+		$side_bar/CenterContainer/VBoxContainer/invisible_mode_node/MarginContainer/MarginContainer/HBoxContainer/colors_b/VBoxContainer/color_6.color = COLOR_6
+
 func _ready():
 	get_node("start_end_screen").hide()
 	turn_off_menu()
@@ -182,6 +221,7 @@ func _ready():
 
 var TIMER = 0
 func _process(delta):
+	invisible_mode()
 	if MENU_NODE.is_visible_in_tree():
 		if GLOBALS.PAUSE == false:
 			GLOBALS.PAUSE = true

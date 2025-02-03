@@ -39,63 +39,85 @@ func print_transforms(state,transform_basis,dir):
 		print("Starting Position:")
 	elif state == "end":
 		print("Ending Position:")
-	print(str("x: ",GLOBALS.round_vect3(transform_basis).x))
-	print(str("y: ",GLOBALS.round_vect3(transform_basis).y))
-	print(str("z: ",GLOBALS.round_vect3(transform_basis).z))
 
 # before actually rolling, we want check for the color of the tile we are rolling into
 # so this junk below will create a fake cube and roll it to find if we can even land there
 func fake_roll(dir):
 	if rolling:
-		#CAN_ROLL = "false"
 		return false
 	rolling = true
-	# create a FAKE_PIVOT mesh
-	var FAKE_PIVOT = Node3D.new()
+	var FAKE_PIVOT = pivot.duplicate()
 	FAKE_PIVOT.name = "FAKE_PIVOT"
+	FAKE_PIVOT.hide()
 	pivot.add_child(FAKE_PIVOT)
-	# create an invisible mesh
-	var FAKE_MESH = MeshInstance3D.new()
+	var FAKE_MESH = mesh.duplicate()
 	FAKE_MESH.name = "INVISIBLE_CUBE"
 	FAKE_PIVOT.add_child(FAKE_MESH)
-	# set the properties from the original mesh and pivot
-	FAKE_MESH.position = mesh.position
-	FAKE_MESH.global_transform.basis = mesh.global_transform.basis
-	print_transforms("start",FAKE_MESH.global_transform.basis,dir)
-	FAKE_MESH.rotation_degrees = GLOBALS.round_vect3(mesh.rotation_degrees)
-	# do the stuffs to make the fake pivot move
-	#FAKE_PIVOT.translate(dir * cube_size / 2)
-	FAKE_MESH.global_translate(-dir * cube_size / 2)
 	var axis = dir.cross(Vector3.DOWN)
-	var tween = create_tween().set_trans(Tween.TRANS_LINEAR).set_ease(Tween.EASE_IN)
-	tween.tween_property(FAKE_PIVOT, "transform",FAKE_PIVOT.transform.rotated_local(axis, PI/2), 0)
-	await tween.finished
-	var b = FAKE_MESH.global_transform.basis
-	FAKE_PIVOT.transform = Transform3D.IDENTITY
-	FAKE_MESH.position = Vector3(0, cube_size / 2, 0)
-	FAKE_MESH.global_transform.basis = b
-	print_transforms("end",FAKE_MESH.global_transform.basis,dir)
-	# this will get the orientation of the FAKE_MESH after it has moved around and stuffs
+	FAKE_PIVOT.transform = FAKE_PIVOT.transform.rotated_local(axis, PI/2)
 	FUTURE_ORIENTATION_COLOR = match_orientation(FAKE_MESH.global_transform.basis)
-	# we then delete the FAKE_PIVOT and FAKE_MESH
 	FAKE_PIVOT.queue_free()
-	# we need to get the properties of the tile we are moving into
-	# this will create an x y position of the tile we are trying to move to
 	var CELL = Vector2(GLOBALS.CUBE_POSITION.x + dir.x, GLOBALS.CUBE_POSITION.y + dir.z)
-	# we then take that CELL_DATA and get color and attributes of the tile we are trying to move to
 	var CHECK_TILE = GLOBALS.get_cell_data(GLOBALS.CURRENT_LEVEL[CELL.y][CELL.x])
-	# if the tile color is gray, we cheat and say that the tile color is the color of our cube
 	if CHECK_TILE[1] == "gray":
 		FUTURE_ORIENTATION_COLOR = CHECK_TILE[1]
-		#CHECK_COLOR[1] = FUTURE_ORIENTATION_COLOR
 	rolling = false
-	# if the color of the tile we are trying to move into is the same as what our cube will be
 	if FUTURE_ORIENTATION_COLOR == CHECK_TILE[1]:
 		return true
 	else:
 		GLOBALS.sound_effect("illegal")
 		GLOBALS.debug_message("cube_3d.gd - fake_roll() - CHECK_COLOR",CHECK_TILE,2)
 		return false
+
+func dir_thingy(direction, rotation_data):
+	var normalized_rotation = Basis()
+	normalized_rotation.x = GLOBALS.round_vect3(rotation_data.x)
+	normalized_rotation.y = GLOBALS.round_vect3(rotation_data.y)
+	normalized_rotation.z = GLOBALS.round_vect3(rotation_data.z)
+	var axis_names = ["x", "y", "z"]
+	var color_pairs = [
+		[GLOBALS.CURRENT_RED, GLOBALS.CURRENT_YELLOW],
+		[GLOBALS.CURRENT_ORANGE, GLOBALS.CURRENT_BLUE],
+		[GLOBALS.CURRENT_PURPLE, GLOBALS.CURRENT_GREEN]
+	]
+	var color_left
+	var color_right
+	var color_top
+	var color_bottom
+	var color_face
+	var color_back
+	for axis_index in range(3):
+		var axis_name = axis_names[axis_index]
+		var rotation_vector = normalized_rotation[axis_name]
+		for component_index in range(3):
+			var component_value = rotation_vector[component_index]
+			if component_value == 1:
+				if component_index == 0:
+					color_left = color_pairs[axis_index][0]
+					color_right = color_pairs[axis_index][1]
+				elif component_index == 1:
+					color_top = color_pairs[axis_index][1]
+					color_bottom = color_pairs[axis_index][0]
+				elif component_index == 2:
+					color_face = color_pairs[axis_index][1]
+					color_back = color_pairs[axis_index][0]
+			elif component_value == -1:
+				if component_index == 0:
+					color_left = color_pairs[axis_index][1]
+					color_right = color_pairs[axis_index][0]
+				elif component_index == 1:
+					color_top = color_pairs[axis_index][0]
+					color_bottom = color_pairs[axis_index][1]
+				elif component_index == 2:
+					color_face = color_pairs[axis_index][0]
+					color_back = color_pairs[axis_index][1]
+	GLOBALS.current_colors[0] = color_left
+	GLOBALS.current_colors[1] = color_right
+	GLOBALS.current_colors[2] = color_top
+	GLOBALS.current_colors[3] = color_bottom
+	GLOBALS.current_colors[4] = color_face
+	GLOBALS.current_colors[5] = color_back
+	GLOBALS.print_colors()
 
 func roll(dir):
 	# Do nothing if we're currently rolling.
@@ -133,15 +155,20 @@ func roll(dir):
 	# Step 3: Finalize the movement and reset the offset.
 	position += dir * cube_size
 	var b = mesh.global_transform.basis
+	dir_thingy(dir,b)
+	#print(GLOBALS.round_vect4(b.get_rotation_quaternion()))
 	pivot.transform = Transform3D.IDENTITY
 	mesh.position = Vector3(0, cube_size / 2, 0)
-	mesh.global_transform.basis = b
+	#mesh.global_transform.basis = b
+	mesh.global_transform.basis = Basis(GLOBALS.round_vect3(b.x),GLOBALS.round_vect3(b.y),GLOBALS.round_vect3(b.z))
 	CURRENT_ORIENTATION_COLOR = match_orientation(mesh.global_transform.basis)
 	GLOBALS.debug_message("cube_3d.gd - roll() - CURRENT_ORIENTATION_COLOR", CURRENT_ORIENTATION_COLOR,1)
 	rolling = false
 	GLOBALS.update_cube_position(Vector2(int(position.x), int(position.z)))
 
 func reset_pos():
+	dir_thingy(Vector3.ZERO, Basis(Vector3(1,0,0),Vector3(0,1,0),Vector3(0,0,1)))
+	#await dir_thingy(Vector3.ZERO, mesh.global_transform.basis)
 	GLOBALS.update_cube_position(Vector2(GLOBALS.START_POSITION.x,GLOBALS.START_POSITION.y))
 	mesh.rotation_degrees = Vector3(0,0,0)
 	GLOBALS.PAUSE = true
@@ -152,13 +179,12 @@ func reset_pos():
 	tween2.tween_property(self,"scale",Vector3(1,1,1),0.9)
 	await tween2.finished
 	GLOBALS.PAUSE = false
-	
-	GLOBALS.PAUSE = false
 
 func _on_signal_level_end():
 	print("finish cube_3d stuffs for level end")
 
 func _ready():
+	#print(GLOBALS.round_vect4(mesh.global_transform.basis.get_rotation_quaternion()))
 	var new_mat = StandardMaterial3D.new()
 	var subviewport = $SubViewport
 	new_mat.albedo_color = "#ffffff"

@@ -102,6 +102,8 @@ func save_json() -> void:
 			print("game_mode set to Puzzle")
 		"Menu":
 			print("game_mode set to Menu")
+		"Test":
+			print("game_mode set to Test")
 		_:
 			print("ERROR: game mode needs to be either Classic or Puzzle.")
 			status_menu("bad","Game Mode not set","set the game mode to either Classic or Puzzle")
@@ -122,7 +124,7 @@ func save_json() -> void:
 			return
 	match LEVEL_NUMBER:
 		"","level number here":
-			if GAME_MODE != "Menu":
+			if GAME_MODE != "Menu" or GAME_MODE != "Test":
 				print("ERROR: level number not set")
 				status_menu("bad","Level Number Not Set","rename the level number node with an integer")
 				return
@@ -173,6 +175,8 @@ func save_json() -> void:
 		file_name = str("res://levels/Puzzle/Puzzle_LEVEL_",LEVEL_NUMBER,".json")
 	elif GAME_MODE == "Menu":
 		file_name = str("res://levels/00_menu.json")
+	elif GAME_MODE == "Test":
+		file_name = str("res://levels/00_test.json")
 	var file_access := FileAccess.open(file_name, FileAccess.WRITE)
 	if not file_access:
 		print("An error happened while saving data: ", FileAccess.get_open_error())
